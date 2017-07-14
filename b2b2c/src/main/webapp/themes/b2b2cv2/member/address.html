@@ -1,0 +1,214 @@
+<#assign  title="收货地址" />
+<#include 'member_header.html' />
+<!--创建"会员地址列表"标签-->
+<#assign consigneeListTag= newTag("consigneeListTag") >    
+<!--调用"会员地址列表"标签-->          
+<#assign  consigneeList= consigneeListTag()>	
+<#assign orderstatus= "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+<script type="text/javascript" src="${ctx}/statics/e_tools/js/jquery.addressSelect-1.0.js"></script>
+	<style type="text/css">
+		.member_center .form-control {
+			width: 290px;
+			height: 15px;
+		}
+		table {
+			border-collapse:separate;
+			border-spacing:10px;
+		}
+		.member_center .address_list table tbody tr td {
+			padding: 0;
+		}
+		.member_center .address_list table tbody tr td .edit, .member_center .address_list table tbody tr td .address_del{
+			margin-left: 0;
+		}
+	</style>
+<div class="member_center">
+	<div class="address">
+		<ul>
+			<li class="selected"><a href="address.html"><span>收货地址管理</span></a></li>
+		</ul>
+		<a href="javascript:;" class="add_address"><span>新增收货地址</span></a>
+	</div>
+	<div class="alert alert-warning alert-dismissible fade in" role="alert" style="margin-top: 10px; ">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		<strong>友情提示</strong> <span style="margin-left: 10px; color: red; ">最多可以保存10个地址</span>
+	</div>
+	<div class="address_list">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="a1">收货人</th>
+					<th class="a2">所在地区</th>
+					<th class="a3" style="text-align:center">街道地址</th>
+					<th class="a4">电话/手机</th>
+					<th class="a6">默认</th>
+					<th class="a7">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#if consigneeList?size gt 0 >
+				<#list consigneeList as address>
+				<tr>
+					<td>${address.name!''}</td>
+					<td>${address.province!''}-${address.city!''}-${address.region!''}
+					    <#if address.town ??>
+	                    <#if address.town!=''>
+	                    -${address.town!''}
+	                    </#if>
+	                    </#if>
+					
+					</td>
+					<td style="text-align:center">${address.addr!''}</td>
+					<td>
+						<#if address.tel?? && (address.tel != '')><p class="a_tel">${address.tel}</p></#if>
+						<#if address.mobile??><p class="a_phone">${address.mobile!''}</p></#if>
+					</td>
+					<td><#if address.def_addr == 0 >否</#if><#if address.def_addr == 1 >是</#if></td>
+					<td>
+						<a href="javascript:;" rel="${address.addr_id}" class="edit"></a>
+						<span class="aline"></span>
+						<a href="javascript:;" class="address_del" rel="${address.addr_id}" ></a>
+					</td>					
+				</tr>
+				</#list>
+				<#else>
+				<tr>
+					<td colspan="9">
+						您尚未添加收货地址，<a href="javascript:;" class="addressadd">添加一个</a>
+					</td>
+				</tr>
+				</#if>
+			</tbody>	
+		</table>
+	</div>
+	<!--添加会员地址。使用js load方法调用member/address_add.html页面  -->
+	<div class="address_add" style="overflow:hidden;">
+	</div>
+	<!-- 修改会员地址 。使用js load方法调用member/address_edit.html页面 -->
+	<div class="address_edit" style="overflow:hidden;">
+	</div>
+</div>
+<script>
+	$(function(){
+		/*添加地址*/
+		$(".add_address,.addressadd").click(function(){
+			$(".address_add").load("address_add.html",function(){
+				$(".address_list").hide();
+				$(".address_edit").hide();
+				$(".grey_top").hide();
+				$(".address_add").show();
+				/*添加用户地址js*/
+				$("#btnSubmit").click(function(){
+					var membername = $('#member_addr').find("input[name='name']").val();
+					if(membername.indexOf(" ")!=-1){
+						$.message.error("请确保会员名中没有空格");
+						return false;
+					}
+
+					if(!$('#member_addr').checkall()){
+						return false;
+					}
+
+					if($("#region_id").val()=="0"){
+						$.message.error("请选择地区");
+						return false;
+					}
+
+					$.loading();
+					$("#member_addr").ajaxSubmit({
+						url : "${ctx}/api/shop/member-address/add.do",
+						dataType : 'json',
+						success : function(data) {
+							if(data.result == 1){
+								$.closeLoading();
+								$.message.success(data.message, 'reload');
+							}else {
+								$.closeLoading();
+								$.message.error(data.message)
+							};
+						},
+						error : function(e) {
+							$.closeLoading();
+							$.message.error("出现错误 ，请重试");
+						}
+					})
+				});
+			});
+		});
+
+		/*修改地址*/
+		$(".edit").on('click', function(){
+			var editid = $(this).attr("rel");
+			$(".address_edit").load("address_edit.html?addressid="+editid,function(){
+				$(".address_list").hide();
+				$(".address_edit").show();
+				$(".grey_top").hide();
+				$(".address_add").hide();
+				/*修改用户地址*/
+				$("#address_edit").on('click', function(){
+					var membername = $(".member_name_title").val();
+					if(membername.indexOf(" ")!=-1){
+						$.message.error("请确保会员名中没有空格");
+						return false;
+					}
+
+					if(!$('#member_add_edit').checkall()){
+						return false;
+					}
+
+					if($("#region_id").val()=="0"){
+						$.message.error("请选择地区");
+						return;
+					}
+					$.loading();
+					$("#member_add_edit").ajaxSubmit({
+						url : "${ctx}/api/shop/member-address/edit.do?addressid="+editid,
+						dataType : 'json',
+						success : function(data) {
+							if(data.result==1){
+								$.closeLoading();
+								$.message.success(data.message, 'reload');
+							}else {
+								$.closeLoading();
+								$.message.error(data.message);
+							};
+						},
+						error : function(e) {
+							$.closeLoading();
+							$.message.error("出现错误 ，请重试");
+						}
+					})
+				});
+			})
+		})
+		/*删除地址*/
+		$(".address_del").on('click', function(){
+			var _this = $(this);
+			$.confirm("确定要删除吗", function(){
+				var deleteid = _this.attr("rel");
+				$.loading();
+				$.ajax({
+					url : "${ctx}/api/shop/member-address/delete.do?addr_id="+deleteid,
+					dataType : 'json',
+					success : function(data) {
+						if(data.result == 1){
+							$.closeLoading();
+							$.message.success(data.message, 'reload');
+						}else {
+							$.message.error(data.message)
+						}
+					},
+					error : function(e) {
+						$.closeLoading();
+						$.message.error("出现错误 ，请重试");
+					}
+				})
+			});
+		})
+	});		
+</script>
+	<!--会员中心首页右侧结束-->
+
+
+</div>
+<#include '../common/footer.html'/>

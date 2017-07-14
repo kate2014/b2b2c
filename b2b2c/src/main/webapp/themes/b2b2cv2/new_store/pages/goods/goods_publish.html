@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<#assign title = '发布商品' /> 
+<#include '/new_store/common/header.html' />
+<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/publish.css">
+<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/goods_edit.css">
+<#-- 加载百度富文本ueditor -->
+<script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.autoFloat.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.ui.js"></script>
+<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/gray/easyui.css"/>    
+<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/icon.css"/>  
+</head>
+<body>
+	<#--获得会员信息-->
+	<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+	<#assign storeMember = checkB2b2cMemberTag()>
+	
+	<#assign mainPageName = 'main_goods' /> 
+	<#assign lowerPageName = 'lower_goods_publish' /> 
+	<#include '/new_store/common/sidebar.html' />
+	
+
+
+	<div class="app-nav">
+		<ul class="list-nav">
+			 <li><a href="javascript: void(0);" onclick="location.reload();">商品发布</a></li>
+		</ul>
+	</div>
+
+	<#-- 全局变量商品id -->
+	<#assign goods_id = goods_id!'0' />
+		<#-- 类型 这里要获取两次商品信息，暂时待优化 -->
+	<#assign type = 1>
+	<#-- 判断是否需要获取商品信息 -->
+	<#if (goods_id != '0')>
+		<#assign type = 2>
+		<#-- 店铺商品 -->
+		<#assign storeGoodsInfoTag=newTag("storeGoodsInfoTag")/>
+		<#assign storeGoodsInfo=storeGoodsInfoTag("{'goods_id':'${goods_id}','store_id':'${storeMember.store_id}'}")/>
+		<#assign storeGoods=storeGoodsInfo.goods>
+	</#if>
+	<#-- 创建商品分类标签 --> 
+	<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") > 
+	<#-- 查询商品分类列表 0表示查子分类 --> 
+	<#assign storeGoodsCatList= storeGoodsCatListTag("{'type':1,'storeid':${storeid!0}}")!''>
+	<#if storeGoodsCatList?size == 0 >
+	<script>
+	$.message.error("请先添加商品分类");
+	location.href = '${ctx}/new_store/pages/goods/classify.html';
+	</script>
+	</#if>
+	<!--主页面区↓-->
+	<div class="app-wappler">
+		<div class="inner-app-wappler">
+			<div class="goods-edit-area">
+				<ul class="ui-nav-tab">
+					<li data-next-step="1" class="js-switch-step js-step-1 active">
+						<a href="javascript:;">1.选择商品品类</a>
+					</li>
+					<li data-next-step="2" class="js-switch-step js-step-2">
+						<a href="javascript:;">2.编辑基本信息</a>
+					</li>
+					<li data-next-step="3" class="js-switch-step js-step-3">
+						<a href="javascript:;">3.编辑商品详情</a>
+					</li>
+				</ul>
+				<div class="ui-nav-tab-content js-content-1 active" data-content-step="1" >
+					
+					<div class="select_cat_tools">
+						<div class="select_cat_list">
+							<div style="position: relative;" class="wp_sort">
+								<div class="wp_sort_block" id="class_div">
+									
+								</div>
+							</div>
+						</div>
+						<!-- 商品分类提示 -->
+						<div class="tips_choice">
+							<dl class="hover_tips_cont">
+								<dt class="current_sort" style="" id="commoditydt">您当前选择的商品类别是：</dt>
+								<dd id="commoditydd"></dd>
+							</dl>
+						</div>
+						<!-- 确定商品分类 -->
+						<!-- <div class="select_catok">
+							<input type="button" class="submit go_save_selectcat" value="下一步" id="nextBtn" disabled="disabled">
+						</div> -->
+					</div>
+				</div>
+				
+				<div class="ui-nav-tab-content js-content-2" data-content-step="2" style="display: none;" >
+					<!-- 动态加载 -->
+				</div>
+				
+				<div class="ui-nav-tab-content js-content-3" data-content-step="3" style="display: none;">
+					<div novalidate="true" class="form-horizontal fm-goods-info">
+						<div class="goods-info-group">
+							<div class="goods-info-group-inner">
+								<!-- <div class="info-group-title vbox">
+									<div class="group-inner">描述信息</div>
+								</div> -->
+								<div class="info-group-cont vbox">
+									<div class="group-inner">
+										<div class="control-group">
+											<label class="control-label">商品描述：</label>
+											<div class="controls">
+												<script id="editor" type="text/plain" style="height:300px;width: 99%;"><#if storeGoods??>${storeGoods.intro!''}</#if></script>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="buttons-float-div" class="app-actions" style="width: 100%;">
+				    <div class="form-actions text-center">
+				    	<input id="lastBtn" data-next-step="0" class="btn btn-primary js-switch-step lastBtn" style="display: none; width: 150px;" value="上一步" type="button"/>
+				   		<input id="nextBtn" data-next-step="0" class="btn btn-primary js-switch-step nextBtn" style="width: 150px; ;" value="下一步"  type="button" />
+				        <input id="goodsOnBtn" class="btn btn-primary js-switch-step goodsOnBtn saveBtn" style="display: none; width: 150px;" value="上架"  type="button"/>
+				        <input id="goodsOffBtn" class="btn btn-primary js-switch-step goodsOffBtn" style="display: none; width: 150px;" value="下架"  type="button"/>
+				        <input id="preview" class="btn btn-primary js-switch-step preview" style="display: none; width: 150px;" value="预览商品"  type="button"/>
+				        <input id="draft" class="btn btn-primary js-switch-step draft" style="width: 150px;display: none;" value="保存草稿"  type="button"/>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var ue = UE.getEditor('editor');
+		UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+		UE.Editor.prototype.getActionUrl = function(action) {
+			if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
+				return ctx+"/api/base/upload-image/upload-img.do";
+			} else {
+				return this._bkGetActionUrl.call(this, action);
+			};
+		};
+		
+		
+	
+		var nowPageIndex = 1;	// 当前页面下标  1 2 3
+		var submitUe;			// 提交用的富文本
+		var goodsId = ${goods_id};
+		var view    = ${view!'0'};
+		$(function() {
+			
+			//id不等于0就是有效,编辑商品
+			if(goodsId != 0) {
+				showTab2(undefined);
+				
+				//草稿商品修改时，会自动保存草稿
+				<#if (storeGoods.market_enable)?? && storeGoods.market_enable==2>
+					//百度富文本加载完成后调用此事件，否则js会报错
+					ue.addListener( 'ready', function(editor) {
+						//防止初始化后即刻执行，延时30秒执行
+						setTimeout(autoSaveGoods, 1000*30);
+				 	});
+				</#if>
+				
+				if((view && view == goodsId)){
+					showTab3();
+				};
+				// 可能不用再编辑商品详细，所以直接显示上架下架
+				$(".app-actions .goodsOnBtn").show();
+				$(".app-actions .goodsOffBtn").show();
+			}
+			
+			// 初始化分类
+			CatLoader.init();
+
+			$("#lastBtn").click(function(){
+				// 第二页返回第一页
+				if (nowPageIndex == 2) {
+					
+					$.confirm("返回上一步会清除未保存的数据，确认返回吗？",function(){
+						$(".ui-nav-tab .active").removeClass("active");
+						$(".ui-nav-tab .js-step-1").addClass("active");
+						$(".ui-nav-tab-content").hide();
+						$(".js-content-1").addClass("active");
+						$(".js-content-1").show();
+						$(".app-actions .lastBtn").hide();
+						nowPageIndex--;
+						$(".app-actions .goodsOnBtn").hide();
+						$(".app-actions .goodsOffBtn").hide();
+						$("#buttons-float-div").checkFloat();
+						
+					});
+					
+				// 第三页返回第一页
+				} else if(nowPageIndex == 3) {
+					$(".ui-nav-tab .active").removeClass("active");
+					$(".ui-nav-tab .js-step-2").addClass("active");
+					$(".ui-nav-tab-content").hide();
+					$(".js-content-2").addClass("active");
+					$(".js-content-2").show();
+
+					// 下一步显示 隐藏下架上架
+					$(".app-actions .nextBtn").show();
+					$(".app-actions .goodsOnBtn").hide();
+					$(".app-actions .goodsOffBtn").hide();
+					nowPageIndex--;
+					//$("#buttons-float-div").checkFloat();
+				}
+			});
+			
+			// 保存并上架
+			$("#goodsOnBtn").click(function(){
+				if($("input[name='picnames']").val() == undefined){
+					$.message.error("至少上传一张图片");
+					return false;
+				}
+
+				if(!CatLoader.checkFrom()){
+				    return false;
+                 }
+				// 判定设置库存是否大于实际库存
+				if(parseInt($(".stock").val()) > parseInt($(".stock").attr("rel"))){
+					alert("对不起，库存不足！");
+					 return false;
+				}
+
+				var html = ue.getContent();
+				
+				/* var submitUe = UE.getEditor('script-intro');
+				
+				submitUe.setContent(html); */
+				$("#script-intro").val(html);
+				
+				$("#market_enable").val("1");
+				$(".saveBtn").attr("disabled","disabled");
+				submitGoodsFrom();
+			});
+			
+			// 保存并下架
+			$("#goodsOffBtn").click(function(){
+				
+				var html = ue.getContent();
+				
+				/* var submitUe = UE.getEditor('script-intro');
+				
+				submitUe.setContent(html); */
+				
+				$("#script-intro").val(html);
+				
+				$("#market_enable").val("0");
+				
+				submitGoodsFrom();
+			});
+			
+			// 预览商品
+			$("#preview").click(function(){
+				 window.open("${ctx}/api/b2b2c/store-goods/preview.do?goodsId="+$("#storeGoodsId").val())
+			});
+			
+			// 保存草稿
+			$("#draft").click(function(){
+				var html = ue.getContent();
+				$("#script-intro").val(html);
+				
+				var url;
+				if($("#storeGoodsId").val()==0){
+					url="${ctx}/api/b2b2c/store-goods/add-draft-goods.do";
+				}else{
+					url="${ctx}/api/b2b2c/store-goods/edit-draft-goods.do?storeGoodsId="+$("#storeGoodsId").val();
+				}
+				//自动保存
+				var options = {
+					url : url,
+					type : "POST",
+					dataType : "json",
+					success : function(data) {
+						// 0就是出错
+						if(data.result==1){
+							$.message.success("已自动保存为草稿");
+							$("#storeGoodsId").val(data.data.goods_id);
+							$(".preview").removeAttr("style");
+						}else{
+							$.message.error("自动保存出错：" + data.message);
+						}
+				 	},
+				 	error : function(e) {
+				 		$.message.error("出现错误，请重试");
+					}
+				};
+				$("#storeGoodsForm").ajaxSubmit(options);	
+			})
+			
+			// 最后再浮动
+			$("#buttons-float-div").autoFloat();
+
+			/* IE下input框样式兼容
+			 ============================================================================ */
+			(function(){
+				if(Sys.ie > 7){
+					$("input[type='text']").css({height: 25});
+				};
+			})();
+			
+		});
+		
+		function showTab2(catId){
+			$("#buttons-float-div").hide();
+			$(".ui-nav-tab .active").removeClass("active");
+			$(".ui-nav-tab .js-step-2").addClass("active");
+			$(".ui-nav-tab-content").hide();
+			$(".js-content-2").addClass("active");
+			$(".js-content-2").show();
+			
+			//第二步显示保存草稿
+			$(".draft").show();
+			
+			var url = "";
+			
+			if (catId && catId != 0) {
+				url = "goods_publish_info.html?store_id=${storeMember.store_id!'0'}&catid=" + catId + "&goods_id=" + goodsId;
+			} else {
+				url = "goods_publish_info.html?store_id=${member.store_id!0}&goods_id=" + goodsId;
+			}
+			
+			$(".js-content-2").load(url, function(){
+				$("#buttons-float-div").show();
+				$("#buttons-float-div").checkFloat();
+				
+				// 初始化隐藏富文本
+				submitUe = UE.getEditor('script-intro');
+			});
+			//location.href = "add_goods.html?store_id=${member.store_id!0}&catid=" + catid+"&menu=store_goods";
+			nowPageIndex ++; // 当前页面下标+1
+			$(".app-actions .lastBtn").show();
+		}
+
+		function showTab3(){
+			$(".ui-nav-tab .active").removeClass("active");
+			$(".ui-nav-tab .js-step-3").addClass("active");
+			$(".ui-nav-tab-content").hide();
+			$(".js-content-3").addClass("active");
+			$(".js-content-3").show();
+			nowPageIndex = 3;
+
+			// 下一步隐藏  上架下架按钮显示
+			$(".app-actions .nextBtn").hide();
+			$(".app-actions .goodsOnBtn").show();
+			$(".app-actions .goodsOffBtn").show();
+
+			$("#buttons-float-div").checkFloat();
+		}
+		
+		//添加和修改商品
+		function submitGoodsFrom(){
+			$(window).off('beforeunload');
+			<#if (goods_id != '0')>
+			var url = "${ctx}/api/b2b2c/store-goods/edit.do";
+			<#else>
+			var url = "${ctx}/api/b2b2c/store-goods/add.do";
+			</#if>
+			var options = {
+					url : url,
+					type : "POST",
+					dataType : "json",
+					success : function(result) {
+						
+						// 0就是出错
+						if(result.result==0){
+							$.message.error("出错：" + result.message);
+							$(".saveBtn").removeAttr("disabled");
+						}else{
+							$.message.success(result.message, function (){
+								window.location.href = ctx + "/new_store/pages/goods/warehouse.html";
+							});
+						}
+				 	},
+				 	error : function(e) {
+				 		$.message.error("出现错误，请重试");
+				 		$(".saveBtn").removeAttr("disabled");
+					}
+				};
+			$("#storeGoodsForm").ajaxSubmit(options);	
+		}
+		
+		//间隔秒数
+		var time = 30;
+		
+		//自动保存保存商品数据(每隔30秒)
+		function autoSaveGoods(){
+			
+			var html = ue.getContent();
+			$("#script-intro").val(html);
+			
+			var url;
+			if($("#storeGoodsId").val()==0){
+				url="${ctx}/api/b2b2c/store-goods/add-draft-goods.do";
+			}else{
+				url="${ctx}/api/b2b2c/store-goods/edit-draft-goods.do?storeGoodsId="+$("#storeGoodsId").val();
+			}
+			//自动保存
+			var options = {
+				url : url,
+				type : "POST",
+				dataType : "json",
+				success : function(data) {
+					// 0就是出错
+					if(data.result==1){
+						$.message.success("已自动保存为草稿");
+						$("#storeGoodsId").val(data.data.goods_id);
+						$(".preview").removeAttr("style");
+					}else{
+						$.message.error("自动保存出错：" + data.message);
+					}
+			 	},
+			 	error : function(e) {
+			 		$.message.error("出现错误，请重试");
+				}
+			};
+			$("#storeGoodsForm").ajaxSubmit(options);	
+			
+	        t = setTimeout(autoSaveGoods, 1000*time);
+	    }
+		
+
+		var CatLoader = {
+			init : function() {
+				var self = this;
+				this.loadChildren(0);
+
+				// 初始化完分类之后 才绑定事件
+				$("#nextBtn").click(function(){
+					
+					if (nowPageIndex == 1) {
+						var catid = self.getSelectedCatId();
+						if (!catid) {
+							$.message.error("请选择商品的分类");
+						} else {
+							showTab2(catid);
+							autoSaveGoods();
+						}
+					} else if(nowPageIndex == 2) {
+						
+						// 判定设置库存是否大于实际库存
+						if(parseInt($(".stock").val()) > parseInt($(".stock").attr("rel"))){
+							alert("对不起，库存不足！");
+							 return false;
+						}
+						
+
+                        if(!self.checkFrom()){
+                            return false;
+                        }
+
+						// 隐藏当前的显示第三个
+						$(".ui-nav-tab .active").removeClass("active");
+						$(".ui-nav-tab .js-step-3").addClass("active");
+						$(".ui-nav-tab-content").hide();
+						$(".js-content-3").addClass("active");
+						$(".js-content-3").show();
+						nowPageIndex ++;
+						
+						// 下一步隐藏  上架下架按钮显示
+						$(".app-actions .nextBtn").hide();
+						$(".app-actions .goodsOnBtn").show();
+						$(".app-actions .goodsOffBtn").show();
+						
+						$("#buttons-float-div").checkFloat();
+					}
+					
+				});
+				
+			},
+
+            checkFrom: function () {
+                // 验证商品名称
+                var str = "[@/'\"#$%&^*]+";
+                var goodsname = $(".store_goodsname").val()
+                var reg = new RegExp(str);
+                var flag = true;
+
+                // 旧版校验
+                if(!$("#storeGoodsForm").checkall()){
+                    // 商品属性参数等tab页面
+
+                    $(".tab_menu li").addClass("normal");
+                    $('.a_goods0').removeClass("normal");
+                    $('.a_goods0').addClass("active");
+                    $(".tab_box .store_add_goods").hide();
+                    $(".tab_box .hide0").show();
+
+                    $("#buttons-float-div").checkFloat();
+
+                    $('.tip.error').css({top: 34})
+                    flag = false;
+                }
+
+                if($("input[name='picnames']").val() == undefined){
+                    $.message.error("至少上传一张图片");
+                    flag = false;
+                }
+
+                return flag
+            },
+			loadChildren : function(catid) {
+				var self = this;
+				$.ajax({
+					type : 'GET',
+					url : '${ctx}/api/b2b2c/goods-cat/get-store-goods-child-json.do?cat_id='+catid,
+					dataType : 'json',
+					global : false,
+					success : function(result) {
+						if (result.result == 1) {
+							self.appendCatList(result.data, catid);
+							self.refreshPath();
+							//  IE下样式问题修复
+							(function(){
+								if(Sys.ie > 7){
+									$('.category_list ul li a').css({height: 30});
+								};
+
+								if(Sys.ie == 7){
+									$('.cat_box').css({float: 'left'});
+								}
+							})();
+
+						} else {
+							$.message.error("加载分类出错[" + result.message + "]");
+						}
+					},
+					error : function() {
+						
+					}
+	
+				});
+			},
+			appendCatList : function(catJson, catid) {
+				if (catJson.length == 0)
+					return;
+				var self = this;
+				var selHtml = '<div class="sort_list cat_box" id="box_'+catid+'" >';
+				selHtml +='<div class="wp_category_list">'
+				selHtml +='<div class="category_list" id="class_div_1">'
+				selHtml +='<ul>'
+				$.each(catJson, function(i, cat) {
+					selHtml +='<li catid="'+cat.cat_id+'" class="" id="box_'+catid+'" >'
+					selHtml +='<a href="javascript:void(0)" catid="'+cat.cat_id+'" class=""><span class="has_leaf">'+cat.name+'</span></a>'	
+					selHtml += "</li>";
+				});
+				selHtml +='</ul></div></div></div>'
+				
+				$(selHtml).appendTo($("#class_div")).find("a").click(function() {
+					var $this = $(this);
+					self.removeChildBox($this.parent().attr("id"));
+					self.loadChildren($this.attr("catid"));
+	
+					$this.parent().parent().find('a').removeClass("classDivClick");
+					$this.addClass("classDivClick");
+					
+					$("#nextBtn").attr("disabled", false);
+				});
+	
+			},
+			removeChildBox : function(boxid) {
+				var flag = false;
+				$("#class_div .cat_box").each(function() {
+					var $this = $(this);
+					if (flag) {
+						$this.remove();
+					}
+					if ($this.attr("id") == boxid) {
+						flag = true;
+					}
+				});
+			},
+			refreshPath : function() {
+				var pathbox = $("#commoditydd").empty();
+				var html = "";
+				$("#class_div a.classDivClick").each(function(i, v) {
+					if (i != 0){
+						html += "&nbsp;&gt;&nbsp;";
+					}
+					var name = $(this).text();
+					html += name ;
+				});
+				pathbox.append(html);
+			},
+			getSelectedCatId : function() {
+				var catEl = $("#class_div a.classDivClick:last");
+				if (catEl.length == 0) {
+					return false;
+				} else {
+					return catEl.attr("catid");
+				}
+			}
+		}
+	</script>
+	<!--主页面区↑-->
+</body>
+</html>

@@ -1,0 +1,368 @@
+/* 商家中心页面样式 */
+.sotre_right_content{
+	width: 100%;
+	font: 12px/20px "Hiragino Sans GB", "Microsoft Yahei", arial, 宋体, "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
+
+/* 第一行店铺基本资料 */
+.intro{
+	border-bottom: 1px solid #f5f5f5;
+    height: 120px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.store_intro_pic {
+    color: #999;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+}
+
+.store_intro_up {
+    background: #fff;
+    width: 200px;
+    height: 80px;
+    float: left;
+    border: solid 1px #D5E5F5;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px #C5DDF2;
+    position: relative;
+}
+
+/* 第一行店铺基本资料 --左侧内容 */
+.intro_left{
+	float: left;
+    height: 80px;
+    position: relative;
+    width: 720px;
+    z-index: 1;
+}
+.thumb, .logo {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.store_name {
+    overflow: hidden;
+    width: 500px;
+    height: 80px;
+    margin-left: 220px;
+    position: relative;
+}
+
+/* logo hover样式 */
+.storeLogo_outside {
+    position: relative;
+    width: 200px;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.storeLogo_outside .editStoreLogo {
+    position: absolute;
+    z-index: 4;
+    left: 0px;
+    top: 0px;
+    background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    display: block;
+}
+
+.storeLogo_outside .weight {
+    position: absolute;
+    z-index: 10;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    font-weight: 600;
+}
+
+.storeLogo_outside input {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+}
+
+.store_intro_up img {
+    width: 200px;
+    height: 80px;
+}
+
+.store_name1 h1 {
+    color: #333;
+    display: inline-block;
+    font: 18px/36px "microsoft yahei";
+    letter-spacing: normal;
+    vertical-align: bottom;
+    word-spacing: normal;
+    *float: left;
+}
+
+.store_name1 h2 {
+    color: #999;
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 28px;
+    *line-height: 37px;
+    *padding-left: 10px;
+    margin-left: 12px;
+    vertical-align: bottom;
+    word-spacing: normal;
+}
+
+.store_name2 {
+    left: 100px;
+    top: 34px;
+}
+
+.store_name3 {
+    left: 0px;
+    top: 34px;
+    font-size: 12px;
+}
+
+ .store_name8 {
+    left: 200px;
+    top: 34px;
+}
+
+ .store_name div {
+    color: #999;
+    position: absolute;
+    z-index: 1;
+    
+}
+
+
+/* 第一行店铺基本资料 --右侧内容 */
+.store_index {
+    border-bottom: 1px solid #f5f5f5;
+    margin: -1px 0 30px -1px;
+}
+
+.store_intro_fraction {
+    color: #999;
+    float: right;
+    margin: 0 auto;
+    padding: 5px;
+    width: 182px;
+}
+
+.store_intro_fraction h2 {
+    border-bottom: 1px dotted #e7e7e7;
+    font-size: 14px;
+    line-height: 20px;
+    padding-bottom: 8px;
+}
+
+.store_intro_fraction dl {
+    color: #333;
+    display: inline-block;
+    font-size: 12px;
+    height: 32px;
+    text-align: center;
+    vertical-align: top;
+    width: 31%;
+    padding: 5px 0px;
+    *float: left;
+}
+
+.store_intro_fraction dl dd {
+    height: 16px;
+    line-height: 16px;
+    color: #da542e;
+}
+/* 第二行店铺详细内容 */
+.store_index .store_index_same {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fff;
+    border: 1px solid #f5f5f5;
+    color: #333;
+    display: inline-block;
+    font: 12px/20px "microsoft yahei";
+    height: 220px;
+    letter-spacing: normal;
+    overflow: hidden;
+    padding: 25px 19px;
+    vertical-align: top;
+    min-width: 46%;
+    word-spacing: normal;
+    *float: left;
+}
+
+.store_index_same h1 {
+    border-left: 3px solid #28b779;
+    font: 16px/18px "microsoft yahei";
+    height: 18px;
+    margin-bottom: 4px;
+    padding-left: 6px;
+}
+
+.store_index_same h2 {
+    color: #aaa;
+    font: 12px/16px "microsoft yahei";
+    margin-left: 8px;
+}
+
+.store_index_content .store_index_list li {
+    float: left;
+    margin: 16px 20px 0 2%;
+}
+
+.store_index_list li a {
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0 8px 0 4px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid #28b779;
+    color: #28b779;
+}
+
+/* 店铺及商品提示 */
+.store_index_same .store_index_content {
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.store_index_content .store_rompt {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    padding: 10px;
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+}
+
+.store_rompt span {
+    color: #d93600;
+}
+
+.store_rompt a{color: #333;}
+
+.store_index_content .store_index_list {
+    clear: both;
+    margin: 5px 0;
+    overflow: hidden;
+}
+
+.store_index_cms li {
+    background-color: #fff;
+    width: 100%;
+    color: #999;
+    height: 20px;
+    line-height: 20px;
+    padding: 4px 0;
+    text-align: left;
+}
+
+.store_index_cms li a {
+    color: #999;
+}
+
+.store_index_cms li a:hover {
+    color: #337ab7;
+}
+
+/* 商城公告*/
+.store_index_notice {
+    border-left: 0px none;
+}
+
+.store_index_same .store_index_cms {
+    clear: both;
+    overflow: hidden;
+    margin: 20px 0;
+    overflow: hidden;
+    height: 135px;
+}
+
+/* 该用户没有店铺状态打开商家中心 */
+.store_main .open_store {
+    width: 960px;
+    overflow: hidden;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 0 5px rgba(204, 204, 204, 0.5);
+    height: 700px;
+}
+
+.store_main .open_store h1 {
+    color: #27a9e3;
+    cursor: default;
+    display: inline-block;
+    font: 20px/36px "microsoft yahei";
+    height: 36px;
+}
+
+.store_main .open_store h3 {
+    color: #666;
+    display: block;
+    font: 14px/24px "microsoft yahei";
+    height: 28px;
+    margin: 1px 0 1px 0px;
+    padding: 3px 0 2px 20px;
+}
+
+ .open_store .no_store {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    padding: 10px;
+    margin: 10px 0px 30px 10px;
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+}
+
+.no_store a {
+    font: lighter 16px/20px "Microsoft Yahei";
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    display: inline;
+    background-color: #5bb75b;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.no_store h4 {
+    float: left;
+    display: inline;
+    font-size: 12px;
+    color: #999;
+    height: 40px;
+    line-height: 45px;
+    margin-left: 10px;
+}   
+
+    

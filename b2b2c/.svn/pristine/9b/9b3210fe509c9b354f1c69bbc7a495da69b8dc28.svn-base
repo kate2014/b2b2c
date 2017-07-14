@@ -1,0 +1,239 @@
+
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/store_themes/themes/themes3/css3.css" />
+
+<script src="${ctx}${themes_path}/js/store_slider.js" type="text/javascript"></script>
+
+<!-- 创建店铺信息标签 -->
+<#assign myStoreDetailTag= newTag("myStoreDetailTag")>
+<!-- 调用查询店铺信息标签 -->
+<#assign store = myStoreDetailTag("{'type':0}")!''>
+
+<!-- 创建店铺导航标签 --> 
+<#assign storeNavigationTag= newTag("storeNavigationTag") > 
+<!-- 查询店铺导航列表 --> 
+<#assign storeNavigation= storeNavigationTag("{'store_id':${store.store_id!0}}")!''>
+
+<!-- 获取店铺当前进行的促销活动信息 -->
+<#assign checkStoreCurrActTag = newTag("checkStoreCurrActTag")>
+<#assign currentAct = checkStoreCurrActTag("{'store_id':${store.store_id!0}}")!'' >
+
+
+<!-- 导航 -->
+<div class="title-menu-box">
+	<div class="title-menu">
+		<div class="store-name">
+			${store.store_name}
+		</div>
+		
+		
+		<div class="store-top-tools">
+			<ul>
+				<li class="favorite" rel="${store.store_id!0}" ><span></span><i>收藏</i></li>
+				<#if store.qq??>
+					<li class="store-qq"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=${store.qq!''}&amp;site=qq&amp;menu=yes" ><span></span><i>客服</i></a></li>
+				<#else>
+					<li class="store-qq"><a href="javascript:void(0)" class="call-store">暂无客服</a></li>
+				</#if>
+				<li class="store-more"><a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html" ><span></span><i>更多</i></a></li>
+			</ul>
+		</div>
+		
+		<ul class="store-menu-list">
+			<li class="normal" >
+				<a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store">店铺首页</a>
+			</li>
+			<li class="normal ">
+				<a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store#synopsis">信用评价</a>
+			</li>
+			<li class="normal ">
+				<a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store#introduce">店铺详情</a>
+			</li>
+			<#list storeNavigation as sl> 
+				<#if sl.disable==1 >
+					<#if sl_index<4>
+						<li class="normal">
+							<span>|</span><a  href="${sl.nav_url!''}">${sl.name}</a>
+						</li>
+					</#if>
+				</#if>
+			</#list>
+		</ul>
+		
+		<div class="store-classify">
+					<#-- 创建商品分类标签 --> 
+					<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") > 
+					<#assign storeGoodsCatList= storeGoodsCatListTag("{'type':0,'storeid':${store.store_id!0}}")!''>
+					<h1 href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html">全部分类<i></i></h1>
+					<ul class="s-c-listbox" style="display:none" >
+						<#list storeGoodsCatList as cat>
+							<#if cat.store_cat_pid==0 && cat.disable!=0>
+								<li class="s-c-list">
+									<a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html?show_c=4&stc_id=${cat.store_cat_id}" class="s-c-title">${cat.store_cat_name!''}</a>
+									<i class="store-next-cat"></i>
+									<#if  cat?exists && cat?size gt 0>
+										<ul style="display:none" class="s-cat-listbox">
+											<#list storeGoodsCatList as childCat> 
+												<#if childCat.store_cat_pid==cat.store_cat_id>
+													<li class="s-cat-list <#if !childCat_has_next>last</#if>">
+														<a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html?show_c=4&stc_id=${childCat.store_cat_id}">${childCat.store_cat_name!''}</a>
+													</li> 
+												</#if> 
+											</#list>
+										</ul>
+									</#if>
+								</li>
+							</#if>
+						</#list>		
+					</ul>
+				</div>
+		
+	</div>
+</div>
+<!-- 广告 -->
+
+<#assign storeSlideListTag= newTag("storeSlideListTag") > 
+<#assign storeSlideList=storeSlideListTag("{'storeid':${store.store_id!0}}")!''>
+<div class="max-adv">
+	<div id="index-adv" class="flexslider">
+		<ul class="slides">
+			 <#list storeSlideList as adv>
+				<li rel= "<@link url="${adv.silde_url!''}"/>">
+					<@image src="${adv.img!''}" style="display:none;"/>
+				</li>
+			 </#list>  
+		</ul>
+	</div>
+</div>
+
+
+<div class="activity-outside">
+	<#if currentAct.activity??>
+		<div class="activity-same">
+			<h3>活动名称：</h3>
+			<h4>${currentAct.activity.activity_name!''}</h4>
+		</div>
+		<div class="activity-same">
+			<h3>活动日期：</h3>
+			<h4><@dateformat time="${currentAct.activity.start_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/><span>至</span><@dateformat time="${currentAct.activity.end_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/></h4>
+		</div>
+		<div class="activity-same">
+			<h3>优惠内容：</h3>
+			<#assign storeActivityDetailTag = newTag("storeActivityDetailTag")>
+			<#assign detailList = storeActivityDetailTag("{'activity_id':'${currentAct.activity.activity_id}'}")>
+			<div class="activity-box">
+				<#list detailList as detail>
+					<p class="threshold">单笔订单购满： <span>${detail.full_money?string("currency")}</span></p>
+						<p>即可享受：
+							<#if detail.is_full_minus == 1>
+								【<span>减现金：${detail.minus_value?string("currency")}</span>】
+							</#if>
+							<#if detail.is_free_ship == 1>
+								【<span>免邮费</span>】
+							</#if>
+							<#if detail.is_send_point == 1>
+								【<span>送积分：${detail.point_value!0}积分</span>】
+							</#if>
+							<#if detail.is_send_bonus == 1>
+								<#assign bonusDetailTag = newTag("bonusDetailTag") />
+								<#assign bonus = bonusDetailTag("{'type_id':${detail.bonus_id}}") />
+								【<span>
+									送优惠券（<#if bonus.received_num lt bonus.create_num>剩余${bonus.create_num-bonus.received_num}张<#else>已赠完</#if>）</span>】
+							</#if>
+							<#if detail.is_send_gift == 1>
+								<#assign giftDetailTag = newTag("giftDetailTag") />
+								<#assign gift = giftDetailTag("{'gift_id':${detail.gift_id}}") />
+								【<span>送赠品（<#if gift.enable_store gt 0>剩余${gift.enable_store}份<#else>已赠完</#if>）</span>】
+							</#if>
+						</p>
+				</#list>
+			</div>
+		</div>
+		<div class="activity-same">
+			<h3>活动说明：</h3>
+			<div class="activity-word">
+				${currentAct.activity.description!''}
+			</div>
+		</div>
+	<#else>
+		<p class="no-activity">哎呀...店铺还有活动呢，请您收藏我，留意查看是否有活动</p>
+	</#if>
+</div>
+
+<script>
+	$(function(){
+		
+		//导航
+		$(".store-classify").mouseover(function(){
+			$(this).find("h1").addClass("selected");
+			$(".s-c-listbox").show();
+		})
+		
+		$(".store-classify").mouseleave(function(){
+			$(this).find("h1").removeClass("selected");
+			$(".s-c-listbox").hide();
+		})
+		
+		$(".s-c-list").mouseover(function(){
+			$(this).addClass("hover");
+			$(this).find("ul").show();
+		})
+		$(".s-c-list").mouseleave(function(){
+			$(this).removeClass("hover");
+			$(this).find("ul").hide();
+		})
+		
+		$(".s-cat-list ").mouseover(function(){
+			$(this).addClass("childhover");
+		})
+		$(".s-cat-list ").mouseleave(function(){
+			$(this).removeClass("childhover");
+		})
+		
+		
+		//给li加载背景图片
+		$(".slides li").each(function(){
+			var imgSrc = $(this).find("img").attr("src");
+			$(this).css("background-image","url("+imgSrc+")");
+		})
+
+		//点击跳转广告链接
+		$(".slides li").click(function(){
+			var advUrl = $(this).attr("rel");
+			location.href = advUrl;
+		})
+
+		//计算广告高度
+		function advheight (){
+			var advBoxHeight = $(window).height()*0.565;
+			$(".slides").css("height",advBoxHeight+"px");
+		}
+		
+		//广告滚动
+		$('#index-adv').flexslider({
+			animation: "slide",
+			direction:"horizontal",
+			easing:"swing"
+		});
+		
+		//收藏
+		$(".favorite").click(function(){
+			var storeId = $(this).attr("rel");
+			$.ajax({ 
+				url:ctx+'/api/b2b2c/store-collect/add-collect.do?store_id='+storeId,
+				dataType:'json',
+				success:function(result){
+					if(result.result == "1"){
+						$.alert(result.message);
+						location.reload();
+					}else{
+						$.alert(result.message);
+					}
+				} 
+			});
+		})
+		
+	})
+</script>
+
+<#include '/common/footer.html' /> 

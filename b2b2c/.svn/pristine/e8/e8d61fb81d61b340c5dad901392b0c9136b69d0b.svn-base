@@ -1,0 +1,75 @@
+<!-- 头部 -->
+<div class="store-title-box">
+	<div class="store-title">
+		
+		<div class="store-top">
+			<div class="store-name">
+				${store.store_name}
+			</div>
+			<div class="store-top-tools">
+				<ul>
+					<li class="favorite" rel="${store_id!0}"><span></span><i>收藏</i></li>
+					<#if store.qq??>
+						<li class="store-qq"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=${store.qq!''}&amp;site=qq&amp;menu=yes" ><span></span><i>客服</i></a></li>
+					<#else>
+						<li class="store-qq"><a href="javascript:void(0)" class="call-store"><span></span><i>暂无客服</i></a></li>
+					</#if>
+					<li class="themes-store-more"><a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html" ><span></span><i>更多</i></a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="store-menu">
+			<div class="store-menu-box">
+				<!-- 分类 -->
+				<div class="store-classify">
+					<#-- 创建商品分类标签 --> 
+					<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") > 
+					<#assign storeGoodsCatList= storeGoodsCatListTag("{'type':0,'storeid':${store.store_id!0}}")!''>
+					<h1 href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html">全部分类<i></i></h1>
+					<ul class="s-c-listbox" style="display:none" >
+						<#list storeGoodsCatList as cat>
+							<#if cat.store_cat_pid==0 && cat.disable!=0>
+								<li class="s-c-list">
+									<a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html?show_c=4&stc_id=${cat.store_cat_id}" class="s-c-title">${cat.store_cat_name!''}</a>
+									<i class="store-next-cat"></i>
+									<#if  cat?exists && cat?size gt 0>
+										<ul style="display:none" class="s-cat-listbox">
+											<#list storeGoodsCatList as childCat> 
+												<#if childCat.store_cat_pid==cat.store_cat_id>
+													<li class="s-cat-list <#if !childCat_has_next>last</#if>">
+														<a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html?show_c=4&stc_id=${childCat.store_cat_id}">${childCat.store_cat_name!''}</a>
+													</li> 
+												</#if> 
+											</#list>
+										</ul>
+									</#if>
+								</li>
+							</#if>
+						</#list>		
+					</ul>
+				</div>
+				<ul class="store-menu-list">
+					<li class="normal" >
+						<a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store">店铺首页</a>
+					</li>
+					<li class="normal ">
+						<span>|</span><a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store#synopsis">信用评价</a>
+					</li>
+					<li class="normal ">
+						<span>|</span><a href="${ctx}/store_themes/${(store.store_id)!0}/index.html?menu=store#introduce">店铺详情</a>
+					</li>
+					<#list storeNavigation as sl> 
+						<#if sl.disable==1 >
+							<#if sl_index<4>
+								<li class="normal">
+									<span>|</span><a  href="${sl.nav_url!''}">${sl.name}</a>
+								</li>
+							</#if>
+						</#if>
+					</#list>
+				</ul> 
+			</div>
+		</div>
+	</div>
+</div>

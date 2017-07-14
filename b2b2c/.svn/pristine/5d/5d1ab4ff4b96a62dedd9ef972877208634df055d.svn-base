@@ -1,0 +1,23 @@
+<style>
+.ui_border tr td{border:0px none;text-align:left;height:0px;background:none;width:0px;border-radius:none;}
+</style>
+<div class="member_order_cancel">
+<form method="post" action="" id="cancelForm" style="display: none;">
+	<div class="order_cancel">
+		<label>
+			<span>请选择取消原因：</span>
+			<select name="reason">
+				<option value="现在不想购买">现在不想购买</option>
+				<option value="商品价格比较贵">商品价格比较贵</option>
+				<option value="重复下单">重复下单</option>
+				<option value="收件信息有误">收件信息有误</option>
+				<option value="发票信息有误/发票未开">发票信息有误/发票未开</option>
+				<option value="无法支付订单">无法支付订单</option>
+			</select>
+		</label>
+	</div>
+	<div class="order_cancel_tools">
+		<input type="button" value="确认取消订单" id="cancelBtn" class="yellow_btn">
+	</div>
+</form>
+</div>

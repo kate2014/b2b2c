@@ -1,0 +1,133 @@
+<#assign regionSelectDirective="com.enation.app.shop.front.tag.goods.other.regions.RegionSelectDirective"?new()>
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+<script type="text/javascript" src="${ctx}/statics/e_tools/js/jquery.addressSelect-1.0.js"></script>
+<input type="hidden" name="store_id" value="${store.store_id}">
+<input type="hidden" name="member_id" value="${store.member_id}">
+<div class="main">
+	<div class="detail" style="margin-left: 10px;">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td>会员操作：</td>
+				<td>
+					<a href="javascript:void(0)" onclick="newTab('${store.member_name!''}-信息修改','${ctx}/shop/admin/member/detail.do?memberId=${store.member_id}')">点击修改相关会员信息</a>
+				</td>
+			</tr>
+			<tr>
+				<td>会员账号：</td>
+				<td>
+					<input class="input_text easyui-validatebox" type="text" name="member_name" value="${store.member_name!''}" disabled="disabled" ></input> 
+				</td>
+			</tr>
+			<tr>
+				<td >身份证号：</td>
+				<td>
+					<input <#if store.disabled != 1>disabled="disabled"</#if> class="input_text easyui-validatebox" type="text"
+					name="id_number" data-options="required:true" maxlength="18"
+					value="${store.id_number!''}"></input>
+				</td>
+			</tr>
+			<tr>
+				<td>店铺名称：</td>
+				<td>
+					<input <#if store.disabled != 1>disabled="disabled"</#if> class="input_text easyui-validatebox" type="text" data-options="required:true" name="store_name" value="${store.store_name}"  maxlength="50"></input>
+				</td>
+			</tr>
+			<tr>
+				<td >状态：</td>
+				<td>
+					<#if store.disabled==-1>
+						未通过审核
+						<input type="hidden" name="disabled" value="-1"/>
+					<#elseif store.disabled==0>
+						待审核&nbsp;&nbsp;
+						<input type="hidden" name="disabled" value="0"/>
+					<#else>
+						<select name="disabled">
+							<option value="1" <#if store.disabled==1>selected</#if>>开启</option>
+							<option value="2" <#if store.disabled==2>selected</#if>>关闭</option>
+						</select>
+					</#if>
+				</td>
+			</tr>
+			<tr>
+				<td>所在地：</td>
+				<td style="overflow:visible;">
+					<#if store.disabled != 1>
+					<dl >
+						 <dd id="selectAddress">
+		         	     ${store.store_province}-${store.store_city}-${store.store_region}
+		         	     <#if store.store_town ??>
+		         	     <#if store.store_town !=''>
+		         	     -${store.store_town!''}
+		         	     </#if>
+		         	     </#if>
+		         	     </dd>
+		                 </dl>
+					<#else>
+					 <dl >
+						 <dd id="selectAddress">
+		         	     <script type="text/javascript">
+						$(function() {
+							$('#selectAddress').addressSelect({
+								deData:[   
+							           ${store.store_provinceid!''},
+                                       ${store.store_cityid!''},
+                                       ${store.store_regionid!''},
+                                       ${store.store_townid!''}
+					         ]
+							});
+						})
+			             </script>
+		                 </dd> 
+		                 </dl>
+					</#if>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>经营类目：</td>
+				<td>
+				<#assign storeManagementGoodsCategoryTag = newTag("storeManagementGoodsCategoryTag")>
+				<#assign categoryTag = storeManagementGoodsCategoryTag("{'store_id':${store.store_id}}")>
+				<#list categoryTag as category>
+					<em>${category}</em>
+				</#list>
+				</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<td >详细地址：</td>
+				<td><input <#if store.disabled != 1>disabled="disabled"</#if> class="input_text easyui-validatebox" type="text" data-options="required:true"  maxlength="58"
+					name="attr" value="${store.attr}"></input></td>
+			</tr>
+			<tr>
+				<td>邮编：</td>
+				<td>
+						<input <#if store.disabled != 1>disabled="disabled"</#if> id="zip" name="zip" value="${store.zip}"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="6" class="input_text">
+				</td>
+			</tr>
+			<tr>
+				<td >联系电话：</td>
+				<td><input class="input_text easyui-validatebox"  type="text" <#if store.disabled != 1>disabled="disabled"</#if> data-options="required:true" validType="mobile"  maxlength="50"
+					name="tel" value="${store.tel}"></input></td>
+			</tr>
+			<#if store.disabled==0>
+				<td>是否通过店铺审核</td>
+				<td>
+					<input type="radio" value="1" checked="checked" name="pass"/>是
+					<input type="radio" value="0" name="pass"/>否
+				</td>
+			</#if>
+			
+			<tr>
+				<td>店铺佣金比例：</td>
+				<td >
+					<input class="easyui-numberbox input_text" type="text" name="commission" max="100" data-options="required:true" value="${store.commission}"  maxlength="10"/ >
+					如果输入10.平台佣金为订单价格的百分之10,只能输入整数
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

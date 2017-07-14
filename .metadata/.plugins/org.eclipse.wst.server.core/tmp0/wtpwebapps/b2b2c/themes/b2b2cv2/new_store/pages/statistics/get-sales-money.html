@@ -1,0 +1,155 @@
+<!-- 统计图div -->
+<div id="sales_money_statistics">
+	
+</div>
+
+
+<script type="text/javascript" >
+
+$(function() {
+	getGoodsMoney();
+	var type = $("#cycle_type").val();
+	// 如果统计类型 是按年统计
+	if(type == "2") {
+		$("#month").hide();
+	} else {
+		$("#month").show();
+	}
+	
+	// 统计类型变更事件
+	$("#cycle_type").change(function(){
+		
+		var type = $(this).val();
+		
+		// 如果统计类型 是按年统计
+		if(type == "2") {
+			$("#month").hide();
+		} else {
+			$("#month").show();
+		}
+		//设置全部tab需要刷新
+	});
+	
+	
+	
+});
+
+	
+	
+
+	/**
+	 * 获取json数据
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 */
+	function getGoodsMoney() {
+
+		var year = $("#year").val();
+		var month = $("#month").val();
+		var cycle_type = $("#cycle_type").val();
+
+		// ajax配置
+		var options = {
+			url : "${ctx}/api/operator-statistics/get-sales-money.do",
+			data : {
+				'year' : year,
+				'month' : month,
+				'cycle_type' : cycle_type,
+				'storeid' : store_id
+			},
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+
+				//如果获得正确的数据
+				if (data.result == 1) {
+
+					if (data.message && data.message.length < 1) {
+						// alert("当前条件下没有统计数据");
+					}
+
+					// 1.获取到统计图相关配置
+					var conf = getGoodsMoneyConfig(data.message,cycle_type);
+
+					// 2.初始化统计图
+					initLineChart("sales_money_statistics", conf);
+
+				} else {
+					$.message.error("调用action出错：" + data.message);
+				}
+			},
+			error : function() {
+				$.message.error("系统错误，请稍后再试");
+			}
+		};
+		$.ajax(options);
+	}
+
+	/**
+	 * 根据服务返回的数据 生成统计图所需要的配置
+	 * @param json 数据
+	 * @returns json格式的配置
+	 */
+	function getGoodsMoneyConfig(json,cycle_type) {
+		
+		var conf = {}; //配置
+		var colors = Highcharts.getOptions().colors; // 颜色
+
+		//var data = []; // Y轴 排名数据
+		var categories = []; //X轴 名次数据
+
+		var self="";
+		var last="";
+		if(parseInt(cycle_type)==1){
+			self="本月";
+			last="上月";
+			for(var i=0;i<31;i++){
+				categories.push(parseInt(i) + 1);
+			}
+		}else{
+			self="本年";
+			last="去年";
+			for(var i=0;i<12;i++){
+				categories.push(parseInt(i) + 1);
+			}
+		}
+		var selfdata=[];
+		var lastdata=[];
+		for(var i in json.selfmessage){
+			var goods = json.selfmessage[i];
+			var temp = {
+					name:"下单金额",
+					color: colors[0],
+			        y: goods	
+				};
+			selfdata.push(temp);
+		}
+		for(var i in json.lastmessage){
+			var goods = json.lastmessage[i];
+			var temp = {
+					name:"下单金额",
+					color: colors[0],
+			        y: goods	
+				};
+			lastdata.push(temp);
+		}
+		var conf = {
+			title : "下单金额统计", //统计图标题
+			yDesc : "下单金额", //y轴 描述
+			//X 轴数据 [数组]
+			categories : categories,
+			//Y轴数据 [数组]
+			series : [ {
+				name : self,
+				data : selfdata
+			},
+			{
+				name : last,
+				data : lastdata
+			}]
+
+		};
+		return conf;
+	};
+
+</script>

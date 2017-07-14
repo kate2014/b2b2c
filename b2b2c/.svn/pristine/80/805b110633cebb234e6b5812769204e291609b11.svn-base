@@ -1,0 +1,330 @@
+
+<#assign title="登录" /> 
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/login.css" />
+<script type="text/javascript" src="${ctx}${themes_path}/js/placeholder.js"></script>
+<div class="index_logo">
+	<a href="${ctx}/index.html"><@image src="${logo}" class="pngFix" style="width:240px;height:60px;" /></a>
+</div>
+<style type="text/css">
+	.login_tools input {
+		box-shadow: none;
+	}
+	.login_tools .tips {
+		opacity: 0;
+		height: 0;
+		filter:alpha(opacity=0);
+		-webkit-transition: all .3s ease-out;
+		-moz-transition: all .3s ease-out;
+		-ms-transition: all .3s ease-out;
+		-o-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+		overflow: hidden;
+		padding: 0;
+		background-color: #fff0f0;
+	}
+	.login_tools .tips.show{
+		opacity: 1;
+		padding: 10px;
+		height: auto;
+		filter:alpha(opacity=1)
+	}
+</style>
+<!--登录界面-->
+<div id="login_wrapper">
+	<!--左侧登录界面-->
+	<div class="login_img">
+	</div>
+	<div class="login_tools">
+			<div class="tips">
+				<p class="tips-content">
+					<i class="login-icon tips-icon"></i>
+					<span class="tips-message" style="margin-left: 20px;"></span>
+				</p>
+			</div>
+			<div class="login-type">
+				<a class="type-toggle" href="javascript:;" data-active="normal">手机动态码登录<i class="login-icon mobile-icon"></i></a>
+				用户登录
+			</div>
+			
+			<div class="login_content">
+			<form method="post" class="validate" id="mobile_login_form">
+				<input type="hidden" name="action" value="login" /> 
+				<label class="mobile-item">
+					<input type="hidden" name="type" value="0" disabled="disabled"/>
+					<i class="login-icon phone-icon"></i>
+					<input type="text" tabindex="1" name="mobile" maxlength="11" class="definition_small same_input" placeholder="手机号" id="mobile"/>
+				</label>
+				<label class="mobile-item"  style="margin:0">
+					<input type="button" class="btn-dynamic-code" disabled="disabled" tabindex="2" value="免费获取手机动态码"/>
+				</label>
+				<label class="mobile-item">
+				<i class="login-icon pass-icon"></i>
+					<input type="text" id="dynamic-code" class="definition_small same_input" name="validcode" placeholder="短信验证码" tabindex="2" disabled="disabled"/>
+				</label>
+			</form>
+			<form method="post" class="validate" id="normal_login_form">
+				<label class="normal-item">
+					<i class="login-icon user-icon"></i>
+					<input type="text" tabindex="1" name="username" placeholder="手机号/用户名/邮箱" class="definition_small same_input" id="username"/>
+				</label>
+				<label class="normal-item">
+					<i class="login-icon pass-icon"></i>
+					<input type="password" vtype="password" tabindex="2" placeholder="密码"  name="password" id="password"  class="definition_small same_input"/>
+				</label>
+				<label class="normal-item">
+					<div class="m_account" id="verification_num">
+						<input type="text" tabindex="3" name="validcode"  size="8"  class="m_small" placeholder="验证码"  id="validcode" maxlength="4" />
+						<img src="${ctx}/validcode.do?vtype=memberlogin" alt="会员登录验证码" class="code_img" style="cursor: pointer;">
+						<div class="m_forget">
+							<a href="javascript:;">看不清楚?换一张</a>
+						</div>
+					</div>
+				</label>
+			</form>
+			<div class="m_week">
+				<input type="checkbox" name="remember" class="satisfied" value="1" />
+				<p class="auto-login">两周内免登录</p>
+				
+				<a href="${ctx}/find-passwordByEmail.html">忘记密码？</a>
+			</div>
+				<div class="m_submit"> 
+					<span class="m_register"> 
+						<input type="button" tabindex="4" value="登  录" class="btn btn-danger regis_ent">
+					</span> 
+					 <div class="goregister">
+						还没有账号？立即
+						<#if sms_isopen==0>
+							<span>
+								<a href="${ctx}/member/register/fill_mobile.html?forward=${forward!''}" class="go_register">免费注册</a>
+							</span> 
+						<#else>
+							<span>
+								<a href="${ctx}/member/register/fill_mobile.html?forward=${forward!''}" class="go_register">免费注册</a>
+							</span> 
+						</#if>
+					</div>
+				</div>
+				<div class="oauth-wrapper">
+		            <h3 class="title-wrapper"><span class="title">用合作网站账号登录</span></h3>
+		            <div class="oauth cf">
+		                <a class="oauth-link oauth-qq" href="${ctx}/connect.do?type=1" target="_blank"></a>
+		                <a class="oauth-link oauth-weibo" href="${ctx}/connect.do?type=2" target="_blank"></a>
+		                <a class="oauth-link oauth-weixin" href="${ctx}/connect.do?type=3" target="_blank"></a>
+		            </div>
+		        </div>
+			</div>
+	</div>
+</div>
+<!--登录界面结束-->
+	<input type="hidden" id="forward" value="${forward!''}"/>
+<script>
+$(function(){
+	
+	$(".m_forget a").click(function(){
+		$(".m_account img").attr("src","${ctx}/validcode.do?vtype=memberlogin&r="+new Date().getTime());
+	});
+	$(".code_img").click(function(){
+		$(this).attr("src","${ctx}/validcode.do?vtype=memberlogin&r="+new Date().getTime());
+	});
+	
+	var  $normalLoginForm = $('#normal_login_form'),
+	 	$mobileLoginForm = $('#mobile_login_form');
+	//登录方式切换
+	$('.type-toggle').click(function (){
+		var	ACTIVE_KEY = 'active',
+			$this = $(this),
+			mobileElements = $mobileLoginForm.find('.mobile-item'),
+			normalElements = $normalLoginForm.find('.normal-item');
+		
+		// 如果当前是手机 就切换为普通
+		if ($this.data(ACTIVE_KEY) === 'mobile') {
+			
+			$this.html('手机动态码登录<i class="login-icon mobile-icon"></i>').data(ACTIVE_KEY, 'normal');
+			normalElements.show().find('input').prop('disabled', false);
+			mobileElements.hide().find('input').prop('disabled', true);
+		} else {
+			$this.html('普通方式登录<i class="login-icon normal-icon"></i>').data(ACTIVE_KEY, 'mobile');
+			normalElements.hide().find('input').prop('disabled', true);
+			mobileElements.show().find('input').prop('disabled', false);
+		}
+		
+	});
+	
+	//获取手机动态码
+	$mobileLoginForm.find('.btn-dynamic-code').click(function (){
+		var mobileNumber =  $("#mobile").val();
+		var $this = $(this);
+		
+		if (mobileNumber.length === 0) {
+			showError('请输入手机号码');
+			return;
+		}else if(!/^1[3|4|5|7|8]\d{9}$/.test($('#mobile').val())) {
+			showError('手机号格式有误');
+			return false;
+		}
+		var text = "重新获取验证码";
+		var options = {
+				url : ctx + "/api/shop/sms/send-sms-code.do?mobile=" + mobileNumber+"&key=check",
+				dataType:"json",
+				success:function(result) {
+					if(result.result == 1) {
+						$this.val(text).attr("disabled",true); 
+						var i = 60, timer;
+						timer = window.setInterval(function (){
+							if(i == 0) {
+								$this.val(text).prop("disabled",false);
+								window.clearInterval(timer); 
+							} else {
+								$this.val(text + i);
+								i--;
+							}
+						}, 1000);
+						$.message.success(result.message);
+						hideError();
+					} else {
+						showError(result.message);
+					}
+				},
+				error : function(){
+					showError("系统出错，请稍候重试");
+				}
+			}
+		$.ajax(options);
+	});
+
+	
+	
+	$(".regis_ent").click(function(){
+		login();
+	});
+	
+	
+	$("input[name='validcode']").keydown(function(event) {
+		if (event.keyCode == 13) {
+			login();
+		}
+	});
+
+	$('#mobile').blur(function(){
+		var _this = $(this), val = _this.val();
+		if(val){
+			if(!/^1[3|4|5|7|8]\d{9}$/.test(val)){
+				showError('手机号格式有误');
+				return false;
+			}else {
+				hideError();
+			};
+		}
+	});
+
+
+	var messageBox = $('.tips-message');
+
+	function showError(message){
+		var ms = message;
+		$('.tips').addClass('show')
+		messageBox.html(ms);
+	};
+
+	function hideError(){
+		$('.tips').removeClass('show');
+		messageBox.html('');
+	};
+
+	function login(){
+		var options = {
+			url : "${ctx}/api/shop/member/login.do",
+			dataType : 'json',
+			success : function(data) {
+				if(data.result==1){
+					// 如果校验返回结果是注册
+					if (data.data && data.data.check_type !=undefined && data.data.check_type=="register") {
+						
+						//  跳转到用户信息页面
+						location.href = '${ctx}/member/register/user_info.html';
+					} else {
+						var forward=$("#forward").val();
+						if(forward==""){
+							location.href ="${ctx}/index.html";
+						}
+						else if(forward=="checkout.html"){
+							location.href ="${ctx}/cart.html";
+						}
+						else{
+							location.href=forward;
+						}
+					}
+				}else{
+					showError(data.message);
+					$.Loading.hide();
+					$(".code_img").attr("src","${ctx}/validcode.do?vtype=memberlogin&r="+new Date().getTime());	//未通过校验，刷新验证码
+
+					if(data.message == '账号密码错误' || data.message == '账号密码错误！'){
+						$('#password').focus().on('keyup', function(e){
+							var _this = $(this);
+							if(e.keyCode == 8){
+								_this.val('').unbind('keyup');
+							};
+						});
+						$("input[name='validcode']").val('');
+					}else if(data.message == '验证码错误' || data.message == '验证码错误！'){
+						$("input[name='validcode']").val('').focus();
+					}
+				}
+			},
+			error : function(e) {
+				showError("出现错误 ，请重试");
+				$(".code_img").attr("src","${ctx}/validcode.do?vtype=memberlogin&r="+new Date().getTime());		//出现错误，刷新验证码
+			}
+		};
+
+		var loginType = $('.type-toggle').data("active");
+
+
+		if (loginType == "mobile") {
+			options.url = "${ctx}/api/shop/member/sms-login.do";
+			var mobile = $('#mobile').val(), code = $('#dynamic-code').val();
+			if(!mobile && !code){
+				showError('请输入手机号和短信验证码');
+				return false;
+			}else if(!/^1[3|4|5|7|8]\d{9}$/.test(mobile)){
+				showError('手机号格式有误');
+				return false;
+			}else if(mobile && !code){
+				showError('请输入短信验证码');
+				return false;
+			}else if(!mobile && code){
+				showError('请输入手机号');
+				return false;
+			}else {
+				//hideError();
+			};
+			$.Loading.show("正在登录，请稍候...");
+			$('#mobile_login_form').ajaxSubmit(options);
+
+		} else {
+			var username = $('#username').val(), password = $('#password').val(), validcode = $('#validcode').val();
+			if(!username && !password){
+				showError('请输入账号和密码');
+				return false;
+			}else if(!username && password) {
+				showError('请输入账号');
+				return false;
+			}else if(username && !password){
+				showError('请输入密码');
+				return false;
+			}else if(username && password && !validcode){
+				showError('请输入验证码');
+				return false;
+			}
+			$.Loading.show("正在登录，请稍候...");
+			$('#normal_login_form').ajaxSubmit(options);
+		}
+
+	}
+});
+
+
+</script>
+<#include '/common/footer.html' />

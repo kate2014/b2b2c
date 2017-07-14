@@ -1,0 +1,36 @@
+<div class="floor_list middle_goodslist tabs-panel <#if childs_index!=0  >tabs-hide</#if>">
+	<!-- 子楼层 -->
+	<ul >
+	<#assign floorGoodsList=floorGoodsListTag("'goods_ids':'${(childs.goods_ids_json)!''}'")>
+	<#if floorGoodsList??&& floorGoodsList?size gt 0 >
+	<#list floorGoodsList as goods>
+		<#if goods_index<8>
+		<li class="items-box">
+			<input type="button" style="display:none" value="编辑"  class="floor new_dialog btn-default"
+						data-operation-url="${ctx}/core/admin/template/edit-each-goods.do" 
+						data-operation-id="${goods.goods_id}" 
+						data-save-url="${ctx}/core/admin/template/save-each-goods.do?ajax=yes"
+						data-title="修改楼层商品" 
+						data-formId="editEachGoodsForm"
+						data-floorId="${childs.id}" 
+						data-goods-index="${goods_index}">
+			<dl>
+				<dt class="goods_name">
+					<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html">${goods.name!''}</a>
+				</dt>
+				<dd class="goods_img">
+					<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html">
+						<@image class="scrollLoading" src="${goods.thumbnail!''}" alt="${goods.name}" />
+					</a>
+				</dd>
+				<dd class="goods_price">
+					<em>${goods.price?string.currency}</em>
+					<span class="original">${goods.mktprice?string.currency}</span>
+				</dd>
+			</dl>
+		</li>
+		</#if>
+	</#list>	
+	</#if>
+	</ul>
+</div>

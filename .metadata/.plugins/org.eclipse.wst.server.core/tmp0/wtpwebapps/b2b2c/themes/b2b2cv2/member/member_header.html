@@ -1,0 +1,186 @@
+<#assign memberIsLoginTag=newTag("memberLoginCheckTag")>
+<#assign isLogin=memberIsLoginTag("'login_url':'/store/login.html'")>
+<#if  !isLogin.member_id?? || isLogin.member_id==0 >
+	<#stop "not login">
+</#if>
+<#include '../common/header.html' />
+<#include '../common/reception_header.html' />
+
+<#assign memberIsLoginTag=newTag("storeMemberIsLoginTag")>
+<#assign isLogin=memberIsLoginTag()>
+
+<#assign memberInfoTag=newTag("memberInfoTag")>
+<!-- 调用会员基本信息 并传递mustlogin的参数，如果没登录，直接跳转到index.html页 -->
+<#assign member=memberInfoTag("{'mustlogin':'yes'}")>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/member.css" />
+<script type="text/javascript" src="${ctx}${themes_path}/js/favorite.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/Order.js"></script>
+
+<style type="text/css">
+	.side_menu li {
+		-webkit-transition: all .3s ease-out;
+		-moz-transition: all .3s ease-out;
+		-ms-transition: all .3s ease-out;
+		-o-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+	}
+	.side_menu li.hover_li, .side_menu li.active {
+		background-color: #FF6A67;
+	}
+	.side_menu li a {
+		-webkit-transition: all .3s ease-out;
+		-moz-transition: all .3s ease-out;
+		-ms-transition: all .3s ease-out;
+		-o-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+		overflow:hidden;
+		clear:both;
+		display:block;
+	}
+	.side_menu li span {
+		color: #ffffff;
+		opacity: 0;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+		-webkit-transition: all .3s ease-out;
+		-moz-transition: all .3s ease-out;
+		-ms-transition: all .3s ease-out;
+		-o-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+		display:inline-block;
+		float:left;
+	}
+	.side_menu li .member-tools-word{
+		
+	color: #777;
+		opacity: 1;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		-webkit-transition: all .3s ease-out;
+		-moz-transition: all .3s ease-out;
+		-ms-transition: all .3s ease-out;
+		-o-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+		display:inline-block;
+		float:left;
+		margin:0 0 0 9px;
+	}
+	
+	
+	.side_menu li span.hover_span{
+		color: #ffffff;
+		opacity: 100;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	}
+	.side_menu li span.active{
+		color: #ffffff;
+		opacity: 100;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	}
+	.member_left .left_same .side_menu ul li a.hover_a, .member_left .left_same .side_menu ul li a.active {
+		color: #ffffff;
+		margin-left: 10px;
+	}
+</style>
+
+<div class="member_content">
+	<div class="user_nav">
+		<a href="${ctx}/index.html">首页</a>><a href="member.html">会员中心</a>>${member.uname!''}
+	</div>
+	<div class="left_member">
+		<!-- 会员中心左侧菜单 -->
+		<div class="member_left">
+			<ul class="sidebar left_same">
+				<li class="side_menu grey_menu">
+					<h1>交易管理<span class="down"></span></h1>
+					<ul>
+						<li data-menu="order"><a href="${ctx}/member/order.html" ><span >&gt;&nbsp;</span><span class="member-tools-word">我的订单</span><span >&nbsp;&lt;</span></a></li>
+						<li data-menu="address"><a href="${ctx}/member/address.html"><span>&gt;&nbsp;</span><span class="member-tools-word">收货地址</span><span>&nbsp;&lt;</span></a></li>
+						<li data-menu="return_list"><a href="${ctx}/member/return_list.html"><span>&gt;&nbsp;</span><span class="member-tools-word">售后申请</span><span>&nbsp;&lt;</span></a></li>
+					</ul>
+				</li>
+				<li class="side_menu">
+					<h1>客户服务<span class="down"></span></h1>
+					<ul>
+						<li data-menu="favorite"><a href="${ctx}/member/favorite.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的收藏</span><span>&nbsp;&lt;</span></a></li>
+					<!--  	<li data-menu="gnotify"><a href="${ctx}/member/gnotify.html"><span>&gt;&nbsp;</span>缺货登记<span>&nbsp;&lt;</span></a></li>  -->
+						<li data-menu="comments"><a href="${ctx}/member/comments.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的评论</span><span>&nbsp;&lt;</span></a></li>
+						<li data-menu="ask"><a href="${ctx}/member/ask.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的咨询</span><span>&nbsp;&lt;</span></a></li>
+					</ul>
+				</li>
+				<li class="side_menu">
+					<h1>帐号管理<span class="down"></span></h1>
+					<ul>
+						<li data-menu="info"><a href="${ctx}/member/info.html"> <#if member.info_full == 0><span>&gt;&nbsp;</span><span class="member-tools-word">完善基本资料(20分)</span><span>&nbsp;&lt;</span><#else><span>&gt;&nbsp;</span><span class="member-tools-word">修改基本资料</span><span>&nbsp;&lt;</span></#if> </a></li>
+						<li data-menu="point"><a href="${ctx}/member/point.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的积分</span><span>&nbsp;&lt;</span></a></li>
+						<li data-menu="security_center"><a href="${ctx}/member/security_center.html"><span>&gt;&nbsp;</span><span class="member-tools-word">账户安全</span><span>&nbsp;&lt;</span></a></li>
+						<li data-menu="bind-member"><a href="${ctx}/member/bind-member.html"><span>&gt;&nbsp;</span><span class="member-tools-word">绑定帐号</span><span>&nbsp;&lt;</span></a></li>
+						<li data-menu="bonus"><a href="${ctx}/member/bonus.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的优惠券</span><span>&nbsp;&lt;</span></a></li>
+						<#-- 检测组件是否启用 -->
+						<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+						<#assign groupbuyIsOn = checkCmptIsOnTag("{'componentName':'余额支付组件'}") />
+						<#if groupbuyIsOn=="ON">
+						<li data-menu="credit"><a href="${ctx}/member/credit/credit.html"><span>&gt;&nbsp;</span><span class="member-tools-word">我的余额</span><span>&nbsp;&lt;</span></a></li>
+						</#if>
+						<li data-menu="messagefront_list"><a href="${ctx}/member/messagefront_list.html"><span>&gt;&nbsp;</span><span class="member-tools-word">站内消息</span><span>&nbsp;&lt;</span></a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+<script>
+	$(function(){
+		$(".side_menu h1 span").click(function(){
+			var changeclass = $(this).attr("class");
+			if(changeclass=="down"){
+				$(this).parent().next("ul").hide();
+				$(this).removeClass("down");
+				$(this).addClass("top");
+			}
+			else{
+				$(this).parent().next("ul").show();
+				$(this).removeClass("top");
+				$(this).addClass("down");
+			}
+		});
+
+		$('.side_menu').find('li').hover(function(){
+			var _this = $(this);
+			_this.addClass('hover_li')
+					.find('a').addClass('hover_a')
+					.find('span').addClass('hover_span');
+		}, function(){
+			var _this = $(this);
+			_this.removeClass('hover_li')
+					.find('a').removeClass('hover_a')
+					.find('span').removeClass('hover_span');
+		})
+
+		// 获取url文件名设置默认
+		var arrUrl  = window.location.href.split("/"),
+			strPage = arrUrl[arrUrl.length-1].split('.'),
+			str     = strPage[0];
+		switch (str){
+			case 'point_list':
+				str = 'point';
+				break;
+			case 'waitcommont':
+				str = 'comments';
+				break;
+			case 'collect_store':
+				str = 'favorite';
+				break;
+			case 'mobile_verification':
+			case 'verification_success':
+			case 'update_mobile_verification':
+				str = 'security_center';
+				break;
+		};
+		$("li[data-menu="+ str +"]").addClass('active').find('a').addClass('active').find('span').addClass('active');
+
+	})
+</script>

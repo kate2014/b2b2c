@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "标签列表 - 商品管理" />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/tags.css"> 
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/goods/tags.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_goods' />
+<#assign lowerPageName = 'lower_goods_tags' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li><a href="javascript: void(0);">标签商品</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div class="app-wappler">
+    <div class="inner-app-wappler">
+   	<#assign storeTagsGoods=newTag("storeTagsGoodsTag")>
+	<#assign storeTagsGoodsList=storeTagsGoods("'mark':'${mark}'")>
+      	<div  class="main_table">
+	      	
+	      	<div class="tabmenu">	      	
+				<a class="btn btn-warning ncu_btn3 batch_del" id="delete" href="javascript:void(0);"  style="*margin-left:-80px;">批量删除</a> 
+	      		<a class="btn btn-info ncu_btn3 " id="add" href="javascript:void(0);" mark="${mark}"  tagid="${tagid}" >添加商品</a>
+				<a class="btn btn-success ncu_btn3" id="saveSort" href="javascript:void(0);" >保存排序</a> 
+			</div>
+			<!-- 标签列表 -->
+			<form id="goodsTagForm"  >
+			<input type="hidden" name="tagId" value="${tagid}"/>
+			<div class="store_tab_list">
+				<div class="s_commont_list">
+	  				<table class="groupbuy_list_table sotre_tab_list"  id="detailFind">
+	  					<tbody>
+	  						<tr>
+	  							<th  style="padding-left:50px;*padding-left:0"><input type="checkbox" class="check-all check-width" ></th>
+	  							<th style="width:400px;text-align:center;">商品名称</th>
+	  							<th style="width:300px;text-align:center;">排序</th>
+	  							<th style="width:100px;text-align:center;">操作</th>
+	  						</tr>
+	  					</tbody>
+	  					<tbody class="list_tbody">
+	  						<#list storeTagsGoodsList.goodsTag.result as storeTagGoods>
+	  							<tr class="list_tr">
+	  								<td class="checkbox_td">
+	  									<input type="checkbox" name="reg_id" value="${storeTagGoods.goods_id}" class="select_tab_store checkbox check-width">  								
+	  								</td>
+	  								<td style="width:300px;" class="list_goodname">	  									
+	  									<span>
+	  										<@substring	title="${storeTagGoods.name}" length="50" dot="..." />
+										</span>	
+	  								</td>
+	  								<td style="width:300px;vertical-align:middle;">
+	  									<input type="hidden" name="regId" value="${storeTagGoods.goods_id}">
+								    	<input type="text" style="height:27px\0"  name="ordernum" class="ordernum input_text form-control" value="${storeTagGoods.ordernum!'0'}" reg_id="${storeTagGoods.goods_id}" onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+				onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " maxlength="8"/>
+								    	<input type="hidden" id="order_num_${storeTagGoods.goods_id}" value="${storeTagGoods.ordernum!'0'}">
+	  								</td>
+	  								<td class="storegoodslist_tools">
+	  									<a href="javascript:void" name="delteRel" tagid="${tagid}" reg_id="${storeTagGoods.goods_id}" class="btn btn-warning delete_tags">删除</a>
+	  								</td>
+	  							</tr>
+	  						</#list>
+	  					</tbody>
+	  				</table>
+	  			</div>	
+			</div>
+			</form>
+			
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+	<div class="head-help">
+		<span class="icomoon question-ico"></span>
+		<a href="javascript: void(0);" class="title-help">帮助和服务</a>
+		<span class="icomoon close-ico" title="关闭">x</span>
+	</div>
+	<div class="body-help">
+		<p>帮</p>
+		<p>助</p>
+		<p>与</p>
+		<p>客</p>
+		<p>服</p>
+	</div>
+</div>
+<div class="open-help">
+	<span class="icomoon question-ico"></span>
+	<a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

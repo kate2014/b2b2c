@@ -1,0 +1,13 @@
+.safety-tips .item{width:100%;height:30px;}
+.safety-tips .item span{background:none;}
+.safety-tips .item .itxt{height:auto;float:left;}
+.form .green-btn{width:185px;}
+.goodslist-bar .price-search input{height:20px;margin:0px;box-sizing: border-box;line-height:19px;}
+.goodslist-bar .price-search{width:230px;margin:4px 0 0 12px;}
+.goodslist-bar .price-search a{float:right;line-height:19px;height:auto;}
+.store-search-right input{float:left;margin:0 5px 0 0;}
+.store-goods-search .store-search-right a{display:block;float:left;line-height:20px;margin:0 5px 0 0;}
+
+
+
+

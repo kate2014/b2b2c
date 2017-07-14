@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.springframework.test.annotation.Rollback"/>
+<fullyQualifiedTypeName name="com.enation.app.shop.core.order.service.IOrderManager"/>
+<fullyQualifiedTypeName name="com.enation.app.shop.core.member.service.IMemberAddressManager"/>
+<fullyQualifiedTypeName name="com.enation.app.shop.core.member.model.MemberAddress"/>
+<fullyQualifiedTypeName name="com.enation.framework.util.StringUtil"/>
+<fullyQualifiedTypeName name="org.springframework.mock.web.MockMultipartFile"/>
+<fullyQualifiedTypeName name="org.springframework.test.web.servlet.request.MockMvcRequestBuilders"/>
+<fullyQualifiedTypeName name="org.springframework.http.MediaType"/>
+<fullyQualifiedTypeName name="org.springframework.test.web.servlet.result.MockMvcResultHandlers"/>
+<fullyQualifiedTypeName name="org.springframework.test.web.servlet.result.MockMvcResultMatchers"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.enation.framework.database.IDaoSupport"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="com.enation.framework.test.SpringTestSupport"/>
+<fullyQualifiedTypeName name="com.enation.framework.component.impl.ComponentManager"/>
+<fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+</qualifiedTypeNameHistroy>

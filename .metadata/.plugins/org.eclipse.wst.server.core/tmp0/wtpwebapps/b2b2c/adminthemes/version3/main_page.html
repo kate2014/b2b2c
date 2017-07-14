@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>${site.title!'' }</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<link rel="shortcut icon" href=" ../favicon.ico" />
+<link type="image/x-icon" href="${site.icofile!''}" rel="bookmark" />
+
+<script type="text/javascript" src="${ctx}/adminthemes/new/js/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" type="text/css"href="${ctx}/adminthemes/version3/plugins/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css"href="${ctx}/adminthemes/version3/plugins/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css"href="${ctx}/adminthemes/version3/css/main_page.css" />
+<link rel="stylesheet" type="text/css"href="${ctx}/adminthemes/version3/css/animate.min.css" />
+<script type="text/javascript"src="${ctx}/adminthemes/version3/plugins/layui/layui.js "></script>
+<script type="text/javascript"src="${ctx}/adminthemes/version3/js/main_page.js"></script>
+
+<script type="text/javascript"src="${ctx}/adminthemes/version3/js/short-msg.js"></script>
+<script type="text/javascript"src="${ctx}/adminthemes/version3/js/global.js"></script>
+<!--PNG透明-->
+<!--[if lte IE 6]>
+<script src="../adminthemes/new/js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+<script type="text/javascript">
+    DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+<script>
+var referer = undefined;
+<#if referer?exists >
+referere='${referer}';
+</#if>
+</script>
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin beg-layout-container">
+		<div class="layui-header beg-layout-header">
+		<!-- logo开始 -->
+			<div class="beg-layout-main beg-layout-logo">
+				<a href="javascript:void(0)" target="_blank"><!-- <img
+					src="${ctx}/adminthemes/version3/images/logo1.png" alt="logo"> --></a>
+			</div>
+			<!--一级菜单-->
+			<div class="layui-side beg-layout-side-left left-menu" id="menu">
+                <ul class="layui-nav layui-nav-tree " lay-filter="" id="top-nav">
+                <#assign count = 1>
+	               <#list menuList as menu>
+					<#if menu.hasChildren >
+	                   <li class="layui-nav-item" id=${menu.id}><a href="javascript:void(0)" >
+	                   <i class="fa fa-desktop menu_icon" aria-hidden="true"></i>
+	                   	<cite class="marg-left menu_content">${menu.title!''}</cite></a>
+	                   </li>
+	                 </#if>
+	                 <#assign count = count+1>
+               	 </#list>
+                </ul>
+            </div>
+			
+		</div>
+		<!-- 消息开始 -->
+			 <div class="mainpage_news">
+				<ul class="layui-nav beg-layout-nav beg-right" lay-filter="user">
+					<li class="layui-nav-item news" id="news">
+					<a href="javascript:;" >
+                                <i class="fa fa-bell-o" aria-hidden="true"></i>消息
+                                <span class="msg_num">1</span>
+                            </a>
+						<dl class="msglist" id="msglist">
+						
+						</dl>
+					</li>
+				</ul>
+			</div>
+		<!--二级三级菜单栏-->
+		<div class="layui-side beg-layout-side" id="side" lay-filter="side">
+		<ul class="layui-nav layui-nav-tree navbar_background"> 
+			
+			<#assign count = 1>
+            <#list menuList as menu>
+				<#if menu.hasChildren >
+	                  
+                <!-- 遍历二级 -->
+	            <#list menu.children as child>
+				<#if child.hasChildren > 
+		       
+				<!-- 二级菜单 -->
+				<li class="layui-nav-item " style="display:none;" id="${child.pid}" >
+				   
+				 <a href="javascript:;">${child.title}<span class="layui-nav-more"></span></a>
+				 
+				 <dl class="layui-nav-child">
+				   <!-- 遍历三级 -->
+			 	   <#list child.children as son>
+				 	<!-- 三级菜单 -->
+						 <dd >
+							 <a href="javascript:;" data-url="${ctx}${son.url}">
+							 	<cite>${son.title}</cite>
+							 </a>
+						 </dd>
+					 </#list>
+				  </dl>
+				 </li>
+				  
+				 </#if>
+				</#list>
+			 
+			 </#if>
+             <#assign count = count+1>
+        	 </#list>
+		 </ul>
+		</div>
+		
+		<div class="beg-layout-main beg-layout-panel">
+                <ul class="layui-nav beg-layout-nav" lay-filter="user">
+                    <li  style="width: 100%;text-align: center">
+                        <a href="javascript:;" style="padding: 0;">
+                            <img class="person_admin" src="${ctx}/adminthemes/version3/images/0.jpg" />
+                        </a>
+                          <ul class="user_content">
+                			<li>
+                    			<a href="http://www.javamall.com.cn/b2b2c3/" target="_blank">
+                       				<i class="fa fa-gear" aria-hidden="true"></i> <cite>浏览网站</cite>
+                   				</a>
+                			</li>
+               				 <li>
+                    			<a href="javascript:void(0)" id="logout_btn"> <i class="fa fa-sign-out" aria-hidden="true"></i> <cite>注销</cite>
+                   				 </a>
+                			</li>
+            			</ul>
+                    </li>
+                </ul>
+            </div>
+		<!--内容区域-->
+		<div class="layui-body beg-layout-body">
+			<div class="layui-tab layui-tab-brief layout-nav-card left-nav"
+				lay-filter="layout-tab">
+				<ul class="layui-tab-title"  style="background-color: white;padding-left: 5px">
+					<li class="layui-this"><a href="javascript:;"> <cite>首页</cite>
+					</a></li>
+				</ul>
+				<!-- tab的操作开始 -->
+				<div class="tabs-control">
+					<i class="fa fa-toggle-down" aria-hidden="true"></i>
+					<div id="contextmenu" class="layout-tab-contextmenu">
+						<ul class="layui-nav " lay-filter>
+							<li class="layui-nav-item " data-toggle="refresh"><a
+								>刷新</a></li>
+							<li class="layui-nav-item " data-toggle="closeOther"><a
+								>关闭其他</a></li>
+							<li class="layui-nav-item " data-toggle="closeAll"><a
+								>关闭所有</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- tab的操作结束 -->
+				<!-- iframe显示内容 -->
+				<div class="layui-tab-content shadow">
+					<div class="layui-tab-item layui-show">
+						<iframe id="FrameID" name="frames" src="../core/admin/index/show.do"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

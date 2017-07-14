@@ -1,0 +1,69 @@
+<#assign storeMenuListTag = newTag("storeMenuListTag")>
+<#assign storeMenuMap = storeMenuListTag("{main_page_name:'${mainPageName}'}")>
+
+<#assign memberIsLoginTag = newTag("storeMemberIsLoginTag")>
+<#assign isLogin = memberIsLoginTag()>
+
+<#assign memberInfoTag = newTag("memberInfoTag")>
+<#assign member = memberInfoTag("{'mustlogin':'yes'}")>
+<div class="app-sidebar">
+    <div class="main-sidebar">
+        <#if member??>
+            <div class="app-logo" style="cursor: pointer; " onclick="location.href='${ctx}/new_store/pages/main_outline.html'">
+                <#if member.face?exists && member.face != ''>
+                    <img src="<@imgurl pic='${member.face}'/>" />
+                <#else />
+                    <img src="${ctx}${themes_path}/images/default_face.jpg">
+                </#if>
+            </div>
+        </#if>
+        <ul class="list-main-sidebar">
+            <#if storeMenuMap.main_menu_list?? >
+                <#assign mainMenu = storeMenuMap.main_menu_list />
+                <#list mainMenu as storeMenu >
+                    <li <#if storeMenu.key == mainPageName>class="active"</#if> <#if (storeMenu.key != mainPageName) && (storeMenu.unique??)> class="unique-list-main-sidebar" </#if> data-href="${ctx}/new_store/${storeMenu.url!''}" <#if storeMenu.unique??>style="margin-top: ${storeMenu.unique}"</#if>>
+                        <span class="icomoon">${storeMenu.icon!''}</span><a href="javascript: void(0);"><@substring title="${storeMenu.name!''}" length="4" dot=""/></a>
+                    </li>
+                </#list>
+            </#if>
+            
+            <li style="text-align: center;margin-top: 20px; margin-bottom: 60px;">
+                <a href="http://www.javamall.com.cn" target="_blank">Javashop</a>
+            </li>
+        </ul>
+        <div class="user-menu">
+            <a href="javascript: void(0);" class="user-name">${member.uname!''}</a>
+            <div class="user-info-box">
+                <div class="user-info-meta">
+                    <div>${member.uname!''}</div>
+                    <div>${member.mobile!''}</div>
+                </div>
+                <div class="user-info-select">
+                    <a href="${ctx}/index.html">商城首页</a>
+                    <a href="${ctx}/new_store/pages/setting/setting.html">店铺设置</a>
+                    <!--<a href="javascript: void(0);">切换店铺</a>-->
+                    <a href="javascript: void(0);" id="app-logout">退出</a>
+                </div>
+                <span class="app-spec"></span>
+            </div>
+        </div>
+    </div>
+    <div class="lower-sidebar">
+        <#if storeMenuMap.main_menu_list?? >
+            <#assign mainMenu = storeMenuMap.main_menu_list />
+                <#list mainMenu as storeMenu >
+                    <#if storeMenu.key == mainPageName>
+                        <div class="title-lower-sidebar">${storeMenu.name!''}</div>
+                    </#if>
+                </#list>
+        </#if>
+        <div class="list-lower-sidebar">
+            <#if storeMenuMap.lower_menu_list??>
+                <#assign lowerMenu = storeMenuMap.lower_menu_list />
+                    <#list lowerMenu as lowerMenu >
+                        <li <#if (lowerPageName??) && (lowerMenu.key == lowerPageName)>class="active"</#if> data-href="${ctx}/new_store/pages/${lowerMenu.url!''}" <#if (lowerMenu.name?length > 4)>title="${lowerMenu.name!''}"</#if>><a href="javascript: void(0);"><@substring title="${lowerMenu.name!''}" length="8" dot=""/></a></li>
+                    </#list>
+            </#if>
+        </div>
+    </div>
+</div>

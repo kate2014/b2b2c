@@ -1,0 +1,65 @@
+.activity-top-tools {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.activity-top-tools .activity-add {
+    font-size: 12px;
+    margin-top: 10px;
+    width: 50px;
+    float: left;
+}
+
+.activity .activity-seach {
+    float: right;
+    margin-top: 10px;
+}
+
+.activity .activity-seach input {
+    height: 15px;
+    width: 100px;
+    float: left;
+    margin-top: 2px;
+}
+
+.activity .activity-seach .btn {
+    font-size: 12px;
+    float: left;
+    margin-left: 10px;
+}
+
+.activity table {
+    font-size: 12px;
+}
+
+.activity table th,
+.activity table td {
+    text-align: center;
+}
+
+.activity table thead th {
+    background-color: #f2f2f2;
+    border-bottom: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.activity table th {
+    text-align: center;
+}
+
+.activity table tbody td {
+    vertical-align: middle;
+}
+
+.activity-table-img img {
+    height: 45px;
+    max-width: 100px;
+}
+
+.activity-oper .btn {
+    font-size: 12px;
+    margin-right: 5px;
+}

@@ -1,0 +1,92 @@
+.coupon {
+    min-width: 900px;
+}
+
+.coupon-top-tools {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.coupon-top-tools .coupon-add {
+    font-size: 12px;
+    margin-top: 10px;
+    width: 50px;
+    float: left;
+}
+
+.coupon .coupon-seach {
+    float: right;
+    margin-top: 10px;
+}
+
+.coupon .coupon-seach input {
+    height: 15px;
+    width: 100px;
+    float: left;
+    margin-top: 2px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.coupon .coupon-seach span {
+    float: left;
+    line-height: 30px;
+    font-size: 12px;
+    color: #333333;
+}
+
+.coupon .coupon-seach .btn {
+    font-size: 12px;
+    width: 50px;
+    float: left;
+    margin-left: 15px;
+}
+
+.coupon table {
+    font-size: 12px;
+}
+
+.coupon table thead th {
+    background-color: #f2f2f2;
+    border-bottom: none;
+}
+
+.coupon table thead th,
+.coupon table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.coupon-oper .btn {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+/* 添加、编辑dialog样式
+ ============================================================================ */
+.coupon-form {
+    font-size: 12px;
+    color: #333333;
+}
+
+.coupon-form input {
+    height: 15px;
+    width: 150px;
+    font-size: 12px;
+    display: inline;
+    background-color: #ffffff;
+}
+
+.coupon-form dl {
+    line-height: 50px;
+}
+
+.coupon-form dt {
+    display: inline-block;
+    width: 130px;
+    text-align: right;
+}
+
+.coupon-form dd {
+    display: inline;
+}

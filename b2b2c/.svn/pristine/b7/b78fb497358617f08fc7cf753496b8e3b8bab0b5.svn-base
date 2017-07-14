@@ -1,0 +1,76 @@
+<!-- 获取商品评论标签 -->
+<#assign commentListTag = newTag("commentListTag")>
+<!--调取"评论"标签，并传递参数,获取Page对象-->
+<#assign commentPage = commentListTag("{'goods_id':${goodsid},'type':1,'grade':2}")>
+<#if commentPage.totalCount != 0 >
+	<#list commentPage.result as comment> 
+		<#if comment.grade==2>
+		<li <#if !comment_has_next >class="last"</#if>>
+			<div class="problem_pic">
+       			<#if comment.member_id != 0 && comment.face?exists>
+       				<#if comment.sex == 0 && comment.face == "">
+       					<@image src="${ctx}${themes_path}/images/ntx.jpg" alt="默认头像"/>
+      					<#elseif comment.sex == 1  && comment.face == "">
+      						<@image src="${ctx}${themes_path}/images/ntx.jpg" alt="默认头像"/>
+        			<#else>
+        				<@image src="${comment.face}" width="65"/>
+        			</#if>
+      				<#else>
+      					<@image src="${ctx}${themes_path}/images/ntx.jpg" alt="默认头像"/>
+      				</#if>
+			</div>
+			<div class="problem_right">
+				<div class="problem_time">
+					<span class="name"> 
+					     <#if comment.member_id != 0>
+			            	${comment.uname!''}
+			            <#else>
+			            	匿名
+			            </#if>
+			         </span>
+  					<#--<#if comment.levelname?exists>
+         				<h2>
+         					<#if comment.levelname?exists>
+								<span class="lv">
+          							${comment.levelname!''}
+            					</span>
+        					</#if>
+        				</h2>
+           			</#if>-->
+					<span class="commom_time"><@dateformat time="${comment.dateline?c}" pattern="yyyy-MM-dd HH:mm"/></span>
+				</div>
+				<div class="common_content">
+					评价详细：<span>${comment.content!''}</span>
+				</div>
+				
+				<!-- 获取商品评论图片相册标签 -->
+				<#assign commentGalleryListTag = newTag("commentGalleryListTag")>
+				<!-- 调用商品评论图片相册标签 -->
+				<#assign galleryList = commentGalleryListTag("{'comment_id':${comment.comment_id}}")>
+				
+				<div class="suolue" style="clear: both;">
+					<#if galleryList??>
+						<#list galleryList as gallery>
+		             		<a href="<@imgurl pic='${gallery.original}'/>" rel="lightbox[middle_${gallery.comment_id}]" style="float: left; margin: 10px;" target="_blank"> <@image src="${gallery.original}"  width="60" height="60"/> </a>
+		            	</#list>
+		            </#if>
+	            </div>
+				
+				 <#if comment.replystatus==1>
+				<div class="problem_answer" style="clear: both;">
+					<div class="pa_top"></div>
+					<div class="ps_bottom">
+						<div class="ps_bottom_title">客服回复：</div>
+						<div class="ps_bottom_content">${comment.reply}</div>
+					</div>
+				</div>
+				</#if>
+				<div class="clear"></div>
+			</div>
+		</li>
+		</#if>
+	</#list>
+	<@ajaxpager pageno="${page!'1'}" pagesize="${commentPage.pageSize}" totalcount="${commentPage.totalCount}" />
+<#else>
+		暂无中评
+</#if>

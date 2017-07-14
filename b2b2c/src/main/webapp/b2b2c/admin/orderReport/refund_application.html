@@ -1,0 +1,37 @@
+<#include '/admin/header.html' > <#assign
+dateFormat="com.enation.framework.directive.DateformateDirective"?new()>
+<div class="main">
+	<div class="shadowBoxWhite tableDiv">
+		<table id="orderReturndata" class="easyui-datagrid"
+			data-options="url:'${ctx}/b2b2c/admin/store-sell-back/refund-list-json.do?type=${type}&store_id=${store_id!''}',pageList: [10,15,20,30],pageSize:${pageSize},fitColumns:'true'"
+			pagination="true" width="width">
+			<thead>
+				<tr>
+					<th data-options="field:'id',width:35">退款ID</th>
+					<th data-options="field:'tradeno',width:100">售后申请单号</th>
+					<th data-options="field:'ordersn',width:100">售后申请订单号</th>
+					<th data-options="field:'store_name',width:100">店铺名称</th>
+					<th data-options="field:'regtime',width:100" formatter="formatTime">创建时间</th>
+					<th data-options="field:'apply_alltotal',width:100">申请金额</th>
+					<th data-options="field:'operation',width:100" formatter="formatOperation">操作</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="pay_detail"></div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	function formatTime(value, row, index) {
+		return getFormatDateByLong(value, "yyyy-MM-dd hh:mm:ss");
+	}
+	function formatOperation(value, row, index) {
+		if(row.tradestatus==0){
+			return "<a href='javascript:void(0);' onclick=newTab('售后申请单','${ctx}/shop/admin/sell-back/refund-detail.do?id="+row.id+"'); >审核</a>";
+		}
+		return "<a href='javascript:void(0);' onclick=newTab('退款单','${ctx}/shop/admin/sell-back/refund-detail.do?id="+row.id+"'); >查看</a>";
+	}
+</script>
+<div id="log"></div>
+
+<#include '/admin/footer.html' >

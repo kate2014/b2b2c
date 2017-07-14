@@ -1,0 +1,61 @@
+<#assign storeBillSellBackListTag=newTag("storeBillSellBackListTag")>
+<#assign storeOrderList=storeBillSellBackListTag()>
+<!-- 退货申请订单列表详细 -->
+<table class="table table-bordered table-responsive">
+	<thead>
+		<tr class="s_orderlist_title">
+			<th>退单金额</th>
+			<th>退货单号</th>
+			<th>订单号</th>
+			<th>会员名称</th>
+			<th>申请时间</th>
+
+		</tr>
+	</thead>
+	<#if storeOrderList.totalCount != 0 >
+	<tbody>
+		<#list storeOrderList.storeOrder.result as order>
+		<tr>
+			<td>${order.apply_alltotal}</td>
+			<td>${order.tradeno}</td>
+			<td>${order.ordersn}</td>
+			<td>${order.sndto}</td>
+			<td><@dateformat time="${order.regtime?c}" pattern="yyyy-MM-dd
+				HH:mm"/></td>
+		</tr>
+		</#list>
+		<tr>
+		</tr>
+	</tbody>
+</table>
+<div class="app-paging-tools">
+	<div class="demo"></div>
+	<div class="paging"><@ajaxpager
+		pageno="${storeOrderList.page!'1'}"
+		pagesize="${storeOrderList.pageSize}"totalcount="${storeOrderList.totalCount}" /></div>
+
+</div>
+<#else>
+</table>
+<div class="app-no-data">
+	<span class="a-no-data">暂无相关数据</span>
+</div>
+</#if>
+<script type="text/javascript">
+	(function() {
+		var paging = $('.app-paging-tools').find('.paging');
+		$(document).ready(function() {
+			//  给分页添加样式--同时兼容IE78
+			if (lteIE8) {
+				paging.find('.page').addClass('pagination');
+			} else {
+				paging.find('ul').addClass('pagination');
+			}
+			;
+			//  分页去掉一个span
+			paging.find('span').eq(1).css({
+				display : 'none'
+			});
+		});
+	})();
+</script>

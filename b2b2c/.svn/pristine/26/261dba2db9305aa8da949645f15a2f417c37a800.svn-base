@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '店铺导航管理' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/store/navigation.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/store/navigation.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_store' />
+<#assign lowerPageName = 'lower_store_navigation' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li><a href="javascript: void(0);">导航列表</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div class="app-wappler">
+    <div class="inner-app-wappler">
+        <#-- 创建店铺导航标签 -->
+        <#assign storeNavigationTag= newTag("storeNavigationTag") >
+        <#-- 查询店铺导航列表 -->
+        <#assign storeNavigation= storeNavigationTag()!''>
+        <div class="navigation">
+            <div class="nav-top-tools">
+                <a href="javascript: void(0);" class="btn btn-success nav-add">新增</a>
+            </div>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th >排序</th>
+                    <th >导航名称</th>
+                    <th >是否显示</th>
+                    <th style="width: 300px; ">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list storeNavigation as sl>
+                    <tr>
+                        <td class="sort-num">${sl.sort}</td>
+                        <td style="text-align:center; ">${sl.name}</td>
+                        <td>
+                            <#if sl.disable==1> 是 </#if>
+                            <#if sl.disable==0> 否 </#if>
+                        </td>
+                        <td class="nav-tools" style="width: 300px; ">
+                            <a href="javascript: void(0);" class="btn btn-info nav-edit" nav_id="${sl.id}">编辑</a>
+                            <a href="javascript: void(0);" class="btn btn-danger nav-delete" nav_id="${sl.id}">删除</a>
+                        </td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

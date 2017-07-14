@@ -1,0 +1,77 @@
+<#assign storeLogiCompanyListTag=newTag("storeLogiCompanyListTag")>
+<#assign storeLogiCompanyList=storeLogiCompanyListTag()>
+
+ <#assign orderDetailTag = newTag("storeOrderDetailTag")>
+<#assign orderDetail = orderDetailTag()!''>
+<div class="shipintro">
+<h3 style="height:30px;line-height:30px;">
+物流信息
+<a class="order-btn3 btn btn-info" id="add_ship_info"  href="./logistics_company_min.html?ordersn=${ordersn}"  style="float: right; " data-placement="right" data-original-title="完成添加后请按F5刷新本页面">添加物流信息</a>
+	<script type="text/javascript">
+		$('#add_ship_info').tooltip();
+	</script>
+</h3>
+<table class="table-style">
+   	<thead>
+		<tr>
+			<th class="w150">公司名称</th>
+        		<th class="w150">物流单号</th>
+        		<th class="w150">操作</th>
+      		</tr>
+    	</thead>
+    	<tbody>
+		<#list storeLogiCompanyList as logiCompany>
+			<#if logiCompany.logi_id?? && (logiCompany.logi_id!=0)>
+    				<tr>
+      				<td>${logiCompany.name}</td>
+      				<#if orderDetail.ship_no??>
+      				<td><input type="text" class="text" name="shipNo" logi_id="${logiCompany.id}" value=${orderDetail.ship_no} /></td>
+      				<#else>
+      				<td><input type="text" class="text" name="shipNo" logi_id="${logiCompany.id}" /></td>
+      				</#if>
+      				<td class="ship">
+						<!--<input type="button"  name="ship" value="确定" logi_name="${logiCompany.name}" logi_id="${logiCompany.id}" class="ship_info_button"/>-->
+						<a href="javascript: void(0);" class="btn btn-default save-btn" logi_name="${logiCompany.name}" logi_id="${logiCompany.id}" style="font-size: 12px;">发货</a>
+					</td>
+     			</tr>
+     		</#if>
+     	</#list>
+    	</tbody>
+</table>
+</div>
+<script type="text/javascript">
+	$('.ship .save-btn').unbind('click').on('click', function(){
+		var _this = $(this);
+		var logi_id = _this.attr("logi_id");
+		var logi_name = _this.attr("logi_name");
+		var shipNo = $("input[name='shipNo'][logi_id="+logi_id+"]").val();
+		var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+
+		if(shipNo==""){
+			$.message.error("请填写快递单号");
+			return false;
+		};
+		if(reg.test(shipNo)){
+			$.message.error("请填写正确的快递单号");
+			return false;
+		};
+		$.confirm('确定发货吗？', function(){
+			$.ajax({
+				dataType: 'json',
+				type: 'post',
+				url: ctx + '/api/store/store-order/ship.do',
+				data:{"order_id":${orderDetail.order_id},"shipNos":shipNo,"logi_id":logi_id,"logi_name":logi_name},
+				success:function(result){
+					if(result.result == 1){
+						$.message.success(result.message, 'reload');
+					}else {
+						$.message.error(result.message);
+					};
+				},
+				error:function(){
+					$.message.error('出现错误，请重试！');
+				}
+			});
+		})
+	});
+</script>

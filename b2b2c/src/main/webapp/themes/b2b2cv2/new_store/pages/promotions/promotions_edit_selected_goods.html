@@ -1,0 +1,48 @@
+<!-- 创建获取参加当前促销活动的商品集合标签 -->
+<#assign storeGoodsPart = newTag("storeGoodsPartTag") />
+<!-- 调用获取参加当前促销活动的商品集合标签 -->
+<#assign goodsPart = storeGoodsPart() />
+<div class="selected">
+	<table class="table table-bordered table-responsive goods-table" style="font-size: 12px;">
+		<thead>
+		    <tr>
+		    	<th>图片</th>
+		        <th>名称</th>
+		        <th>价格</th>
+		        <th>发布时间</th>
+		        <th>操作</th>
+		    </tr>
+		</thead>
+		<tbody>
+			<#list goodsPart as goods>
+			    <tr class="tr_${goods.goods_id}">
+			    	<td>
+			    		<input type="hidden" value="${goods.goods_id}" name="goods_id" class="goodsid"/>
+	  					<#if goods.thumbnail?exists && goods.thumbnail != ''>
+	  					<@image src="${goods.thumbnail!''}" height="45" width="45" /> 
+	  					<#else>
+	  						暂无图片
+	  					</#if>
+	  				</td>
+			        <td>
+			        	<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html" style="color:#005ea6;line-height: 20px;">
+			    			${goods.name}
+						</a>
+			        </td>
+			        <td>${goods.price?string.currency}</td>
+			        <td><@dateformat time="${goods.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></td>
+			        <td><a class="cancelGoods" href="javascript:void(0)" style="color: red; display: block;" goodsId="${goods.goods_id}">取消</a></td>
+			    </tr>
+		    </#list>
+		</tbody>
+	</table>
+	<p class='no_blank' style="display: block;">还没有选择活动商品</p>
+</div>
+<script type="text/javascript">
+$(function(){
+	var len = $(".goods-table tbody tr").length;
+	if(len != 0){
+		$(".selected .no_blank").css('display','none');
+	}
+});
+</script>

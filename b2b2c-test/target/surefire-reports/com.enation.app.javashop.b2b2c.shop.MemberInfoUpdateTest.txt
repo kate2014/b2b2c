@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.enation.app.javashop.b2b2c.shop.MemberInfoUpdateTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.269 sec - in com.enation.app.javashop.b2b2c.shop.MemberInfoUpdateTest

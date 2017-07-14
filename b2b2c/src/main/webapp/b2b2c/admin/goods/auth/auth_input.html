@@ -1,0 +1,34 @@
+<div class="easyui-panel" style="border-style:none;" >
+	<div style="padding: 10px 0 10px 60px">
+		<form id="goodsInfoForm" method="post" class="validate" >
+		<input type="hidden" name="goodsId" value="${storeGoods.goods_id }"/>
+			<table>
+				<tr>
+					<td>商品名称</td>
+					<td>${storeGoods.name!''}</td>
+				</tr>
+				<tr>
+					<td>商户名称</td>
+					<td>${storeGoods.store_name!''}</td>
+				</tr>
+				<tr>
+					<td>商品价格</td>
+					<td>${storeGoods.price!'0'}</td>
+				</tr>
+				<tr>
+					<td>审核状态</td>
+					<td>
+						<input type="radio" value="1" name="pass" />审核通过
+						<input type="radio" value="2" name="pass" checked="checked"/>审核不通过
+					</td>
+				</tr>
+				<tr>
+					<td>备注(120字以内)</td>
+					<td>
+						<textarea name="message" maxlength="120" cols="20" rows="8" id="message" ></textarea>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

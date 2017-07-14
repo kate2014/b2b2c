@@ -1,0 +1,293 @@
+<#assign  title="基本资料" />
+<#include 'member_header.html' />
+<#assign regionSelect = "com.enation.app.shop.front.tag.goods.other.regions.RegionSelectDirective"?new()>
+<script type="text/javascript" src="${ctx}/statics/e_tools/js/jquery.addressSelect-1.0.js"></script>
+<style>
+	.address_list thead tr th, td {
+		border: 0px none;
+		background: none;
+		width: 60%;
+		height: 40px;
+	}
+	.info_right input[type=text] {
+		height: 17px;
+		width: 205px;
+		font-size: 12px;
+	}
+	.app-address{z-index:99}
+</style>
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li class="selected"><a href="javascript:;"><span>我的基本信息</span></a></li>
+		</ul>
+	</div>
+	<div class="userinfo">
+		<form id="form_saveMember"   method="post"    class="validate"  action="#" enctype="multipart/form-data">
+			<div class="info_left">
+				<div class="userico">
+					<#if member.face?exists && member.face != ''>
+					<img src="<@imgurl pic='${member.face}'/>" width="100" />
+					<#else>
+					<img src="${ctx}${themes_path}/images/default_face.jpg" width="120" height="120">
+					</#if>
+				</div>
+				<div class="uploadIco">
+					<div class="file clearfix">
+						<div class="ifUpfile">
+							<label>
+								<i>上传头像：</i>
+								<input type="file" name="file" >
+								<span>&nbsp;</span>
+							</label>
+						</div>
+						<span id="imgS"></span>
+					</div>
+					<!--file end-->
+					<p class="prompt">建议尺寸120*120像素</p>
+					<input name="txtIco" type="hidden" id="txtIco" value="/ajax/MImageHandler.ashx?d=ico\default.jpg" />
+				</div>
+			</div>
+			<div class="info_right">
+				<table width="100%" cellspacing="0" cellpadding="0"	class="perfection">
+					<tr>
+						<th style="width:150px;">用户名：</th>
+						<td>
+							<span class="def"><span id="lbNickName">${member.uname!''}</span></span>
+						</td>
+					</tr>
+					<tr>
+						<th class="member_turename"><em style="color: red;">*</em> 真实姓名：</th>
+						<td colspan="3">
+							<input type="text" isrequired="true" name="truename" value="${member.name!''}" class="form-control" placeholder="请务必填写您的真实姓名!" />
+						</td>
+					</tr>
+					<tr id="gender">
+						<th style="width:150px;">性别：</th>
+						<td class="middle" colspan="3">
+							<label class="gender" style="float:left;"><input type="radio" name="sex" <#if member.sex!=0>checked</#if> value="1"  style="margin:4px 10px 0 0;float:left;"/><span>男</span></label>
+							<label class="gender" id="lgender" style="float:left;margin:0 0 0 10px"><input type="radio" value="0"  name="sex" <#if member.sex==0>checked</#if> style="margin:4px 10px 0 0;float:left;"/><span>女</span></label>
+						</td>
+					</tr>
+					<tr>
+						<th style="width:150px;"><em style="color: red;">*</em> 生日：</th> 
+						<td colspan="3" class="birthday middle">    <!--  mybirthday   -->
+							<input class="Wdate form-control" type="text" name="mybirthday" isrequired="true" onClick="WdatePicker()" readonly style="background-color: #ffffff; cursor: pointer;"
+								<#if member.birthday??> value="<@dateformat time="${(member.birthday)?c}" pattern="yyyy-MM-dd"/>"</#if>>
+						</td>
+					</tr>
+					
+					<tr> 
+					<th style="width:150px;">
+						<em style="color: red;">*</em> 居住地：
+					</th>
+					<td id="selectAddress">
+						<script type="text/javascript" colspan="3" class="choseAddr ">
+							$(function() {
+								<#if member.province_id??>
+									$('#selectAddress').addressSelect({
+										deData: [${member.province_id},${member.city_id!''},${member.region_id!''},${member.town_id!''}]
+									});
+								<#else>
+									$('#selectAddress').addressSelect();
+								</#if>
+							})
+						</script> 
+					</td>
+					</tr>
+					
+					<tr>
+						<th style="width:150px;"><em style="color: red;">*</em> 联系地址：</th>
+						<td colspan="3" class="birthday middle">
+							<input type="text" name="address" class="form-control" maxlength="100" value="${member.address!''}" isrequired="true" placeholder="请务必认真填写，以免您的宝贝迷路！"/>
+						</td>
+					</tr>
+					<tr>
+						<th style="width:150px;">邮编：</th>
+						<td colspan="3" class="birthday middle">
+							<input name="zip" type="text" class="form-control" value="${member.zip!''}" id="zipcode"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="6">
+						</td>
+					</tr>
+					<tr>
+						<th style="width:150px;">注册邮箱：</th>
+						<td colspan="3" class="birthday middle">
+							<input name="email" type="text" class="form-control" value="${member.email!''}" id="email" />
+						</td>
+					</tr>
+					<!-- 手机号注释掉 add_by DMRain 2016-7-21-->
+					<!--
+					<tr>
+						<th class="middle">手机：</th>
+						<td colspan="3">
+							<input id="cellphone" name="mobile" type="text" value="${member.mobile!''}" class="form-control" isrequired="true" dataType="mobile"
+								onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="11" placeholder="请务必认真填写，以便能联系到您！"/>
+						</td>
+					</tr>
+					-->
+					<tr>
+						<th style="width:150px;">固定电话【选填】：</th>
+						<td colspan="3">
+							<input id="tel" name="tel" type="text" value="${member.tel!''}" class="form-control" onkeyup="this.value=this.value.replace(/[^\d-]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d-]/g,'')" maxlength="12"/>
+						</td>
+					</tr>
+					<tr>
+						<th style="width:150px;">
+							<#if member.info_full == 0>
+								即可获得<strong>20奖励积分</strong>！
+							</#if>
+						</th>
+						<td>
+							<a href="javascript: void(0);" class="btn btn-success" id="btnSubmit" name="btnSubmit">保存资料</a>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+function check(){
+	var a = /^(\d{4})-(\d{2})-(\d{2})$/
+	if (!a.test(document.getElementById("birthdaysss").value)) {
+		alert("日期格式不正确!")
+		return false
+	}
+	else
+		return true
+}
+</script>
+<script type="text/javascript">
+
+$(function(){
+
+	//  居住地发生改变时触发
+	$('.choseAddr').change(function(){
+		var province_id = $('[name="province_id"]'),
+				city_id = $('[name="city_id"]'),
+				region_id = $('[name="region_id"]');
+		if(province_id.val() == 0){
+			province_id.css({border: '1px solid #a94442'});
+			$('.choseAddr').addClass('error');
+		}else {
+			province_id.css({border: '1px solid #cccccc'});
+			$('.choseAddr').removeClass('error');
+		};
+		if(city_id.val() == 0){
+			city_id.css({border: '1px solid #a94442'});
+			$('.choseAddr').addClass('error');
+		}else {
+			city_id.css({border: '1px solid #cccccc'});
+			$('.choseAddr').removeClass('error');
+		};
+		if(region_id.val() == 0){
+			region_id.css({border: '1px solid #a94442'});
+			$('.choseAddr').addClass('error');
+		}else {
+			region_id.css({border: '1px solid #cccccc'});
+			$('.choseAddr').removeClass('error');
+		};
+		RegionsSelect.regionChange=function(regionid,name,zipcode){
+			$("#zipcode").val(zipcode);
+		};
+	});
+
+	$('#email').on('change', function(){
+		var _this = $(this),
+			_val  = _this.val();
+		if(!/^([a-z0-9+_]|\-|\.|\-)+@([\w|\-]+\.)+[a-z]{2,4}$/i.test(_val)){
+			_this.parent().addClass('error has-error')
+		}else {
+			$.ajax({
+				url:"${ctx}/api/shop/member/checkemailInEdit.do",
+				type:"POST",
+				data:"email="+_val,
+				dataType:"json",
+				success:function(json){
+					if(json.result==0){
+						alert("邮箱重复");
+						_this.parent().addClass('error has-error')
+					}else{
+						_this.parent().removeClass('error has-error')
+					}
+				}		
+			});	
+		}
+	})
+
+	$("#btnSubmit").unbind('click').on('click', function(){
+		$("#form_saveMember").find("input[type='text']").each(function(){
+			if($(this).attr("isrequired")=="true" && $(this).val()==""){
+				$(this).addClass('error');
+				$(this).css({border: '1px solid #a94442'});
+				$(this).blur(function(){
+					var el=  $(this);
+					if($(this).val()!=""){
+						el.removeClass("error");
+						$(this).css({border: '1px solid #cccccc'});
+					}
+				})
+			}else{
+				$(this).removeClass('error');
+				$(this).css({border: '1px solid #cccccc'});
+			}
+		})
+		var _this = $(this);
+		if($('#form_saveMember').find('.error').length > 0){
+			$.message.error('表单填写有误，请检查高亮！');
+			return false;
+		}
+		$.blockUI({
+			message: '<P style="line-height: 35px; font-size: 12px;">正在保存，请稍候...</P>',
+			onBlock: function (){
+				_this.attr('disabled', 'disabled')
+			},
+		});
+
+		var options = {
+			url: "${ctx}/api/shop/member/save-info.do",
+			dataType: "json",
+			type: 'post',
+			success: function (result) {
+				if (result.result == 1) {
+					unlock(_this);
+					setTimeout(location.href="member.html", 1000);
+				}
+				else {
+					$.alert(result.message);
+					unlock(_this)
+				}
+			},
+			error: function(){
+				alert('出现错误，请重试！');
+			}
+		};
+
+		setTimeout(saveFrom, 1000);
+
+		function saveFrom(){
+			$("#form_saveMember").ajaxSubmit(options)
+		};
+
+		function unlock(_this){
+			$.unblockUI({
+				onUnblock: function () {
+					_this.removeAttr('disabled')
+				}
+			});
+		}
+	});
+
+	//  修复IE8下造成的下拉选择框宽度问题
+
+	if(Sys.ie == 8){
+		$('#province_id').css({width: 100});
+		$('#city_id').css({width: '28%'});
+		$('#region_id').css({width: '30%'});
+	}
+
+});
+</script>
+	</div>
+	<#include '../common/footer.html'/>

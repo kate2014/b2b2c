@@ -1,0 +1,28 @@
+<#assign  title="站内消息详情" />
+<#include 'member_header.html' />
+<!-- 获得站内消息详情标签 -->
+<#assign messageFrontDetailTag = newTag("messageFrontDetailTag")>
+<#assign messagesFrontDetail = messageFrontDetailTag('{"messageId":"${msgId}","status":"${status}"}')>
+<#assign detail = messagesFrontDetail.messageFrontMap>
+<script src="${ctx}${themes_path}/js/messageFrontTool.js" type="text/javascript"></script>
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li <#if messagesFrontDetail.status  == "0" >class="selected"</#if>><a href="messagefront_list.html"><span>站内消息</span></a></li>
+			<li <#if messagesFrontDetail.status  == "1" >class="selected"</#if>><a href="messagefront_list.html?status=1"><span>回收站消息</span></a></li>
+		</ul>
+	</div>
+	<div class="message-detail-box">
+		<h1>${detail.msg_title!''}</h1>
+		<span>发布者：${detail.adminuser_name}/发布时间：<@dateformat time="${detail.send_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+		<div class="message-detail">
+			${detail.msg_content}
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		MessageFrontTool.init();
+	})
+</script>
+<#include '../common/footer.html'/>

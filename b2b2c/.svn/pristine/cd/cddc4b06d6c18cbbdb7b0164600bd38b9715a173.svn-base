@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/evaluation.css">
+<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/evaluation.js"></script>
+<#assign storeCommentTag=newTag("storeCommentTag")>
+<#assign storeComment=storeCommentTag()/>
+<div class="reply_form">
+    <form id="replyForm">
+        <table>
+            <#if type == "2">
+                <tr>
+                    <th>当前状态：</th>
+                    <td>
+                        <#if storeComment.status==0>未审核</#if>
+                        <#if storeComment.status==1>审核通过</#if>
+                        <#if storeComment.status==2>审核拒绝</#if>
+                    </td>
+                </tr>
+            </#if>
+            <#if storeComment.status==0>
+                <tr>
+                    <th>审核：</th>
+                    <td>
+                        <input type="radio" name="status" value="1" checked="checked"/>通过
+                        <input type="radio" name="status" value="2"/>拒绝
+                    </td>
+                </tr>
+                <#else>
+                    <input type="hidden" name="status" value="${storeComment.status}"/></element>
+            </#if>
+            <tr>
+                <#if type=="2">
+                    <th>咨询内容：</th>
+                    <#else>
+                        <th>评论内容：</th>
+                </#if>
+                <td>${storeComment.content!''}
+                    <input type="hidden" name="comment_id" value="${storeComment.comment_id}">
+                </td>
+            </tr>
+
+            <#-- 获取商品评论图片相册标签 -->
+            <#assign commentGalleryListTag = newTag("commentGalleryListTag")>
+            <#-- 调用商品评论图片相册标签 -->
+            <#assign galleryList = commentGalleryListTag("{'comment_id':${storeComment.comment_id}}")>
+
+                <#if galleryList?size != 0>
+                    <tr>
+                        <th>评论图片：</th>
+                        <td>
+                            <#list galleryList as gallery>
+                                <a href="<@imgurl pic='${gallery.original}'/>" data-lightbox="roadtrip" style="float: left; margin: 3px;" target="_blank"> <@image src="${gallery.original}" /> </a>
+                            </#list>
+                        </td>
+                    </tr>
+                </#if>
+                <tr>
+                    <th>回复内容：</th>
+                    <td>
+                        <textarea name="reply" class="form-control">${storeComment.reply!''}</textarea>
+                    </td>
+                </tr>
+        </table>
+    </form>
+</div>
+

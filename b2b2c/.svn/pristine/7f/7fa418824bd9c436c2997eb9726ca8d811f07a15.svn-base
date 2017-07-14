@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '草稿商品' />
+    <#include '/new_store/common/header.html' />
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/goods/draft.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/draft.css">
+</head>
+<body>
+<#assign mainPageName = 'main_goods' />
+<#assign lowerPageName = 'lower_goods_warehouse' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./warehouse.html">仓库中的商品</a></li>
+        <li><a href="./selling.html?market_enable=1">出售中的商品</a></li>
+        <li class="active"><a href="./draft.html?market_enable=2">草稿商品</a></li>
+    </ul>
+</div>
+<!--主页面区↓-->
+<div class="app-wappler">
+<div class="inner-app-wappler">
+<#assign myGoodsListTag=newTag("myGoodsListTag")>
+<#assign storeGoods=myGoodsListTag()>
+<#-- 创建店铺商品分类标签 -->
+<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") >
+<#-- 查询店铺商品分类列表 0表示查子分类 -->
+<#assign storeGoodsCatList= storeGoodsCatListTag("'type':0")!''>
+<div class="goods_warehouse">
+    <div class="top-tools">
+        <div class="left-top-tools">
+            <!-- <a href="javascript: void(0);" class="btn btn-warning down-all-goods">批量下架</a>
+            <a href="./goods_publish.html" class="btn btn-success">发布商品</a>
+            <a href="./trash.html?disable=1" class="btn btn-info">回收站</a> -->
+        </div>
+        <div class="right-top-tools">
+            <div class="inner-tools">
+                <div class="cat" style="margin-right: 120px;">
+                    <select name="store_cat" class="store_cat">
+                        <option value="0">全部分类</option>
+                        <#list storeGoodsCatList as cat>
+                            <#if cat.store_cat_pid==0>
+                                <option value="${cat.store_cat_id}"
+                                <#if storeGoods.store_cat??>
+                                    <#if storeGoods.store_cat+""==cat.store_cat_id+"">
+                                        selected="selected"
+                                    </#if>
+                                </#if>
+                                >${cat.store_cat_name!''}</option>
+                            </#if>
+                            <#list storeGoodsCatList as childCat>
+                                <#if childCat.store_cat_pid==cat.store_cat_id>
+                                    <option value="${childCat.store_cat_id}"
+                                    <#if storeGoods.store_cat??>
+                                        <#if storeGoods.store_cat+""==childCat.store_cat_id+"">
+                                            selected="selected"
+                                        </#if>
+                                    </#if>
+                                    >&nbsp;&nbsp;&nbsp;&nbsp;${childCat.store_cat_name!''}</option>
+                                </#if>
+                            </#list>
+                        </#list>
+                    </select>
+                </div>
+                <div class="seach">
+                    <span class="icomoon"></span>
+                    <input type="text" class="seach-keyword" placeholder="搜索">
+                    <a href="javascript: void(0);" class="btn btn-success seach-btn" id="key_seach_btn">搜索</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <#if storeGoods.storegoods.result??>
+        <form id="selling_form">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="select">
+                        <input type="checkbox" class="check-all check-width">
+                    </th>
+                    <th class="img">图片</th>
+                    <th class="name">名称</th>
+                    <th class="price">价格</th>
+                    <th class="warehouse">库存</th>
+                    <th class="can-warehouse">可用库存</th>
+                    <th class="create-time">创建时间</th>
+                    <th class="status">状态</th>
+                    <th class="operate">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list storeGoods.storegoods.result as storeGoods>
+                    <tr>
+                        <th class="th-bind">
+                            <#if type??>
+                                <input class="checkbox check-width" type="checkbox" name="reg_id" value="${storeGoods.goods_id}">
+                                <#else>
+                                    <input class="checkbox check-width" type="checkbox" name="goods_id" value="${storeGoods.goods_id}">
+                            </#if>
+                        </th>
+                        <th class="th-img th-bind">
+                            <#if storeGoods.thumbnail?exists && storeGoods.thumbnail != ''>
+                                <@image src="${storeGoods.thumbnail!''}" alt="${storeGoods.name!''}" height="50"/>
+                                <#else>
+                                    暂无图片
+                            </#if>
+                        </th>
+                        <th class="th-name th-bind">
+                            <a href="${ctx}/goods-${storeGoods.goods_id}.html">【预览】<@substring title="${storeGoods.name}" length=34 dot="" /></a>
+                        </th>
+                        <th class="th-bind">${storeGoods.price?string.currency}</th>
+                        <th class="th-bind">${storeGoods.store!''}件</th>
+                        <th class="th-bind">${storeGoods.enable_store!''}件</th>
+                        <th class="th-bind"><@dateformat time="${storeGoods.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></th>
+                        <th class="status-th th-bind" style="min-width:100px;">草稿商品</th>
+                        <th class="goods-operate">
+                            <a class="btn btn-success edit-goods" goods_id="${storeGoods.goods_id}">编辑</a>
+                            <a class="btn btn-info preview"  target="_blank" href="${ctx}/goods-${storeGoods.goods_id}.html" goods_id="${storeGoods.goods_id}">预览</a>
+                        </th>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </form>
+        <div class="app-paging-tools">
+            <div class="demo"></div>
+            <div class="paging">
+                <@pager pageno="${storeGoods.page!'1'}" pagesize="${storeGoods.storegoods.pageSize}" totalcount="${storeGoods.totalCount}" />
+            </div>
+        </div>
+    <#else>
+        <div class="app-no-data">
+            <span class="a-no-data">暂无相关数据</span>
+        </div>
+    </#if>
+</div>
+</div>
+</div>
+<!--主页面区↑-->
+
+<script>
+$(function(){
+})
+
+</script>
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

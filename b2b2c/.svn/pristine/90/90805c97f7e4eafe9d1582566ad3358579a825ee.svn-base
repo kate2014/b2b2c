@@ -1,0 +1,47 @@
+<div id="step1">
+	<dl>
+		<dt class="required">
+		 	<em class="pngFix"></em>店铺名称：
+		 </dt>
+		 <dd>
+            <p>
+            	<input type="text" name="store_name"  class="text w400" isrequired="true" dataType="string"  autocomplete="off" fun="checkStoreName"  maxlength="20"/></p>
+            <p class="hint">请控制在20个字符以内</p>
+            
+         	</dd>
+	</dl>
+    <dl>
+        <dt class="required" ><em class="pngFix"></em>所在地区：</dt>
+      	<dd>
+      		<@regionSelect province_name='store_province' city_name='store_city' region_name='store_region' region_id='store_region_id' />
+      	</dd>
+    </dl>
+	<dl>
+	    <dt class="required" ><em class="pngFix"></em>详细地址：</dt>
+	    <dd><input type="text" name="attr" class="text w400" isrequired="true"  maxlength="100"/></dd>
+	</dl>
+    <dl>
+       	<dt class="required" ><em class="pngFix"></em>邮编：</dt>
+       	<dd><input type="text" name="zip" class="text w200" id="store_zip" size="6" isrequired="true" dataType="post_code" autocomplete="off" maxlength="6"/></dd>
+    </dl>
+    <dl>
+       	<dt class="required" ><em class="pngFix"></em>联系方式：</dt>
+       	<dd><input type="text" name="tel" class="text w200" id="cellphone" isrequired="true" dataType="mobile" maxlength="11"/></dd>
+    </dl>
+    <dl>
+       	<dt class="required" ><em class="pngFix"></em>身份证号：</dt>
+       	<dd><input type="text" name="id_number" class="text w200" id="id_number" isrequired="true" fun="checkIDNumber" maxlength="18"/></dd>
+    </dl>
+    <dl class="bottom">
+		<dt>&nbsp;</dt>
+		<dd>  
+			<p class="mb10">
+				<input type="button" class="submit" value="下一步" id="next_certification"/>
+			</p>
+		</dd>
+	</dl>
+</div>
+
+
+	
+

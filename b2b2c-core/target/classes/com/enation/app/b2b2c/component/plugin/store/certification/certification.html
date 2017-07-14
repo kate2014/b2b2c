@@ -1,0 +1,68 @@
+<div class="main">
+	<div class="detail" style="margin-left: 10px;">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td>上传身份证照片：</td>
+				<td >
+	        		<input type="hidden" name="id_img" id="id_img" value="${store.id_img!''}"/>
+        		 	<a href="javascript:;" class="sysbtn upload" onclick="openImgDlg(getImgPath1);">上传图片</a> 
+        		 	<span id="fileUploadMsg1"> </span>
+					<div>
+						<img id="img1" src="<#if store.id_img??&&store.id_img!=''>${store.id_img}<#else>${ctx}/themes/b2b2cv2/images/default_goods_image_tiny.gif</#if>" style="width:100px; height:100px;"> 
+					</div>
+				</td>
+			</tr>
+			<#if store.name_auth==2 || store.name_auth==0>
+				<tr>
+					<td>是否通过身份审核</td>
+					<td>
+						<input type="radio" value="1" <#if store.name_auth == 2>checked="checked"</#if>  name="name_auth"/>是
+						<input type="radio" value="0" <#if store.name_auth == 0>checked="checked"</#if> name="name_auth"/>否
+					</td>
+				</tr>
+			</#if>
+			<tr>
+				<td>上传执照照片：</td>
+				<td >
+	        		<input type="hidden" name="license_img" id="license_img" value="${store.license_img!''}"/>
+	        		 <span class="specImage"> 
+					<a href="javascript:;" class="sysbtn upload" onclick="openImgDlg(getImgPath2);">上传图片</a> 
+					<span id="fileUploadMsg2"> </span>
+					<div >
+						<img id="img2" src="<#if store.license_img??&&store.license_img!=''>${store.license_img}<#else>${ctx}/themes/b2b2cv2/images/default_goods_image_tiny.gif</#if>" style="width:100px; height:100px;">
+					</div>
+				</td>
+			</tr>
+			
+			<#if store.store_auth==2 || store.store_auth==0>
+				<tr>
+					<td>是否通过店铺审核</td>
+					<td>
+						<input type="radio" value="1" <#if store.store_auth == 2>checked="checked"</#if> name="store_auth"/>是
+						<input type="radio" value="0" <#if store.store_auth == 0>checked="checked"</#if> name="store_auth"/>否
+					</td>
+				</tr>
+			</#if>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+/**
+ * 上传图片回调函数
+ */
+function getImgPath1(path) {
+	console.info(path);
+	$("#id_img").val(path);
+	$("#img1").attr('src', path);
+	console.info(path);
+	console.info($("#img1").attr('src'));
+}
+
+/**
+ * 上传图片回调函数
+ */
+function getImgPath2(path) {
+	$("#license_img").val(path);
+	$("#img2").attr('src', path);
+}
+</script>

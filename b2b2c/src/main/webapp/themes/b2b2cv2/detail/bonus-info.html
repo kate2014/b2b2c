@@ -1,0 +1,151 @@
+<#assign storeBonusListTag = newTag("storeBonusListTag") />
+<#assign storeBonusList = storeBonusListTag("{'store_id':${store_id}}")!'' />
+
+<#assign totalCount = storeBonusList.totalCount />
+<#if totalCount != 0>
+    <div class="other-goods-item">
+        <div class="other-item-title">优惠券：</div>
+        <div class="other-item-content">
+            <#assign storeBonusResult = storeBonusList.bonusList.result />
+            <#list storeBonusResult as bonus>
+                <#if bonus_index lt 3>
+                    <div class="open-bonus-sidebar bonus-item"
+                         title="有效期<@dateformat time='${bonus.use_start_date?c}' pattern='yyyy-MM-dd'/> 至 <@dateformat time='${bonus.use_end_date?c}' pattern='yyyy-MM-dd'/>">
+                        <i class="bonus-border-l"></i>
+                        <i class="bonus-border-r"></i>
+                        <span class="tj">满${bonus.min_goods_amount?string("0")}减${bonus.type_money?string("0")}</span>
+                    </div>
+                </#if>
+            </#list>
+            <#if totalCount gt 3><span class="open-bonus-sidebar bonus-more">更多...</span></#if>
+        </div>
+    </div>
+
+    <div class="bonus-sidebar">
+        <div class="title-sidebar">
+            <i class="icon-title-sidebar icon-bonus"></i>
+            <span class="title-title-sidebar">优惠券</span>
+            <i class="icon-title-sidebar icon-close"></i>
+        </div>
+        <div class="content-didebar">
+            <!--可领优惠券-->
+            <div class="items-bonus">
+                <div class="title-items-bonus">
+                    <i class="line line-l"></i>
+                    <span class="title-span">可领优惠券</span>
+                    <i class="line line-r"></i>
+                </div>
+                <div class="content-items-bonus">
+                    <#list storeBonusResult as bonus>
+                        <div class="item-b">
+                            <div class="detail-b">
+                                <div class="money-b">
+                                    <#assign money = bonus.type_money?string("0.00") />
+                                    <#assign _length = money?length />
+                                    <i class="arrow sysicon">￥</i>
+                                    <span class="money">${money?substring(0, _length - 3)}</span>
+                                    <i class="arrow">${money?substring(_length - 3, _length)}</i>
+                                </div>
+                                <div class="other-b">
+                                    <p><@substring title="${bonus.type_name!''}" length=14 dot="..." /></p>
+                                    <p class="color-gary">满${bonus.min_goods_amount?string("0")}减${bonus.type_money?string("0")}</p>
+                                    <p class="color-gary">有效期<@dateformat time='${bonus.use_start_date?c}' pattern='yyyy-MM-dd'/> 至 <@dateformat time='${bonus.use_end_date?c}' pattern='yyyy-MM-dd'/></p>
+                                </div>
+                            </div>
+                            <div class="btn-b"><a href="javascript:;" class="get-b is-get" store_id="${store_id}" bonus_id="${bonus.type_id!'0'}">立即领取</a><i class="is-get-b"></i></div>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+
+            <#if member??>
+                <!--已领优惠券-->
+                <div class="items-bonus">
+                    <div class="title-items-bonus">
+                        <i class="line line-l"></i>
+                        <span class="title-span">已领优惠券</span>
+                        <i class="line line-r"></i>
+                    </div>
+                    <#assign myStoreBonusTag = newTag("myStoreBonusTag") />
+                    <#assign result = myStoreBonusTag("{'is_usable':1,'page':${page!1},'pageSize':5000}") />
+                    <#assign bc_list = result.bonusList />
+                    <div class="content-items-bonus">
+                        <#if ( bc_list?size gt 0) >
+                            <#list bc_list as bonus>
+                                <div class="item-b">
+                                    <div class="detail-b">
+                                        <div class="money-b">
+                                            <#assign money = bonus.type_money?string("0.00") />
+                                            <#assign _length = money?length />
+                                            <i class="arrow sysicon">￥</i>
+                                            <span class="money">${money?substring(0, _length - 3)}</span>
+                                            <i class="arrow">${money?substring(_length - 3, _length)}</i>
+                                        </div>
+                                        <div class="other-b">
+                                            <p><@substring title="${bonus.type_name!''}" length=14 dot="..." /></p>
+                                            <p class="color-gary">满${bonus.min_goods_amount?string("0")}减${bonus.type_money?string("0")}</p>
+                                            <p class="color-gary">有效期<@dateformat time='${bonus.use_start_date?c}' pattern='yyyy-MM-dd'/> 至 <@dateformat time='${bonus.use_end_date?c}' pattern='yyyy-MM-dd'/></p>
+                                        </div>
+                                    </div>
+                                    <div class="btn-b is-get"><a href="javascript:;" class="get-b is-get">立即使用</a><i class="is-get-b"></i></div>
+                                </div>
+                            </#list>
+                            <#else/>
+                            <div style="text-align: center;">暂时没有优惠券</div>
+                        </#if>
+                    </div>
+                </div>
+            </#if>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var sidebar = $('.bonus-sidebar'), titleSidebar = $('.title-sidebar');
+            $('.open-bonus-sidebar').on('click', function (e) {
+                e.stopPropagation();
+                var is_open = sidebar.is('.open');
+                is_open ? sidebar.removeClass('open') : sidebar.addClass('open');
+            })
+
+            $(document).on('click', function () {
+                sidebar.removeClass('open');
+            })
+
+            $('.bonus-sidebar').on('click', function (e) {
+                e.stopPropagation()
+            })
+
+            $('.icon-close').on('click', function () {
+                sidebar.removeClass('open');
+            })
+
+            $('.get-b').on('click', function (e) {
+                var $this    = $(this),
+                    store_id = $this.attr('store_id'),
+                    bonus_id = $this.attr('bonus_id');
+                if($this.parent().is('.is-get')){sidebar.removeClass('open'); return false};
+                if(!store_id || !bonus_id){return false};
+                $.ajax({
+                    url : ctx + '/api/b2b2c/bonus/receive-bonus.do',
+                    data: {
+                        store_id: store_id,
+                        type_id : bonus_id
+                    },
+                    type: 'POST',
+                    success: function (res) {
+                        if(res.result == 1){
+                            $this.html('立即使用');
+                            $this.parent().addClass('is-get');
+                        }else {
+                            $.message.error(res.message);
+                        }
+                    },
+                    error: function () {
+                        $.message.error('出现错误，请重试！');
+                    }
+                })
+            })
+        })
+    </script>
+</#if>
+

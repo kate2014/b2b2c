@@ -1,0 +1,39 @@
+<div id="step2" style="display: none;">
+	<dl>
+		<dt>上传身份证照片:<span id="id_imgText"></span></dt>
+		<dd>
+			<div class="apply_id_img" status="id_img">
+				<#if myStoreDetail.id_img??>
+					<@image src="${myStoreDetail.id_img}" width="100" height="100"/>
+				</#if>
+			</div>
+			<input type="file" id="id_img" status="id_img" />
+			&nbsp;&nbsp;<span class="applyPro">支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB</span>
+			<input type="hidden" name="store_id_img" id="id_imgImg" value="${myStoreDetail.id_img!''}"/>
+			<input type="hidden" name="store_name_auth" <#if myStoreDetail??>value="2" <#else> value="0"</#if> id="id_imgStatus">
+		</dd>
+	</dl>
+	<dl>
+		<dt>上传执照照片:<span id="license_imgText"></span></dt>
+		<dd>
+			<div class="apply_license_img" status="license_img">
+				<#if myStoreDetail.license_img??>
+					<@image src="${myStoreDetail.license_img}" width="100" height="100"/>
+				</#if>
+			</div>
+			<input type="file" id="license_img" status="license_img"/>
+			&nbsp;&nbsp;<span class="applyPro">支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB</span>
+			<input type="hidden" name="store_license_img" id="license_imgImg" value="${myStoreDetail.license_img!''}"/>
+			<input type="hidden" name="store_store_auth" <#if myStoreDetail??> value="2"<#else> value="0"</#if> id="license_imgStatus"/>
+		</dd>
+	</dl>
+	<dl class="bottom">
+		<dt>&nbsp;</dt>
+		<dd>
+			<p class="mb10">
+				<input type="button" class="submit" value="上一步" id="return_basic"/>&nbsp;&nbsp;&nbsp;
+				<input type="button" class="submit" value="下一步" id="next_bill"/>
+			</p>
+		</dd>
+	</dl>
+</div>

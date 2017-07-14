@@ -1,0 +1,100 @@
+<#assign title="我的评论" />
+<#include 'member_header.html' />
+<!-- 获取会员我的咨询标签 -->
+<#assign memberCommentListTag = newTag("memberCommentListTag")>
+<!-- 调用会员我的咨询标签 -->
+<#assign commentsList = memberCommentListTag()>
+
+<!-- 引用图片点击放大js插件css文件-->
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/lightbox.css" />
+<!-- 引用图片点击放大js插件-->
+<script src="${ctx}${themes_path}/js/lightbox.js"></script>
+
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li class="selected"><a href="comments.html"><span>我的评论</span></a></li>
+			<li class=""><a href="waitcommont.html" ><span>待评论的商品</span></a></li>
+		</ul>
+	</div>
+	<!-- 评论列表 -->
+	<div class="user_comment">
+		<h1>我的评论</h1>
+		<#if commentsList?size gt 0 >
+		<ul>
+			<#list commentsList.commentsList as comment>
+				<li>
+					<div class="comment_title">
+						<span><a href="${ctx}/goods-${comment.goods_id}.html" target="_blank">${comment.name}</a></span>
+						<span><@dateformat time="${comment.dateline?c}" pattern="yy-MM-dd HH:mm"/></span>
+						<em>
+						<#if comment.status == 1> 
+							审核通过
+						<#elseif comment.status == 2> 
+							审核拒绝
+						 <#else>
+						 	 待审核
+						 </#if>
+						</em>
+					</div>
+					<div class="comment_inpro">
+						<strong>我的评论：</strong>
+						<span>
+							<p>${comment.content}</p>
+							<i class="comment_img">
+							<!-- 获取商品评论图片相册标签 -->
+							<#assign commentGalleryListTag = newTag("commentGalleryListTag")>
+							<!-- 调用商品评论图片相册标签 -->
+							<#assign galleryList = commentGalleryListTag("{'comment_id':${comment.comment_id}}")>
+							
+							<div class="suolue" style="clear: both;">
+								<#if galleryList??>
+									<#list galleryList as gallery>
+					             		<a href="<@imgurl pic='${gallery.original}'/>" rel="lightbox[img_${gallery.comment_id}]" style="float: left; margin: 8px;"> <@image src="${gallery.original}"  width="50" height="50"/> </a>
+					            	</#list>
+					            </#if>
+				            </div>	
+							</i>	
+						</span>
+					</div>
+					<#if comment.replystatus == 1>
+						<div class="comment_reply">
+							<strong>客服回复：</strong><span>${comment.reply}</span>
+						</div>
+					</#if>
+				</li>
+			</#list>
+		</ul>
+		<#else>
+			<p class="no_commont">暂无评论</p>
+		</#if>
+	</div>
+	<@pager pageno="${commentsList.page!'1'}" pagesize="${commentsList.pageSize}" totalcount="${commentsList.totalCount}" />
+</div>
+<script>
+	
+	//设置图片缩放的属性	add by DMRain 2016-5-10
+	lightbox.option({
+		'albumLabel': '第%1张   共%2张',	//设置显示的文字
+	    'maxWidth': 500,			//设置显示图片弹出框的宽度
+	    'maxHeight': 500,			//设置显示图片弹出框的高度
+	    'resizeDuration': 300,		//设置图片显示的加载时间(毫秒)
+	    'positionFromTop': 100,		//设置弹出框到屏幕顶部的距离
+	    'wrapAround': true			//设置可以循环查看图片
+	})
+	
+	$(function() {
+		
+		$(".waitcomment").click(function() {
+			$(".tab ul li").removeClass("selected");
+			$(this).parent().addClass("selected");
+			$(".commontwait").load("waitcommont.html", function() {
+				$(".commontlist").hide();
+				$(".commontwait").show();
+				Favorite.init();
+			})
+		})
+	})
+</script>
+</div>
+<#include '../common/footer.html'/>

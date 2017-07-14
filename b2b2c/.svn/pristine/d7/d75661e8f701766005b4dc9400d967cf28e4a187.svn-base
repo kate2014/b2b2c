@@ -1,0 +1,79 @@
+<#assign  title="站内消息" />
+<#include 'member_header.html' />
+<!-- 获得站内消息列表标签 -->
+<#assign messageFrontTag = newTag("messageFrontTag")>
+<#assign messagesFront = messageFrontTag()>
+<script src="${ctx}${themes_path}/js/messageFront.js" type="text/javascript"></script>
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li <#if messagesFront.status  == "0" >class="selected"</#if>><a href="messagefront_list.html"><span>站内消息</span></a></li>
+			<li <#if messagesFront.status  == "1" >class="selected"</#if>><a href="messagefront_list.html?status=1"><span>回收站消息</span></a></li>
+		</ul>
+	</div>
+	<#if messagesFront.messagesList?size gt 0 >
+		<div class="message-btn-box">
+			<#if messagesFront.status  == "1" >
+		 		<input type="button" value="全部删除" id="delete-all" class="message-btn">
+	 		<#else>
+		 		<input type="button" value="标记为已读" id="have-read-all" class="message-btn">
+				<input type="button" value="放入回收站" id="in-recycle-all" class="message-btn">
+			</#if>
+			
+		</div>
+		<div class="message-list-box">
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<th style="width:50px;"><input type ="checkbox" id="all-check"></th>
+					<th style="width:400px;">标题</th>
+					<th style="width:200px;">发送时间</th>
+					<th style="width:200px;">发送人</th>
+					<th style="width:240px;">操作</th>
+				</thead>
+				<tbody>
+					<#list messagesFront.messagesList as message>
+						<tr>
+							<td>
+				        		<input type ="checkbox" name="msgcheckbox" value="${message.msg_id}">
+				        	</td>
+				        	<td >
+					      	 	<a href="${ctx}/member/messagefront_detail.html?msgId=${message.msg_id}&status=${messagesFront.status}">${message.msg_title!''}</a>
+					        </td>
+					        <td><@dateformat time="${message.send_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					        <td >
+					      	 	${message.adminuser_name!''}
+					        </td>
+					        <td >
+					        	<#if messagesFront.status  == "1" >
+						 			<a href="javascript:;"   class="easyui-linkbutton delete-one" messageid="${message.msg_id}" ></a>
+						 		<#else>
+							 		<a href="javascript:;"   class="easyui-linkbutton recycle-one message-tools" messageid="${message.msg_id}" title="放入回收站"></a>
+						      	 	<#if message.is_read == 0 >	
+						      	 		<a href="javascript:;"   class="easyui-linkbutton have-read-one message-tools" messageid="${message.msg_id}" title="标记为已读"></a>
+						      	 	<#else>
+						      	 		<a href="javascript:;"   class="read-finish message-tools" messageid="${message.msg_id}" title="已读消息"></a>
+						        	</#if>
+								</#if>
+					        </td>
+						</tr>
+					</#list>
+				</tbody>
+			</table>
+			<@pager pageno="${messagesFront.page!'1'}" pagesize="${messagesFront.pageSize}" totalcount="${messagesFront.totalCount}" />
+		</div>
+	<#else>
+		<#if messagesFront.status  == "1" >
+ 			<div class="empty" >回收站暂时没有消息</div>
+ 		<#else>
+	 		<div class="empty" >您目前还未接收到站内发送的消息</div>
+		</#if>
+	</#if>
+</div>
+</div>
+
+<script>
+	$(function(){
+		MessageFront.init();
+	})
+</script>
+<#include '../common/footer.html'/>

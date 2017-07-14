@@ -1,0 +1,132 @@
+
+.ui-nav-tab {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    zoom: 1
+}
+
+.ui-nav-tab:after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.ui-nav-tab > li {
+    position: relative;
+    display: block;
+    float: left;
+    text-align: center;
+    margin-bottom: -1px
+}
+
+.ui-nav-tab > li > a {
+    position: relative;
+    display: block;
+    padding: 9px 15px;
+    margin-right: -1px;
+    line-height: 1.42857143;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333
+}
+
+.ui-nav-tab > li.active > a, .ui-nav-tab > li.active > a:hover, .ui-nav-tab > li.active > a:focus {
+    color: #333;
+    background-color: #fff;
+    border-bottom-color: transparent;
+    cursor: default
+}
+
+.ui-nav {
+    position: relative;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 15px
+}
+
+.ui-nav ul {
+    zoom: 1;
+    margin-bottom: -1px;
+    margin-left: 1px
+}
+
+.ui-nav ul:after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.ui-nav li {
+    float: left;
+    margin-left: -1px
+}
+
+.ui-nav li.active a, .ui-nav li a.active {
+    border-bottom-color: #fff;
+    background: #fff
+}
+
+.ui-nav li.pull-right {
+    float: right
+}
+
+.ui-nav li a {
+    display: inline-block;
+    padding: 0 12px;
+    line-height: 32px;
+    color: #333;
+    border: 1px solid #e5e5e5;
+    background: #f8f8f8;
+    min-width: 80px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.ui-nav .ui-nav-opts {
+    position: absolute;
+    top: 0px;
+    right: 0px
+}
+
+.nav-wrapper--app {
+    font-size: 14px;
+    background: transparent;
+    margin-bottom: 15px
+}
+
+.nav--app {
+    color: #333;
+    position: relative;
+    height: 28px;
+    line-height: 22px
+}
+
+input[type=text] {
+    height: 15px;
+    width: 174px;
+}
+
+table tr td input[type=text]{
+    width:80%;
+}
+.control-label {
+    float: left;
+}
+
+.form-control {
+	max-width:200px;
+}
+
+.searchable-select-dropdown input{
+	height:30px;
+}
+
+.radio input[type="radio"], .checkbox input[type="checkbox"] {
+    margin-left: -16px;
+    margin-top: 2px;
+    position: inherit;
+    margin-right:5px;
+}

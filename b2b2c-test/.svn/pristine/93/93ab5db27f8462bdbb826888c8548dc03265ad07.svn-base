@@ -1,0 +1,6 @@
+#jdbc.properties
+#Thu Oct 20 18:56:16 CST 2016
+jdbc.url=jdbc\:oracle\:thin\:@192.168.1.88\:1521\:WANGFENG
+jdbc.username=scott
+jdbc.password=tiger
+jdbc.driverClassName=oracle.jdbc.driver.OracleDriver

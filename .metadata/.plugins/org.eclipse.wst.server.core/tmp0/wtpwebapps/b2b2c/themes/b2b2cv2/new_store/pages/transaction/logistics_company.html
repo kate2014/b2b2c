@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '物流公司' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/logistics.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/logistics.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_logistics' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./logistics.html">快递模板</a></li>
+        <li><a href="./logistics_add.html">新增模板</a></li>
+        <li class="active"><a href="javascript: void(0);" onclick="location.reload(); ">物流公司</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#assign logiCompanyListTag=newTag("logiCompanyListTag") />
+        <#assign logiCompanyList=logiCompanyListTag() />
+        <div class="logistics-company">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>物流公司</th>
+                    <th>公司状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list logiCompanyList as logiCompany>
+                    <#assign storeid=logiCompany.store_id!0 />
+                    <tr>
+                        <td>${logiCompany.name}</td>
+                        <td>
+                            <#if storeid!=0 ><span style="color:#e90101;font-weight:bold;"> 已选择</span> <#else> 未选择 </#if>
+                        </td>
+                        <td class="logistics-company-oper">
+                            <#if storeid!=0>
+                                <a href="javascript: void(0);" class="btn btn-danger off-logistics-company" logi_id="${logiCompany.id}">关闭</a>
+                            <#else>
+                                <a href="javascript: void(0);" class="btn btn-info open-logistics-company" logi_id="${logiCompany.id}">开启</a>
+                            </#if>
+                        </td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

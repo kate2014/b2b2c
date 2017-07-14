@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=core/src\/base&lt;com.enation.app.base.core.action.api{ValidCodeController.java[ValidCodeController" modifiers="1" timestamp="1486611358911"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.order{OrderApiController.java[OrderApiController" modifiers="1" timestamp="1486611153108"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.goods{GoodsApiController.java[GoodsApiController" modifiers="1" timestamp="1486611153054"/>
+<typeInfo handle="=shop-core/src\/core&lt;com.enation.app.shop.core.member.service.impl{MemberAddressManager.java[MemberAddressManager" modifiers="1" timestamp="1486611142774"/>
+<typeInfo handle="=b2b2c/C:\/Users\/Administrator\/.m2\/repository\/org\/springframework\/spring-beans\/4.2.4.RELEASE\/spring-beans-4.2.4.RELEASE.jar&lt;org.springframework.beans.factory.config(BeanPostProcessor.class[BeanPostProcessor" modifiers="1537" timestamp="1473085015000"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.member{FavoriteApiController.java[FavoriteApiController" modifiers="1" timestamp="1486611152704"/>
+<typeInfo handle="=shop-core/src\/core&lt;com.enation.app.shop.core.goods.action{GoodsController.java[GoodsController" modifiers="1" timestamp="1489462102101"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.member{MemberApiController.java[MemberApiController" modifiers="1" timestamp="1486611152691"/>
+<typeInfo handle="=core/src\/eop&lt;com.enation.framework.component.impl{ComponentManager.java[ComponentManager" modifiers="1" timestamp="1486611355894"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.member{CollectApiController.java[CollectApiController" modifiers="1" timestamp="1486611152687"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.api.member{StoreCollectApiController.java[StoreCollectApiController" modifiers="1" timestamp="1487859814816"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.api.goods{StoreGoodsCollectApiController.java[StoreGoodsCollectApiController" modifiers="1" timestamp="1486611126196"/>
+<typeInfo handle="=b2c/src\/test\/java&lt;com.enation.app.shop.test{ActivityOrderFlowTest.java[ActivityOrderFlowTest" modifiers="1" timestamp="1486611155728"/>
+<typeInfo handle="=core/src\/eop&lt;com.enation.eop{DispatcherFilter.java[DispatcherFilter" modifiers="1" timestamp="1487164753895"/>
+<typeInfo handle="=shop-core/src\/core&lt;com.enation.app.shop.core.order.model{Cart.java[Cart" modifiers="1" timestamp="1486611146989"/>
+<typeInfo handle="=shop-core/src\/component&lt;com.enation.app.shop.component.payment.plugin.paypal.api.payments{Item.java[Item" modifiers="1" timestamp="1486611140418"/>
+<typeInfo handle="=shop-core/src\/component&lt;com.enation.app.shop.component.payment.plugin.paypal.api.payments{ItemList.java[ItemList" modifiers="1" timestamp="1486611140238"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.tag.store{MyStoreDetailTag.java[MyStoreDetailTag" modifiers="1" timestamp="1486611127786"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.api.member{StoreCommentApiController.java[StoreCommentApiController" modifiers="1" timestamp="1492347572046"/>
+<typeInfo handle="=shop-core/src\/front&lt;com.enation.app.shop.front.api.order{CartApiController.java[CartApiController" modifiers="1" timestamp="1486611153102"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.tag.order{CheckSubOrderPayStatusTag.java[CheckSubOrderPayStatusTag" modifiers="1" timestamp="1486611126894"/>
+<typeInfo handle="=b2b2c-core/src\/core&lt;com.enation.app.b2b2c.core.order.service{IStoreOrderManager.java[IStoreOrderManager" modifiers="513" timestamp="1486611367856"/>
+<typeInfo handle="=b2b2c-core/src\/core&lt;com.enation.app.b2b2c.core.order.service.impl{StoreOrderManager.java[StoreOrderManager" modifiers="1" timestamp="1486611367640"/>
+<typeInfo handle="=b2b2c/src\/front&lt;com.enation.app.b2b2c.front.api.order{StoreOrderApiController.java[StoreOrderApiController" modifiers="1" timestamp="1489462095979"/>
+</typeInfoHistroy>

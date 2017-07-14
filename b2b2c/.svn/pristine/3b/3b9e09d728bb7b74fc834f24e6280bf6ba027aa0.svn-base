@@ -1,0 +1,100 @@
+<#include '/admin/header.html' > 
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+
+<div class="main">
+	<!-- 退货申请信息 -->
+	<div class="shadowBoxWhite  whiteBox">
+		<div class="detail">
+			<table cellspacing="0" cellpadding="0" border="0"  style="width: 99%">
+				<tr>
+					<td>退款单号：</td>
+					<td>${refund.sn!''}</td>
+					<td>创建时间：</th>
+					<td>
+						<@dateformat time="${(refund.create_time!'')?c}" pattern="yyyy-MM-dd"/>
+					</td>
+				</tr>
+				<tr>
+					<td>退款店铺:</td>
+					<td>
+						<#if refund.store_id??>
+							<a href='javascript:void(0);' onclick=newTab('查看店铺详细','${ctx}/b2b2c/admin/store/edit.do?storeId=${refund.store_id!''}')>${refund.store_name!'查看'}</a>
+						<#else>
+							自营店
+						</#if>
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td >退款人：</td>
+					<td><a href='javascript:void(0);' onclick=newTab('退款单-个人信息','${ctx}/shop/admin/member/detail.do?memberId=${refund.member_id}')>${refund.sndto!'查看'}</a> </td>
+					<#if refund.sellback_id??>
+						<td>
+							退款单申请：
+						</td>
+						<td>
+							<a href='javascript:void(0);' onclick=newTab('退款单','${ctx}/shop/admin/sell-back/refund-detail.do?id=${refund.sellback_id}')>查看</a> 
+						</td>
+					</#if>
+				</tr>
+				
+				<tr>
+					<td>退款状态：</td>
+					<td >
+						<#if refund.status==0>
+							新建
+						<#elseif refund.status==1>
+							已付款
+						</#if>
+					</td>
+					<td >退款金额：</td>
+					<td>${refund.refund_money!''}</td>
+				</tr>
+				<tr>
+					<td>退款方式：</td>
+					<td>${refund.refund_way!''}</td>
+					<td>退款账户：</td>
+					<td>${refund.return_account!'后台操作'}</td>
+				</tr>
+				<#if refund.refund_user?? && refund.refund_user!="">
+					<tr>
+						<td >退款操作人：</td>
+						<td>${refund.refund_user!''}</td>
+						<td>
+							退款时间：
+						</td>
+						<td><@dateformat time="${(refund.refund_time!'')?c}" pattern="yyyy-MM-dd"/>
+						</td>
+					</tr>
+				</#if>
+				<#if refund.status==0>
+					<tr>
+						<td>审核：</td>
+						<td colspan="3">
+							金额：<input type="text"  name="refund_money" class="input_text easyui-numberbox" value="${refund.refund_money!''}" precision="2"/>&nbsp;&nbsp;
+							<a href="javascript:void(0)" class="button" onclick="pass(1)" >退款</a>
+						</td>
+					</tr>
+				</#if>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function pass(status){
+	var refund_money=$("input[name='refund_money']").val();
+	$.ajax({
+		url:"${ctx}/shop/admin/order-report/edit-refund.do?id=${refund.id}&status="+status+"&refund_money="+refund_money,
+		type:"POST",
+		dataType:"json",
+		success:function(data){
+			location.reload();
+		},
+		error:function(){
+			alert("出现错误");
+		}
+	});
+}
+</script>

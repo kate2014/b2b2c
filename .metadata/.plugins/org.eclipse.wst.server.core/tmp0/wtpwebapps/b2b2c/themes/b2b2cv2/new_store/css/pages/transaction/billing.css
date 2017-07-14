@@ -1,0 +1,14 @@
+
+.store_orderlist table {
+    font-size: 12px;
+}
+
+.store_orderlist table thead th {
+    background-color: #e5e5e5;
+    text-align: center;
+}
+
+.store_orderlist table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}

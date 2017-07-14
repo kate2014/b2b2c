@@ -1,0 +1,6 @@
+#jdbc.properties
+#Tue Oct 25 16:40:53 CST 2016
+jdbc.url=jdbc\:sqlserver\://localhost\:1433;databaseName\=jshop
+jdbc.username=sa
+jdbc.password=12345678
+jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver

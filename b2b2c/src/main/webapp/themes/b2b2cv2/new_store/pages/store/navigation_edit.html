@@ -1,0 +1,45 @@
+
+<#-- 创建商品分类标签 -->
+<#assign navigationTag= newTag("navigationTag") >
+<#-- 查询商品分类列表 0表示查子分类 -->
+<#assign nav = navigationTag("{'nav_id':${nav_id}}")!''>
+
+<form id="nav_edit_form" class="nav-form nav-edit-form">
+    <div class="nav-box nav-name">
+        <span class="nav-title">导航名称：</span>
+        <div class="nav-input">
+            <input type="text" class="form-control" name="name"  maxlength="5" value="${nav.name}">
+            <p>最多五位汉字</p>
+        </div>
+    </div>
+    <div class="nav-box nav-show">
+        <span class="nav-title">是否显示：</span>
+        <div class="nav-input">
+            <input type="radio" value="1" name="disable" <#if nav.disable==1>checked="checked"</#if>>是&nbsp;
+            <input type="radio" value="0" name="disable" <#if nav.disable==0>checked="checked"</#if>>否&nbsp;
+        </div>
+    </div>
+    <div class="nav-box nav-sort">
+        <span class="nav-title">排序：</span>
+        <div class="nav-input">
+            <input type="number" class="form-control" name="sort" maxlength="5" value="${nav.sort}" oninput="if(value.length>5)value=value.slice(0,5)" >
+            <p>请输入正整数</p>
+        </div>
+    </div>
+    <div class="nav-box nav-url">
+        <span class="nav-title">URL：</span>
+        <div class="nav-input">
+            <input type="text" class="form-control" name="nav_url" value="${nav.nav_url}" maxlength="200">
+             <p>请填写包含http://的完整URL地址,否则会跳转到外链</p>
+            <p>例：http://localhost:8080/b2b2c/index.html填写:http://localhost:8080/b2b2c/index.html</p>
+        </div>
+    </div>
+    <div class="nav-box nav-target">
+        <span class="nav-title">新窗口打开：</span>
+        <div class="nav-input">
+            <input type="radio" value="1" name="target" <#if nav.target==1>checked="checked"</#if>>是&nbsp;
+            <input type="radio" value="0" name="target" <#if nav.target==0>checked="checked"</#if>>否&nbsp;
+        </div>
+    </div>
+    <input type="hidden" name="id" value="${nav_id}">
+</form>

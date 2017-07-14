@@ -1,0 +1,112 @@
+<#assign b2b2cGoodsStoreTag=newTag("b2b2cGoodsStoreTag")>
+<#assign goodsStore=b2b2cGoodsStoreTag("{'goods_id':${goods_id}}")>
+
+<#-- 商品规格标签 -->
+<#assign goodsSpecTag=newTag("goodsSpecTag")/>
+<#assign goodsSpec=goodsSpecTag("{'goods_id':${goods_id}}") />
+
+
+	<style type="text/css">
+		.have_spec {
+			font-size: 12px;
+		}
+		.have_spec th,
+		.have_spec td {
+			text-align: center;
+		}
+		.have_spec tbody tr td {
+			line-height: 30px;
+			vertical-align: middle;
+		}
+		.have_spec tr {
+			height: 30px;
+		}
+		#goodsStoreForm .form-control {
+			margin: 0 auto;
+			text-align: center;
+			height: 30px;
+			line-height: 30px;
+			padding: 0;
+			font-size: 12px;
+			color: #333333;
+		}
+		.control-group {
+			margin-bottom: 0;
+		}
+	</style>
+<form id="goodsStoreForm">
+	<input type="hidden" name="goods_id" value="${goods_id}">
+	<#if goodsSpec.have_spec?exists && goodsSpec.have_spec==1 && goodsSpec.productList?exists >
+	<#-- 商品规格库存标签 -->
+	<#assign goodsSpecStoreTag=newTag("goodsSpecStoreTag") />
+	<#assign goodsSpecStoreList=goodsSpecStoreTag("{'goods_id':${goods_id}}") />
+		<table class="table table-bordered table-hover have_spec">
+			<thead>
+				<tr id="spec-th">
+					<th>货号</th>
+					<th>商品名称</th>
+					<#list goodsSpec.specList as spec>
+						<th>${spec.spec_name}</th>
+					</#list>
+					<th style="width: 100px;">库存</th>
+				</tr>
+			<script type="text/javascript">
+				$(function(){
+					var th = $('#spec-th').find('th'), thLen = th.length;
+					if(thLen < 4){
+						th.css({width: 100/thLen+'%'});
+					};
+				})
+			</script>
+			</thead>
+			<tbody>
+			<#list goodsSpec.productList as product>
+				<tr>
+					<td title="${product.sn}">${product.sn}</td>
+					<td title="${product.name}"><@substring title="${product.name}" length=16 dot="" /></td>
+					<#list product.specList as spec>
+						<td title="${spec.spec_value}">${spec.spec_value}</td>
+					</#list>
+					<td>
+						<input type="hidden" value="${product.product_id}" name="productIds"/>
+						<input type="hidden" value="${goods_id}" name="goods_id" />
+						<#assign n=0 />
+						<#if (goodsSpecStoreList?size>0)>
+							<#list goodsSpecStoreList as goodsStore>
+								<#if product.product_id==goodsStore.productid >
+									<input type="hidden" value="${goodsStore.storeid}" name="storeIds" />
+									<div class="form-group control-group">
+										<input type="text" class="form-control" value="${goodsStore.store}" name="storeNum" dataType="int" maxlength="9"/>
+									</div>
+									<#assign n=1 />
+								</#if>
+							</#list>
+						</#if>
+						<#if n==0>
+							<input type="hidden" value="0" name="storeIds"/>
+							<div class="form-group control-group">
+								<input type="text" class="form-control" value="0" name="storeNum" class="more_storenum" dataType="int" maxlength="9"/>
+							</div>
+						</#if>
+					</td>
+				</tr>
+			</#list>
+		<#else>
+			<div>
+				<div style="float: left; width: 45%; text-align: center; line-height: 30px; ">库存数量：</div>
+				<div style="float: left; width: 55%; text-align: center;">
+					<#if goodsStore.store??>
+						<div class="form-group control-group">
+							<input type="text" class="form-control" maxlength="7" name="store" value="${goodsStore.store.store}" dataType="int" style="width: 80%; height: 30px;">
+						</div>
+						<input type="hidden" name="storeid" value="${goodsStore.store.storeid!'0'}">
+					<#else>
+						<div class="form-group control-group">
+							<input type="number" class="form-control" maxlength="7" name="store" value="0" dataType="int" style="width: 80%; height: 30px;">
+						</div>
+						<input type="hidden" name="storeid" value="0"/>
+					</#if>
+				</div>
+			</div>
+	</#if>
+</form>

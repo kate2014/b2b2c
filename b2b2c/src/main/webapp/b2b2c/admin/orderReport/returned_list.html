@@ -1,0 +1,137 @@
+<#include '/admin/header.html' > <#assign
+dateFormat="com.enation.framework.directive.DateformateDirective"?new()>
+<div class="main">
+	<div class="buttonArea">
+		<span style="float: right;"> 
+			<span id="simpleSearch">
+				<a href="javascript:void(0)" class="button b_fr" 
+				data-options="plain:true" onclick="searchKeyword()">筛选</a>
+				<select id="returnState" style="height: 28px;margin-right:10px;margin-top: 1px;">
+					<option value="">请选择</option>
+					<option value="0">新建</option>
+					<option value="1">审核通过</option>
+					<option value="2">审核拒绝</option>
+					<option value="3">已完成</option>
+					<option value="4">已入库</option>
+					<option value="5">部分入库</option>
+				</select> 
+			</span>
+		</span>
+	</div>
+	<div class="shadowBoxWhite tableDiv">
+		<table id="orderReturndata" class="easyui-datagrid"
+			data-options="url:'${ctx}/b2b2c/admin/store-order-report/returned-list-json.do',pageList: [10,15,20,30],pageSize:${pageSize},fitColumns:'true'"
+			pagination="true" width="width">
+			<thead>
+				<tr>
+					<th data-options="field:'id',width:35">退货ID</th>
+					<th data-options="field:'tradeno',width:100">退货单号</th>
+					<th data-options="field:'store_name',width:100">店铺名称</th>
+					<th data-options="field:'type',width:100"  formatter="formatType">售后类型</th>
+					<th data-options="field:'tradestatus',width:100" formatter="formatStatus">退货状态</th>
+					<th data-options="field:'ordersn',width:100">退货订单号</th>
+					<th data-options="field:'regoperator',width:100">业务员</th>
+					<th data-options="field:'regtime',width:100" formatter="formatTime">操作时间</th>
+					<th data-options="field:'alltotal_pay',width:100">退货金额</th>
+					<th data-options="field:'action',width:50,align:'center'" formatter="formatOperation">操作</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="pay_detail"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	function formatType(value, row, index) {
+		if(value== 1 ){
+			return "退款";
+		}else{
+			return "退货";
+		}
+	}
+	function formatStatus(value, row, index) {
+		var val;
+		//判断是否为自营店
+		if(row.store_id==1){
+			if (value == 0) {
+				val = "新建";
+			}
+			if (value == 1) {
+				val = "审核通过";
+			}
+			if (value == 2) {
+				val = "审核拒绝";
+			}
+			if (value == 3) {
+				val = "等待退款";
+			}
+			if (value == 4) {
+				val = "已入库";
+			}
+			if (value == 5) {
+				val = "部分入库";
+			}
+			if (value == 6) {
+				val = "已退款";
+			}
+		}else{
+			if (value == 0) {
+				val = "等待审核";
+			}else if (value == 1) {
+				val = "审核通过";
+			}else if (value == 2){
+				val = "审核拒绝";
+			}else if(value == 3){
+				val="等待平台退款";
+			}else if(value == 6){
+				val="已退款";
+			}
+		}
+		return val;
+	}
+
+	function formatTime(value, row, index) {
+		return getFormatDateByLong(value, "yyyy-MM-dd hh:mm:ss");
+	}
+	function formatOperation(value, row, index) {
+		var val;
+		if(row.tradestatus==0){
+			if(row.type==1){
+				val = "<a href='javascript:void(0);' onclick=newTab('退款单','${ctx}/shop/admin/sell-back/refund-detail.do?id="+row.id+"'); >查看</a>";
+			}else{
+				val = "<a href='javascript:void(0);' onclick=newTab('退货单审核','${ctx}/shop/admin/sell-back/auth.do?id="+row.id+"'); >查看</a>";
+			}
+		}
+		//如果不是自营店则填写退款金额
+		//自营退款审核通过
+		if(row.store_id!=1 || (row.type==1 && row.tradestatus==1)){
+			return "<a href='javascript:void(0);' onclick=newTab('填写退款金额','${ctx}/b2b2c/admin/store-sell-back/returned.do?id="+row.id+"'); >查看</a>";
+		}
+		if(row.tradestatus==1|| row.tradestatus==5 || row.tradestatus==3){
+			val = "<a href='javascript:void(0);' onclick=newTab('退货入库','${ctx}/shop/admin/sell-back/returned.do?id="+row.id+"'); >查看</a>";
+		}
+		if(row.tradestatus==2 || row.tradestatus==4){
+			val = "<a href='javascript:void(0);' onclick=newTab('退货结算','${ctx}/shop/admin/sell-back/returned.do?id="+row.id+"'); >查看</a>";
+		}
+		if(row.tradestatus==6){
+			return "<a href='javascript:void(0);' onclick=newTab('填写退款金额','${ctx}/b2b2c/admin/store-sell-back/returned.do?id="+row.id+"'); >查看</a>";
+		}
+		return val;
+	}
+	
+	window.top["reload_Abnormal_Monitor"]=function(){
+        $("#orderReturndata").datagrid("reload");
+    };
+    
+  	//筛选退货单 add by DMRain 2016-4-29
+    function searchKeyword(){
+   	var returnState = $("#returnState").val();
+
+   	$("#orderReturndata").datagrid('load', {
+   		 state:returnState
+       });
+    }
+    
+</script>
+<div id="log"></div>
+
+<#include '/admin/footer.html' >

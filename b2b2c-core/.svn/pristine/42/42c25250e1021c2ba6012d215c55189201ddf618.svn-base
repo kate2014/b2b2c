@@ -1,0 +1,37 @@
+<#assign regionSelectDirective="com.enation.app.shop.front.tag.goods.other.regions.RegionSelectDirective"?new()>
+<div class="main">
+	<div class="detail" style="margin-left: 10px;">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td>银行开户名：</td>
+				<td >
+					<input class="input_text easyui-validatebox" maxlength="30" type="text" name="bank_account_name"  data-options='required:true'" />
+				</td>
+			</tr>
+			<tr>
+				<td>公司银行账号：</td>
+				<td >
+					<input class="input_text" maxlength="20" data-options="required:true" type="text" name="bank_account_number" value=""/>
+				</td>
+			</tr>
+			<tr>
+				<td>开户银行支行名称：</td>
+				<td >
+					<input class="easyui-validatebox input_text" maxlength="30" type="text" name="bank_name"  data-options="required:true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>支行联行号：</td>
+				<td >
+					<input class="easyui-validatebox input_text" maxlength="20" data-options="required:true" type="text" name="bank_code" />
+				</td>
+			</tr>
+			<tr>
+				<td>开户银行地址：</td>
+				<td >
+					<@regionSelectDirective  province_name='bank_province' city_name='bank_city' region_name='bank_region'/>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

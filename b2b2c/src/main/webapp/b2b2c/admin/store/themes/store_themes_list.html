@@ -1,0 +1,160 @@
+<#include '/admin/header.html' > 
+<div class="main">
+	<div class="buttonArea">
+		<a href="javascript:void(0)" class="button blueBlue" data-options="iconCls:'icon-add',plain:true" onclick="controlStoreThemes()">添加</a>
+	</div>
+	<div class="shadowBoxWhite tableDiv">
+		<form id="storeThemesForm">
+			<table class="easyui-datagrid"
+				data-options="url:'${ctx}/b2b2c/admin/store-themes/list-json.do',fitColumns:'true'" width="width" id="storeThemesData">
+				<thead>
+					<tr>
+						<th data-options="field:'name',width:100">店铺模版名</th>
+						<th data-options="field:'path',width:100">店铺模版路径</th>
+						<th data-options="field:'is_default',width:100" formatter="formatDefault">是否为默认模板</th>
+						<th data-options="field:'action',width:100" formatter="formatAction">操作</th>
+					</tr>
+				</thead>
+			</table>
+			
+		</form>
+		<div id="storeThemesInfo" style="display: none;"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function formatAction(value,row,index){
+		var val="<a class='edit' title='修改' href='javascript:void(0);' onclick='edit("+row.id+")'></a>";
+		val+="<a class='delete' title='删除' href='javascript:void(0);' onclick='del("+row.id+")'></a>";
+		return val;
+	}
+	function formatDefault(value,row,index){
+		if(value==0){
+			return "否";
+		}else if(value==1){
+			return "是";
+		}
+	}
+	function del(id){ 
+		if(!confirm("此操作会将用到此模版的商家恢复默认模版？")){	
+			return ;
+		}
+		 var options = {
+			url : "${ctx}/b2b2c/admin/store-themes/delete.do?id="+id,
+			type : "POST",
+			dataType : 'json',
+			success : function(result) {
+				if(result.result==1){
+					location.reload();
+				}
+				if(result.result==0){ 
+					$.Loading.error(result.message);
+				}
+			},
+			error : function(e) {
+				$.Loading.error("出现错误 ，请重试");
+			}
+		};
+		$('#storeThemesForm').ajaxSubmit(options);	
+	}
+	 function controlStoreThemes(){
+		$("#storeThemesInfo").show();
+	　　	$('#storeThemesInfo').dialog({
+	　　		title: '添加店铺模板',			
+	　　		width: 550,
+	　　		closed: false,
+	　　		cache: false,
+	　　		href: '${ctx}/b2b2c/admin/store-themes/add.do', 	 
+	　　		modal: true,
+	　　		buttons: [{					//创建按钮
+	　　			 text:'保存',
+	　　			 iconCls:'icon-ok',
+	　　			 handler:function(){
+	　　				 var savebtn = $(this);
+	　　				 var disabled=savebtn.hasClass("l-btn-disabled");
+	　　				 if(!disabled){
+		　　				 addStoreThemesForm(savebtn);		
+		　　			 }	
+	　　			}
+　　			 }]
+	　　	});
+	 }
+	 function addStoreThemesForm(savebtn){
+			var formflag= $("#addStoreThemesForm").form().form('validate');
+			if(formflag){
+				$.Loading.show("正在保存请稍候...");
+				savebtn.linkbutton("disable");	
+				var options = {
+						url : "${ctx}/b2b2c/admin/store-themes/save-add.do",
+						type : "POST",
+						dataType : "json",
+						success : function(result) {
+							if(result.result==1){
+								$("#storeThemesInfo").dialog('close');
+								$('#storeThemesData').datagrid('reload');
+								$.Loading.success(result.message);
+							}else{
+								$.Loading.error(result.message);
+							}
+							savebtn.linkbutton("enable");
+					 	},
+					 	error : function(e) {
+					 		$.Loading.error('出现错误，请重试');
+					 		savebtn.linkbutton("enable");
+						}
+					};
+				$('#addStoreThemesForm').ajaxSubmit(options);	
+			}
+		}
+	 function edit(id){
+		 $("#storeThemesInfo").show();
+		　　	$('#storeThemesInfo').dialog({
+		　　		title: '修改店铺模板',			
+		　　		width: 550,
+		　　		closed: false,
+		　　		cache: false,
+		　　		href: '${ctx}/b2b2c/admin/store-themes/edit.do?id='+id, 	 
+		　　		modal: true,
+		　　		buttons: [{					
+		　　			 text:'保存',
+		　　			 iconCls:'icon-ok',
+		　　			 handler:function(){
+		　　				 var editbtn = $(this);
+		　　				 var disabled= editbtn.hasClass("l-btn-disabled");
+		　　				 if(!disabled){
+			　　				 editStoreThemesForm(editbtn);		
+			　　			}
+		　　			 }
+		　　		}]
+		　　	}); 
+	 }
+	 
+	function editStoreThemesForm(editbtn){
+		var formflag= $("#editFinanceForm").form().form('validate');
+		if(formflag){
+			$.Loading.show("正在保存请稍候..");
+			editbtn.linkbutton("disable");
+			var options = {
+				url : "${ctx}/b2b2c/admin/store-themes/save-edit.do",
+				type : "POST",
+				dataType : "json",
+				success : function(result) {
+					if(result.result==1){
+						$("#storeThemesInfo").dialog('close');
+						$('#storeThemesData').datagrid('reload');
+						$.Loading.success(result.message);
+					}else{
+						$.Loading.error(result.message);
+					}
+					editbtn.linkbutton("enable");
+			 	},
+			 	error : function(e) {
+			 		$.Loading.error('出现错误，请重试');
+			 		editbtn.linkbutton("enable");
+				}
+			};
+			$('#editStoreThemesForm').ajaxSubmit(options);
+		}
+	 }
+</script>
+<#include '/admin/footer.html' >

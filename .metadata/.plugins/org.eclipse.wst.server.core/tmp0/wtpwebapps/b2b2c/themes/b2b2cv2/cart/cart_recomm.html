@@ -1,0 +1,34 @@
+<!-- 获取商品列表标签 -->
+<#assign goodsListTag = newTag("goodsListTag")>		
+<!-- 调用商品列表标签，并传递商品列表所在catid及循环次数 -->		
+<#assign goodsList=goodsListTag("'tagid':'1','goodsnum':'10'")>
+<div class="shop_cargo">
+	<div class="sc_left"></div>
+	<div class="sc_middle" id="cart-recomm-box">
+		<ul id="cart-recomm-list">
+			<#list goodsList as goods>
+			<li>
+				<a href="goods-${goods.goods_id}.html" ><@image src="${goods.thumbnail!''}" alt="广告小图片列表" /></a>
+				<h1><a href="goods-${goods.goods_id}.html" title="${goods.name}">${goods.name}</a></h1>
+				<p>售价：<span style="color: red;">${goods.price?string.currency}</span></p>
+				
+			</li>
+			</#list>
+		</ul>
+	</div>
+	<div class="sc_right"></div>
+<script>
+$(function(){
+	$("#cart-recomm-list").dayuwscroll({
+		parent_ele:'#cart-recomm-box',
+		pre_btn:'.sc_left',
+		next_btn:'.sc_right',
+		path: 'left',
+		time:3000,
+		num:5,
+		gd_num:5,
+		waite_time:1000
+	});
+});
+</script>
+</div>

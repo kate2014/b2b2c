@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<#assign headerTag = newTag("headerTag") /> 
+<#assign header =headerTag() /> 
+	<#if title??>
+		<title>${title}-${header.title}</title> 
+	<#else>
+		<title>${header.title}</title> 
+	</#if> 
+	<#if keywords??>
+		<meta name="keywords" content="${keywords!''}"/>
+	<#else>
+		<meta name="keywords" content="${header.keywords!''}"/>
+	</#if> 
+	<#if description??>
+		<meta name="description" content="${description!''}"/>
+	<#else>
+		<meta name="description" content="${header.description!''}"/>
+	</#if>
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/> ie11 不能正常传递 值 的bug解决--> 
+	
+
+
+<!-- 判断IE，并使IE9以下支持html5标签 -->
+<!--[if lt IE 9]> <script  src="${ctx}${themes_path}/js/html5.js"></script> <![endif]-->
+
+<script>
+var member = "${member!''}";
+var loginDialog;
+var ctx="${ctx}";
+var app_path="${ctx}";
+var ctxPath = '${ctx}${themes_path}/';
+</script>
+
+<#if site.icofile?exists>
+	<link href="${site.icofile}" rel="shortcut icon">
+</#if>
+<script type="text/javascript" src="${ctx}/statics/e_tools/js/e_broswer.js"></script>
+<!-- 公共样式 -->
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/base.css" />
+<!-- 内含dialog.css样式，原来的dialog.css中无代码 -->
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/default.css" />
+<!-- 商品详细、 -->
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/shop.css" />
+<script type="text/javascript" src="${ctx}${themes_path}/js/lhgdialog.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/common.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/shop.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.ui.js" ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/index.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.form-3.51.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/CartBar.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.blockUI.min.js"></script> <!-- √ -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/LoginDialog.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.mousewheel.js"></script>
+<!-- 异步加载图片 -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.scrollLoading-min.js"></script>
+<!-- 轮播图js -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.SuperSlide.2.1.1.js"></script>
+<!-- jquery的布局插件 -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.masonry.js"></script>
+<!-- 购物车移入滚动条 -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.nicescroll.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.bigautocomplete.js"></script>
+<!-- 自定义滚动条 -->
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.jscroll.js"></script>
+<!-- 站内消息 -->
+<script src="${ctx}${themes_path}/js/messageFrontTool.js"></script>
+
+<script type="text/javascript">
+<#-- 短信安全作用 -->
+$(function(){
+	$.ajax({
+		url : "${ctx}/api/shop/sms/sms-safe.do",
+		success : function(){
+			
+		}
+	});
+
+	$.ajaxSetup ({
+		cache: false
+	});
+});
+</script>
+
+<script type="text/javascript">
+$(function(){
+	if(Sys.ie > 8){
+        var ieCss  = document.createElement('link');
+        ieCss.href = '${ctx}${themes_path}/css/if-ie-b2b2c.css';
+        ieCss.type = 'text/css';
+        ieCss.rel  = 'styleSheet';
+        document.head.appendChild(ieCss);
+	}
+	$(".common_member").load("${ctx}/common/member_bar.html?_="+new Date().getTime()	,function(){
+		$("#logout").click(function(){
+			$.ajax({
+				url:"${ctx}/api/shop/member/logout.do",
+				dataType:"json",
+				cache: false,              
+				success:function(result){
+					if(result.result==1){
+						//$.alert(result.message);
+						location.href="${ctx}/index.html";
+					}else{
+						$.alert(result.message);
+					}	
+					$.Loading.hide();
+				},
+				error:function(){
+					$.Loading.hide();
+					$.alert("出错了:(");
+				}
+			});
+			return false;
+		});	
+	});
+	
+	$(".my_store").load("${ctx}/common/my_store.html?_="+new Date().getTime());
+		
+	$(".title_menu dl").hover(function() {
+		$(this).addClass("hover");
+	},function() {
+		$(this).removeClass("hover");
+	});
+	//站内消息未读条数初始化
+	MessageFrontTool.init();
+})
+
+</script>
+
+
+</head>
+<body>
+	<div class="website_top w">
+		<div class="topbar wrapper">
+			<div class="common_member">
+				 
+			</div>
+			<div class="title_menu">
+				<dl>
+					<dt>
+						<a target="_blank" href="${ctx}/new_store/pages/main_outline.html" >商家中心</a>
+					</dt>
+				</dl>
+				<dl>
+					<dt>
+						<a href="${ctx}/member/order.html">我的订单</a><i></i>
+					</dt>
+					<dd>
+						<ul>
+							<li><a href="${ctx}/member/order.html?status=wait_pay">待付款订单</a></li>
+							<li><a href="${ctx}/member/order.html?status=wait_rog">商品已发货</a></li>
+							<li><a href="${ctx}/member/waitcommont.html">待评价交易</a></li>
+						</ul>
+					</dd>	
+				</dl>
+				<dl>
+					<dt>
+						<a href="${ctx}/member/favorite.html" title="我的收藏" target="_top">我的收藏</a><i></i>
+					</dt>
+					<dd>
+						<ul>
+							<li><a href="${ctx}/member/favorite.html" target="_top" title="收藏的商品">收藏的商品</a></li>
+							<li><a href="${ctx}/member/collect_store.html" target="_top" title="收藏的店铺">收藏的店铺</a></li>
+						</ul>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						客户服务<i></i>
+					</dt>
+					<dd>
+						<ul>
+							<li><a href="${ctx}/help-21-7.html">帮助中心</a></li>
+							<li><a href="${ctx}/help-23-16.html">售后服务</a></li>
+							<li><a href="${ctx}/help-21-8.html">客服中心</a></li>
+						</ul>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						站点导航<i></i>
+					</dt>
+					<dd>
+						<ul>
+							<li><a target="_blank" href="${ctx}/index.html">商城首页</a></li>
+							<li><a target="_blank" href="${ctx}/new_store/pages/main_outline.html" >商家中心</a></li>
+						</ul>
+					</dd>
+				</dl>
+				<dl>
+					<dt id="message_tool_wrapper">
+						<a href="${ctx}/member/messagefront_list.html" class="index-go-message">站内消息(<span class="message-num">0</span>)</a>
+					</dt>
+				</dl>
+			</div>
+		</div>
+	</div>
+<div id="goodsSelectDiv"></div>

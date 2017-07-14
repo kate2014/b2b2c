@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;log4Junit.properties&apos; to &apos;spring_cfg&apos;&#x0D;&#x0A;- Original project: &apos;b2c&apos;&#x0D;&#x0A;- Destination element: &apos;spring_cfg&apos;&#x0D;&#x0A;- Original element: &apos;log4Junit.properties&apos;" description="Copy file" element1="src/main/resources/spring_cfg/log4Junit.properties" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1486617808319" target="/b2b2c-test/src/test/resources/spring_cfg" units="0" version="1.0"/>
+</session>

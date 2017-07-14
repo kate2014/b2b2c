@@ -1,0 +1,194 @@
+<#include '/admin/header.html' >
+<div class="main">
+	<div class='buttonArea'>
+		<a href="javascript:void(0)" class="button" onclick="del()">删除</a>
+	</div>
+	<div class="clear height10"></div>
+	<div class="shadowBoxWhite tableDiv">
+		<form id="commentsform">
+			<table class="easyui-datagrid"
+				data-options="url:'${ctx}/b2b2c/admin/self-goods-comments/list-json.do?type=1',pageList: [10,15,20,30],pageSize:${pageSize},fitColumns:'true'"
+				pagination="true" id="commentsdata">
+				<thead>
+					<tr>
+						<th data-options="field:'comment_id',checkbox:true"></th>
+						<th data-options="field:'gname',width:200" formatter="formatName">商品名称</th>
+						<th data-options="field:'muname',width:200">评论人</th>
+						<th data-options="field:'dateline',width:300" formatter="formatDateline">评论日期</th>
+						<th data-options="field:'grade',width:200,formatter:function(value,rowData,rowIndex){
+							var val = '';
+							switch(value) {
+								case 1:
+									val='差评';
+									break;
+								case 2:
+									val='中评';
+									break;
+								case 3:
+									val='好评';
+									break;
+								default :
+									val='好评';
+									
+							}
+							return val;
+						}">评价</th>
+						<th data-options="field:'replystatus',width:200" formatter="formatStatus">回复状态</th>
+						<th data-options="field:'action',width:100,align:'center'" formatter="formatOperation">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</form>
+	</div>
+	<div id="divdia"></div>
+</div>
+<script type="text/javascript">
+
+function formatName(value, row, index) {
+	var val = '<a href="../../goods-'+row.goods_id+'.html" target="_blank" >'
+			+ value + '</a>';
+	return val;
+}
+
+function formatDateline(value, row, index) {
+	return getFormatDateByLong(value, "yyyy-MM-dd hh:mm:ss");
+}
+
+function formatStatus(value, row, index) {
+	var val;
+	if (value == 0) {
+		val = "未回复";
+	}
+	if (value == 1) {
+		val = "已回复";
+	}
+	return val;
+}
+
+function formatOperation(value, row, index) {
+	var val;
+	if (row.replystatus == 0) {
+		val = "<a class='edit' title='回复评论' href='javascript:void(0);' onclick='reply("
+			+ row.comment_id + ")' ></a>";
+	} else {
+		val = "<a class='edit' title='查看详细' href='javascript:void(0);' onclick='details("
+			+ row.comment_id + ")' ></a>";
+	}
+	return val;
+}
+
+function details(commentid) {
+	$("#divdia").dialog({
+		title : "查看详细",
+		top:20,
+		width : 700,
+		height : 500,
+		closed : false,
+		cache : false,
+		href : "${ctx}/b2b2c/admin/self-goods-comments/reply-comment.do?commentId=" + commentid,
+		modal : true,
+		buttons : [ {
+			text : '关闭',
+			handler : function() {
+				$("#divdia").dialog('close');
+			}
+		} ]
+	});
+}
+
+function reply(commentid) {
+	$("#divdia").dialog({
+		title : "回复评论",
+		top:20,
+		width : 700,
+		height : 500,
+		closed : false,
+		cache : false,
+		href : "${ctx}/b2b2c/admin/self-goods-comments/reply-comment.do?commentId=" + commentid,
+		modal : true,
+		buttons : [ {
+			text : '回复',
+			iconCls : 'icon-ok',
+			handler : function() {
+				var savebtn = $(this);
+　				var disabled=savebtn.hasClass("l-btn-disabled");
+　				if(!disabled){
+					submitForm(savebtn);
+	　　			}
+			}
+		}, {
+			text : '取消',
+			handler : function() {
+				$("#divdia").dialog('close');
+			}
+		} ]
+	});
+}
+
+function submitForm(savebtn) {
+	
+	if ($("#recomment").val() == "") {
+		$.Loading.error("请填写回复内容");
+		return false;
+	}
+	
+	if (!confirm("确认要回复吗？")) {
+		return false;
+	}
+	
+	$.Loading.show("正在保存请稍候...");
+	savebtn.linkbutton("disable");
+	var options = {
+		url : "${ctx}/b2b2c/admin/self-goods-comments/save-reply.do?ajax=yes",
+		type : "POST",
+		dataType : 'json',
+		success : function(result) {
+			if (result.result == 1) {
+				$.Loading.success(result.message);
+				$("#divdia").dialog('close');
+				$("#commentsdata").datagrid('reload');
+			}
+			if (result.result == 0) {
+				$.Loading.error(result.message);
+			}
+			savebtn.linkbutton("enable");
+		},
+		error : function(e) {
+			$.Loading.error("出现错误 ，请重试");
+			savebtn.linkbutton("enable");
+		}
+	};
+	$("#replyForm").ajaxSubmit(options);
+}
+
+function del() {
+	var rows = $('#commentsdata').datagrid("getSelections");
+	if (rows.length < 1) {
+		$.Loading.error("请选择要删除的评论");
+		return false;
+	}
+	if (!confirm("确认要将评论删除吗？")) {
+		return false;
+	}
+	var options = {
+		url : "${ctx}/b2b2c/admin/self-goods-comments/delete.do?ajax=yes",
+		type : "POST",
+		dataType : 'json',
+		success : function(result) {
+			if (result.result == 1) {
+				$.Loading.success(result.message);
+				$('#commentsdata').datagrid("reload");
+			}
+			if (result.result == 0) {
+				$.Loading.error(result.message);
+			}
+		},
+		error : function(e) {
+			$.Loading.error("出现错误 ，请重试");
+		}
+	};
+	$('#commentsform').ajaxSubmit(options);
+}
+
+</script>
+<#include '/admin/footer.html' >

@@ -1,0 +1,23 @@
+.store-themes-box{padding:20px;}
+.store-themes-same{border-top:1px solid #ddd;padding:20px 0;}
+.store-themes-same h1{height:30px;margin:0 0 0 20px;display: block;font-size: 16px;}
+.store-themes-same .themes-same-right{overflow:hidden;}
+.themes-same-right ul li{width:33%;margin-bottom: 20px;height:400px;text-align:center;float:left;position:relative;padding:6px 0px 0px 0px;}
+.themes-same-right ul li .themes-img{width:100%;height:300px;left:0px;top:3px;position:absolute;overflow:hidden;z-index:10}
+.themes-same-right ul li .themes-img img{width:100%;max-width:200px;padding:3px;}
+.themes-same-right ul li .themes-name{border-top:1px dashed #ddd;width:200px;margin:0px 0px 0px -100px;padding:10px 0 0 0;position:absolute;bottom:0px;left:50%;}
+.themes-same-right ul li .selected-themes{border-top:1px dashed #28b779}
+.themes-same-right ul li p{background-color: #fcf8e3;border: 1px solid #f9dbcc;height: 28px;line-height: 28px;text-align: center;width: 198px;font-size:12px;}
+.themes-same-right ul li h4{background-color: #fcf8e3;border:1px solid #28b779;height: 28px;line-height: 28px;text-align: center;width: 198px;font-size:12px;margin:10px 0 0 0; cursor: pointer;}
+.themes-save{border-top:1px solid #ddd;padding:20px 0 0 0;text-align:center;}
+
+.show-big{width:100%;overflow:hidden;position:absolute;display:block;left:0;top:0;z-index:99;display:block;z-index:999;}
+.show-big .show-big-box{width:100%;position:relative;}
+.show-big .show-big-box .show-big-backdrop{width:100%;height:100%;background:#000;left:0;top:0;}
+.backdrop-img{width:100%;text-align:center;position:absolute;top:20px;left:0;z-index:999;}
+.backdrop-img img{width:80%;}
+.close-img{width:30px;height:30px;color:#000;font-size:18px;background:#fff; position: fixed;right:20px;top:20px;text-align:center;line-height:30px;border-radius:30px; cursor: pointer;z-index:999;display:none;}
+.img-background{width:100%;height:306px;left:0px;top:0px;position:absolute;z-index:5;display:none;}
+.themes-same-right ul .current-themes{height:360px;}
+.themes-same-right ul .current-themes .img-background{display:block;}
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>退款申请 - 交易管理</title>
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/return.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/return.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_return' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li ><a href="./return.html?status=0" href="javascript: void(0);">退货申请</a></li>
+        <li class="active" onclick="location.reload();"><a href="javascript: void(0);">退款申请</a></li>
+        <li><a href="./return_list.html">退货、款单</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#assign storeSellBackListTag = newTag("storeSellBackListTag") />
+        <#assign sellBackInfo = storeSellBackListTag("'type':'1','status':'0'") />
+        <#assign sellBackList = sellBackInfo.sellBackList />
+        <div class="return">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>退款单号</th>
+                        <th>订单号</th>
+                        <th>会员名称</th>
+                        <th>申请时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <#if sellBackList.totalCount != 0 >
+                    <tbody>
+                        <#list sellBackList.result as sellBack>
+                            <tr>
+                                <td>${sellBack.tradeno}</td>
+                                <td>${sellBack.ordersn}</td>
+                                <td>${sellBack.sndto!'Admin'}</td>
+                                <td>
+                                    <@dateformat time="${sellBack.regtime?c}" pattern="yyyy-MM-dd HH:mm"/>
+                                </td>  
+                                
+                                <td><a href="javascript: void(0);" return_id="${sellBack.id}" type="${sellBack.type}" class="view-detail"><#if sellBack.tradestatus==0>审核<#else>查看</#if></a></td>
+                            </tr>
+                        </#list>
+                        <input type="hidden" value="1" id="sell">
+                    </tbody>
+            </table>
+            <div class="app-paging-tools">
+                <div class="demo"></div>
+                <div class="paging">
+                    <@pager pageno="${sellBackInfo.page!'1'}" pagesize="${sellBackInfo.pageSize}" totalcount="${sellBackInfo.totalCount}" />
+                </div>
+            </div>
+            <#else>
+            </table>
+                <div class="app-no-data">
+                    <span class="a-no-order">暂无相关数据</span>
+                </div>
+            </#if>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

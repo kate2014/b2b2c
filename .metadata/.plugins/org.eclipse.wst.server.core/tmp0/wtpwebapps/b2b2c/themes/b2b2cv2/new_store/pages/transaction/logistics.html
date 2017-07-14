@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '快递模板' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/logistics.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/logistics.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_logistics' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li class="active"><a href="javascript: void(0);" onclick="location.reload(); ">快递模板</a></li>
+        <li><a href="./logistics_add.html">新增模板</a></li>
+        <li><a href="./logistics_company.html">物流公司</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#assign storeTransportListTag= newTag("storeTransportListTag") >
+        <#assign storeTransportList = storeTransportListTag()!''>
+        <div class="logistics">
+            <input type="hidden" id="size" value="${storeTransportList?size}"/>
+            <div class="logistics-top-tools">
+                <a href="./logistics_add.html" class="btn btn-success logistics-add" title="添加新模板">新增模板</a>
+            </div>
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>运送方式</th>
+                    <th style="max-width: 233px;">运送到</th>
+                    <th>首重(g)</th>
+                    <th>运费(元)</th>
+                    <th>续重(g)</th>
+                    <th>运费(元)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list storeTransportList as stl>
+                    <tr class="tr-hr"></tr>
+                    <tr>
+                        <th colspan="2" class="temp-th">
+                            <p class="temp-name">模版名称：&nbsp;<span>${stl.name}</span></p>
+                        </th>
+                        <th colspan="2"></th>
+                        <th colspan="2" class="temp-oper">
+                            <#if stl.def_temp==1 >
+                                <span class="btn btn-default" disabled title="已是默认模板">默认模板</span>
+                                <#else>
+                                    <a data-id="4" href="javascript:void(0)" class="btn btn-default default-temp" temp_id="${stl.id}">设为默认</a>
+                            </#if>
+                            <a href="./logistics_edit.html?tempid=${stl.id}" class="btn btn-info" temp_id="${stl.id}" >修改</a>
+                            <a  href="javascript:void(0)" class="btn btn-danger delete-temp" temp_id="${stl.id}" <#if stl.def_temp==1>disabled title="默认模板不可删除"</#if>>删除</a>
+                        </th>
+                    </tr>
+                    <#list stl.dlylist as dl>
+                        <tr>
+                            <td class="left_td">${dl.name}</td>
+                            <td class="cell_area" style="height: 20px;overflow:hidden;" >${dl.area}</td>
+                            <td>${dl.dlyConfig.firstunit}</td>
+                            <td>${dl.dlyConfig.firstprice}</td>
+                            <td>${dl.dlyConfig.continueunit}</td>
+                            <td>${dl.dlyConfig.continueprice}</td>
+                        </tr>
+                        <#list dl.arealist as al>
+                            <tr>
+                                <td class="left_td">${dl.name!''}</td>
+                                <td class="cell_area"  style="max-width: 233px;">
+                                    <div style="overflow:hidden;">${al.area!''}</div>
+                                </td>
+                                <td>${(al.areaConfig.firstunit)!''}</td>
+                                <td>${(al.areaConfig.firstprice)!''}</td>
+                                <td>${(al.areaConfig.continueunit)!''}</td>
+                                <td>${(al.areaConfig.continueprice)!''}</td>
+                            </tr>
+                        </#list>
+                    </#list>
+                    <tr><td colspan="20" style="border:0px none;"></td></tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '促销活动管理' />
+    <#include '/new_store/common/header.html' />
+    <script type="text/javascript" src="${ctx}${themes_path}/js/jquery.autoFloat.js"></script>
+    <script type="text/javascript" src="${ctx}${themes_path}/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/promotions/promotions_add_edit.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/promotions/promotions_add_edit.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_promotions' />
+<#assign lowerPageName = 'lower_promotions_promotions' />
+<#include '/new_store/common/sidebar.html' />
+<!-- 创建获取促销活动信息标签 -->
+<#assign storeActivityTag = newTag("storeActivityTag")>
+<!-- 调用获取促销活动信息标签 -->
+<#assign act = storeActivityTag()>
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./promotions.html">促销列表</a></li>
+        <li class="active"><a href="javascript: void(0);" onclick="location.reload();">修改促销</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <form id="promotions_form" class="validate">
+        <input type="hidden" name="activity_id" value="${act.activity_id}">
+		<input type="hidden" name="activity_type" value="${act.activity_type}">
+		<input type="hidden" name="disabled" value="${act.disabled}">
+		<input type="hidden" name="store_id" value="${act.store_id}">
+            <div class="goods-info-group">
+                <div class="goods-info-group-inner">
+                    <div class="info-group-title vbox">
+                        <div class="group-inner">活动信息</div>
+                    </div>
+                    <div class="info-group-cont vbox">
+                        <div class="group-inner">
+                            <div class="control-group">
+                                <label class="control-label">活动名称：</label>
+                                <div class="controls">
+                                    <input type="text" class=" form-control" name="activity_name" value="${act.activity_name}" isrequired="true" maxlength="60" placeholder="不超过60个字符" style="width: 383px;"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">生效时间：</label>
+                                <div class="controls promotions-time">
+                                    <input type="text" class="form-control" name="startTime" value="<@dateformat time='${(act.start_time)?c}'pattern='yyyy-MM-dd HH:mm:ss'/>"
+                                     onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d'})" readonly/>
+                                    <span>&nbsp;-&nbsp;</span>
+                                    <input type="text" class="form-control" name="endTime" value="<@dateformat time='${(act.end_time)?c}'pattern='yyyy-MM-dd HH:mm:ss'/>"
+                                     onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d'})" readonly/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" style="display: block; float: none; margin-top: 10px; ">活动描述：</label>
+                                <div class="controls" style="margin-left: 95px; ">
+                                    <script id="editor" name="description" type="text/plain" style="height:200px;width: 99%;" isrequired="true">${act.description!''}</script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<!-- 创建获取促销活动优惠详细信息标签 -->
+			<#assign storeActivityDetailTag = newTag("storeActivityDetailTag")>
+			<!-- 调用获取促销活动优惠详细信息标签 -->
+			<#assign detailList = storeActivityDetailTag("{'activity_id':'${act.activity_id}'}")>
+            <#list detailList as detail>
+            	<input type="hidden" name="detail_id" value="${detail.detail_id}"/>
+	            <div class="goods-info-group">
+	                <div class="goods-info-group-inner">
+	                    <div class="info-group-title vbox">
+	                        <div class="group-inner">优惠设置</div>
+	                    </div>
+	                    <div class="info-group-cont vbox">
+	                        <div class="group-inner">
+	                            <div class="control-group">
+	                                <label class="control-label">优惠门槛：</label>
+	                                <div class="controls">
+	                                    <span style="float: left; line-height: 30px;">满&nbsp;</span>
+	                                    <input type="text" class=" form-control" name="full_money" value="${detail.full_money!''}" isrequired="true" maxlength="8" 
+	                                    	style="width: 97px; float:left;" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+	                                    <span style="line-height: 30px;">&nbsp;元</span>
+	                                    <span style="font-size: 12px; line-height: 30px; margin-left: 5px; color: red;">消费达到此金额即可参与优惠</span>
+	                                </div>
+	                            </div>
+	
+	                            <div class="control-group promotions-style">
+	                                <label class="control-label" title="优惠方式可多选">优惠方式：</label>
+	                                <div class="controls" style="float: left; ">
+	                                    <p class="minus-promotions-style">
+	                                        <input type="checkbox" value="1" name="is_full_minus" title="减现金" class="promotions-style-c_p" <#if detail.is_full_minus == 1>checked="checked"</#if>>
+	                                        <span class="first-span full-minus">减现金</span>
+	                                        <input type="text" class="form-control" name="minus_value" id="minusValue" style="width: 80px; " maxlength="8"
+	                                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"
+	                                               <#if detail.minus_value != 0>value="${detail.minus_value!''}"</#if>>
+	                                        <span class="last-span">元</span>
+	                                    </p>
+	                                    <p class="point-promotions-style">
+	                                        <input type="checkbox" value="1" name="is_send_point" title="送积分" class="promotions-style-c_p" <#if detail.is_send_point == 1>checked="checked"</#if>>
+	                                        <span class="first-span send-point">送积分</span>
+	                                        <input type="text" class="form-control" name="point_value" id="pointValue" style="width: 80px; " maxlength="8"
+	                                               onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
+	                                               <#if detail.point_value?? && detail.point_value != 0>value="${detail.point_value}"<#else>value=""</#if>>
+	                                        <span class="last-span">分</span>
+	                                    </p>
+	                                    <p>
+	                                        <input type="checkbox" value="1" name="is_free_ship" <#if detail.is_free_ship == 1>checked="checked"</#if>>
+	                                        <span class="free-input">免邮费</span>
+	                                    </p>
+	
+	                                    <p>
+	                                        <input type="checkbox" value="1" name="is_send_gift" title="送赠品" class="promotions-style-g_b" <#if detail.is_send_gift == 1>checked="checked"</#if>>
+	                                        <span class="first-span send-gift">送赠品</span>
+	                                        <span class="promotions-style-select gift-all">
+	                                            <#assign giftListTag = newTag("giftListTag")/>
+	                                            <#assign giftList = giftListTag()/>
+	                                            <select class="giftId" name="gift_id">
+	                                                <option value="0">请选择</option>
+	                                                <#if giftList??>
+	                                                    <#list giftList as gift>
+	                                                        <option value="${gift.gift_id}" <#if detail.gift_id??><#if detail.gift_id == gift.gift_id>selected="selected"</#if></#if>>${gift.gift_name}</option>
+	                                                    </#list>
+	                                                </#if>
+	                                            </select>
+	                                            <a href="javascript: void(0);" class="add-gift-promotions" tag="gift" title="新增后需刷新页面才会显示">新增</a>
+											</span>
+	                                    </p>
+	
+	                                    <p>
+	                                        <input type="checkbox" value="1" name="is_send_bonus" title="送优惠劵" class="promotions-style-g_b" <#if detail.is_send_bonus == 1>checked="checked"</#if>>
+	                                        <span class="first-span send-bonus">送优惠券</span>
+	                                        <span class="promotions-style-select bonus-all">
+												<#assign bonusListTag = newTag("bonusListTag")/>
+												<#assign bonusList = bonusListTag()/>
+												<select class="bonusId" name="bonus_id">
+	                                                <option value="0">请选择</option>
+	                                                <#if bonusList??>
+	                                                    <#list bonusList as bonus>
+	                                                        <option value="${bonus.type_id}" <#if detail.bonus_id??><#if detail.bonus_id == bonus.type_id>selected="selected"</#if></#if>>${bonus.type_name}</option>
+	                                                    </#list>
+	                                                </#if>
+	                                            </select>
+												<a href="javascript: void(0);" class="add-bonus-promotions" tag="bonus" title="新增后需刷新页面才会显示">新增</a>
+											</span>
+	                                    </p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+			</#list>
+            <div class="goods-info-group" id="join_box">
+                <div class="goods-info-group-inner">
+                    <div class="info-group-title vbox">
+                        <div class="group-inner">活动商品</div>
+                    </div>
+                    <div class="info-group-cont vbox">
+                        <div class="group-inner">
+                            <div class="control-group">
+                                <label class="control-label">活动商品：</label>
+                                <div class="controls promotions-join">
+                                    <p>
+                                        <input class="radio-status" type="radio" value="1" name="range_type" tag="all" id="all_goods" <#if act.range_type == 1>checked="checked"</#if>>
+                                        <span>全部商品参与</span>
+                                    </p>
+                                    <p>
+                                        <input class="radio-status" type="radio" value="2" name="range_type" tag="part" id="part_goods" <#if act.range_type == 2>checked="checked"</#if>>
+                                        <span>部分商品参与</span>
+                                    </p>
+                                    <div class="promotions-goods-box" style="display: none;">
+                                    	<div class="tabmenu">
+											<ul class="tab pngFix">
+												<li class="active allList">
+													<a href="javascript:void(0);">选择商品</a>
+												</li>
+												<li class="normal partList">
+													<a href="javascript:void(0)">已选商品</a>
+												</li>
+											</ul>
+										</div>
+										<div class="goodsAll">
+	                                        <ul class="all">
+	                                            <#include './promotions_select_goods.html' />
+	                                        </ul>
+	                                        <ul class="part" style="display: none;">
+	                                            <#include './promotions_edit_selected_goods.html' />
+	                                        </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom" id="auto-float-button" style="background-color: #ffffff; height: 50px; line-height: 50px; ">
+				<a href="javascript: void(0);" class="btn btn-success activity-edit" title="保存促销活动" id="form_submit" style="margin-left: 50%;">保存修改</a>
+        	</div>
+        </form>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+</body>
+<script type="text/javascript">
+$(function(){
+	
+	//选择商品页和已选商品页面对已经选择的商品进行的样式操作
+	selectedCancel();
+	
+	//提交表单操作
+	$("#form_submit").click(function(){
+		
+		//验证促销活动名称不能为空
+		if ($.trim($("input[name='activity_name']").val()) == "") {
+			$.message.error("请填写活动名称！");
+			return false;
+		}
+		
+		var startTime = $("input[name='startTime']").val();
+		var endTime = $("input[name='endTime']").val();
+		//验证活动时间不能为空
+		if (startTime == "" || endTime == "") {
+			$.message.error("请填写活动生效时间！");
+			return false;
+		}
+		//验证促销活动的开始时间是否大于结束时间
+		if (startTime > endTime) {
+			$.message.error("开始时间不能大于结束时间！");
+			return false;
+		}
+		
+		//如果没有填写优惠门槛
+		if ($.trim($("input[name='full_money']").val()) == "") {
+			$.message.error("优惠门槛不能为空！");
+			return false;
+		} else if ($.trim($("input[name='full_money']").val()) == "0"){
+			$.message.error("优惠门槛不能为0！");
+			return false;
+		}else {
+			//如果优惠方式的所有复选框都没有选中
+			if (!$("input[name='is_full_minus']").is(":checked") && !$("input[name='is_send_point']").is(":checked") 
+					&& !$("input[name='is_free_ship']").is(":checked") && !$("input[name='is_send_gift']").is(":checked") 
+					&& !$("input[name='is_send_bonus']").is(":checked")) {
+				$.message.error("请选择优惠方式！");
+				return false;
+			}
+		}
+		
+		//判断优惠方式减现金活动的复选框是否选中以及有没有填写减少现金的数值，两项缺一不可提交
+		if ($("input[name='is_full_minus']").is(":checked")) {
+			if ($.trim($("#minusValue").val()) == "") {
+				$.message.error('减少的现金不能为空！');
+				return false;
+			}else if($.trim($("#minusValue").val()) == "0"){
+				$.message.error('减少的现金不能为0！');
+				return false;
+			}
+		}
+		
+		//判断优惠方式的送积分活动复选框是否选中以及有没有填写积分的数值，两项缺一不可提交
+		if ($("input[name='is_send_point']").is(":checked")) {
+			if ($.trim($("#pointValue").val()) == "") {
+				$.message.error("赠送的积分不能为空！");
+				return false;
+			}else if($.trim($("#pointValue").val()) == "0"){
+				$.message.error("赠送的积分不能为0！");
+				return false;
+			}
+		}
+		
+		//判断优惠方式的送赠品活动复选框是否选中以及有没有选中相对应的赠品，两项缺一不可提交
+		if ($("input[name='is_send_gift']").is(":checked")) {
+			if ($(".giftId").val() == 0) {
+				$.message.error("请选择赠品！");
+				return false;
+			}
+		}
+		
+		//判断优惠方式的送优惠券活动复选框是否选中以及有没有选中相对应的优惠券，两项缺一不可提交
+		if ($("input[name='is_send_bonus']").is(":checked")) {
+			if ($(".bonusId").val() == 0) {
+				$.message.error("请选择优惠券！");
+				return false;
+			}
+		}
+		
+		//如果促销活动选择的是部分商品参加活动，那已选商品页的商品就不能为空
+		if ($("#part_goods").is(":checked")) {
+			var len = $(".selected .goods-table tbody tr").length;
+			if (len == 0) {
+				$.message.error("请选择要参与活动的商品！");
+				return false;
+			}
+		}
+		
+		var options = {
+			url : "${ctx}/api/b2b2c/store-activity/save-edit.do?ajax=yes",
+			type : "POST",
+			dataType : 'json',
+			success : function(data) {	
+				if(data.result==1){
+					$.message.success(data.message, function(){
+						location.href = "promotions.html";
+					});
+				}else{
+					$.message.error(data.message);
+				}
+			},
+			error : function(e) {
+				$.message.error("出现错误 ，请重试！");
+			}
+		};
+		$("#promotions_form").ajaxSubmit(options);
+	});
+	
+	//保存设置按钮自动悬浮
+	$("#auto-float-button").autoFloat();
+});
+
+/**
+ * 遍历已选商品页面的取消参加活动商品事件绑定
+ */
+function selectedCancel(){
+	$(".selected .goods-table .cancelGoods").each(function(){
+		var selected = $(this).attr("goodsId");
+		if(selected != ""){
+			addCancel(selected);
+		}
+	});
+}
+
+/**
+ * 遍历选择商品页面取消参加活动商品事件绑定
+ * @param selected
+ */
+function addCancel(selected){
+	$(".select .goods-table .cancelGoods").each(function(){
+		var select = $(this).attr("goodsId");
+		if(selected == select){
+			$(this).css('display','block');
+			$(".select .goods-table  .tr_"+select+" .addGoods").css('display','none');
+		}
+	});
+}
+
+</script>
+</html>

@@ -1,0 +1,57 @@
+
+.sales-wappler {
+
+}
+
+.filter-tools select {
+    margin-right: 10px;
+}
+
+.sales-table {
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.sales-table table thead th {
+    background-color: #ebebeb;
+    border-bottom: none;
+}
+
+.sales-table table thead th,
+.sales-table table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sales-wappler .total_money_num {
+    line-height: 30px;
+}
+
+.sales-wappler .total_money_num .order-money {
+    margin-left: 20px;
+}
+
+.sales-wappler .total_money_num .order-num {
+    margin-left: 10px;
+}
+
+.sales-wappler .total_money_num i {
+    font-style: normal;
+}
+
+.dialog-ection-form table {
+    margin: 10px auto;
+}
+
+.dialog-ection-form table tr {
+    line-height: 35px;
+}
+
+.dialog-ection-form table td {
+    vertical-align: middle;
+    font-size: 12px;
+}
+.dialog-ection-form table td input {
+    height: 15px;
+    width: 60px;
+}

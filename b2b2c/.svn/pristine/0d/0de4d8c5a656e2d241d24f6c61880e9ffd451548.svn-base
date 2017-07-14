@@ -1,0 +1,30 @@
+
+<div class="easyui-panel" style="border-style:none;" >
+	<div style="padding: 10px 0 10px 60px">
+		<form id="editStoreThemesForm" method="post" class="validate" >
+			<table>
+				<tr>
+					<td>名称:</td>
+					<td>
+						<input class="easyui-validatebox input_text" type="text" name="name" value="${storeThemes.name}" data-options="required:true" isrequired="true"   />
+						<input type="hidden" name="id" value="${storeThemes.id}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>文件夹:</td>
+					<td>
+						<input class="easyui-validatebox input_text" type="text" name="path" value="${storeThemes.path}" data-options="required:true" isrequired="true"   />
+					</td>
+				</tr>
+				<tr>
+					<td>是否为默认模板：</td>
+					<td>
+						<input type="radio" name="is_default" <#if storeThemes.is_default==0> checked="checked" </#if> value="0" />否
+						<input type="radio" name="is_default" <#if storeThemes.is_default==1> checked="checked" </#if> value="1" />是
+					</td>
+				</tr>
+			</table>
+		</form>
+		图片存储在：模板文件夹下的：preview.jpg
+	</div>
+</div>

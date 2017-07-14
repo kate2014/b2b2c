@@ -1,0 +1,394 @@
+
+/*禁止选中*/
+.pagination a,
+.right-top-tools .trash span {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*CSS3 过渡特效*/
+.seach,
+.seach input,
+.seach .seach-btn.show {
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+
+/*  咨询管理页面样式 */
+.main_list{
+	font-size: 12px;
+}
+
+.store_commont_search{
+	margin-bottom: 20px;
+}
+
+.store_commont_search a{
+	font-size: 12px;
+}
+
+.ncu_btn3{
+	margin-right: 20px;
+}
+
+.search_store_commont{
+	display: inline;
+}
+
+.search_form{
+	float: right;
+}
+
+.seach-btn{
+	width: 50px;
+}
+
+.input_text{
+	height: 20px;
+}
+/*模糊搜索  右上角搜索框 */
+.search_form .seach {
+    position: relative;
+    right: 0;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    width: 80px;
+    background-color: #ffffff;
+    overflow: hidden;
+	width: 200px;
+	border: 1px solid rgba(82, 168, 236, 0.8);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    z-index: 97;
+}
+
+
+.search_form .seach span {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 8px;
+    position: relative;
+    top: 2px;
+}
+
+.search_form .seach input {
+	width: 140px;
+    height: 16px;
+    border: none;
+    font-size: 12px;
+    padding: 5px;
+    outline: none;
+}
+
+.search_form .seach .seach-btn {
+    display: inline-block;
+    position: absolute;
+    width: 40px;
+    *height:43px !important;;
+    *line-height: 43px !important;;
+    height: 25px;
+    font-size: 12px;
+    line-height: 25px;
+    padding: 0;
+	right: 0;
+    top: 0px;
+    -webkit-border-radius:0 2px 2px 0;
+    -moz-border-radius:0 2px 2px 0;
+    border-radius:0 2px 2px 0;
+}
+
+/* 详细搜索 */
+.detail_tr td{
+	padding-right: 20px;
+}
+
+
+.commont_table{
+	width: 100%;
+	border: 1px solid #ccc;
+}
+
+.commont_thead{
+	padding: 5px 0;
+	height: 30px;
+	line-height: 40px;
+	border-bottom: 1px solid #ccc;
+	margin-top: 10px;
+	background: #f8f8f8;
+	font-size: 14px;
+}
+
+.commont_thead th{
+	text-align: center;
+}
+
+.no_blank_tr{
+	height: 100px;
+	text-align: center;
+	line-height: 100px; 
+}
+
+/* 咨询列表内容样式 */
+.commont_content_tbody th{
+	width: 100%;
+	height: 50px;
+	vertical-align: middle;
+	background: #f8f8f8;
+	border-bottom: 1px  solid #ccc;
+	text-align: left;	
+}
+
+.commont_content_tbody th span{
+	padding-left: 20px;
+	line-height: 25px;
+}
+
+.goods_name{
+	padding-left: 20px;
+}
+
+.commont_content_tr{
+	padding-top: 20px;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+	
+}
+
+.commont_question{
+	 line-height: 25px;
+	 padding-top: 20px;	 	
+}
+
+.return_td{
+	width: 34%;
+	border-right: 1px solid #ccc;
+}
+
+.reply{
+	font-size: 12px;
+}
+
+/* 分页样式 */
+.page{
+	float: right;
+	height: 50px;
+	line-height:50px;
+}
+
+
+/* 隐藏部分 店铺评分样式 */
+.s_score_num {
+	padding: 0px 20px 20px 20px;
+}
+
+.s_score_num table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.s_score_num table tr th {
+	font-weight: 700;
+	padding-left: 60px;
+}
+
+.s_score_num table tr th p em {
+	background: url("../../../../images/rate_star.gif") repeat-x left top;
+	display: block;
+	margin: 0;
+	position: relative;
+	height: 12px;
+	width: 70px;
+	z-index: 1;
+}
+
+.s_score_num table tr th p em i {
+	background: url("../../../../images/rate_star.gif") repeat-x left bottom;
+	left: 0;
+	position: absolute;
+	top: 0;
+	z-index: 1;
+	height: 12px;
+}
+
+.s_score_num table tr td {
+	border: 0 none;
+	padding: 10px 5px 0;
+	text-align: left;
+	height: 80px;
+}
+
+.s_score_num table tr td dl {
+	background: url("../../../../images/rate_column.gif") no-repeat 28px -88px;
+	display: inline-block;
+	margin: 0 auto;
+	padding: 0;
+	width: 410px;
+}
+
+.s_score_num table tr td dl dt {
+	display: block;
+	height: 14px;
+	margin-left: 0;
+	margin-right: 60px;
+	position: relative;
+	width: 350px;
+	z-index: 1;
+}
+
+.s_score_num table tr td dl dt em {
+	background: url("../../../../images/rate_column.gif") no-repeat 0px 0px;
+	color: #fff;
+	display: block;
+	font-weight: 600;
+	height: 16px;
+	line-height: 16px;
+	padding: 0 0 7px;
+	position: absolute;
+	text-align: center;
+	top: -25px;
+	width: 37px;
+}
+
+.s_score_num table tr td dl dd {
+	color: #777;
+	display: inline;
+	float: left;
+	line-height: 24px;
+	text-align: center;
+	width: 80px;
+}
+
+/* 咨询回复弹框样式 */
+.reply_form {
+	padding: 20px 10px;
+	width: 400px;
+}
+
+.reply_form table {
+	width: 100%;
+}
+
+.reply_form table tr th {
+	display: inline-block;
+	font-size: 12px;
+	letter-spacing: normal;
+	line-height: 22px;
+	margin: 0;
+	padding: 10px 1% 10px 0;
+	text-align: right;
+	vertical-align: top;
+	word-spacing: normal;
+	width: 20%;
+	text-align: right;
+}
+
+.reply_form table tr td {
+	display: inline-block;
+	font-size: 12px;
+	letter-spacing: normal;
+	line-height: 22px;
+	padding: 10px 0px 10px 10px;
+	vertical-align: top;
+	width: 69%;
+	word-spacing: normal;
+	text-align: left;
+	word-break:break-all;
+}
+
+.reply_form table tr td textarea {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	color: #777;
+	display: inline-block;
+	font: 12px/20px Arial;
+	height: 60px;
+	outline: 0 none;
+	padding: 4px;
+	vertical-align: top;
+	width: 300px;
+}
+
+/* 筛选工具栏样式
+ ============================================================================ */
+.filter-tools {
+	height: 50px;
+	background-color: #fafafa;
+	padding: 15px;
+	margin-bottom: 20px;
+}
+
+.filter-box {
+	float: left;
+	margin-left: 20px;
+}
+
+.filter-tools .filter-blurry {
+	height: 50px;
+}
+
+.filter-tools .filter-blurry input {
+	width: 120px;
+	font-size: 12px;
+}
+
+.filter-tools .filter-seach .btn {
+	line-height: 15px;
+	margin-top: 10px;
+	margin-right: 10px;
+	font-size: 12px;
+}
+
+.filter-tools span {
+	display: block;
+	float: left;
+	font-size: 12px;
+	text-align: right;
+	line-height: 50px;
+}
+
+.filter-tools input {
+	float: left;
+	height: 15px;
+	width: 100px;
+	margin-top: 10px;
+}
+
+.filter-grade select {
+	width: 60px;
+	height: 20px;
+	margin-top: 13px;
+	font-size: 12px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.filter-reply-status select {
+	width: 60px;
+	height: 20px;
+	margin-top: 13px;
+	font-size: 12px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.exact-seach {
+	float: left;
+	width: 0;
+	height: 50px;
+	overflow: hidden;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+
+.exact-seach.show {
+	width: 580px;
+}

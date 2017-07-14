@@ -1,0 +1,673 @@
+/* ==========================================================================
+   首页兼容
+ ============================================================================ */
+
+/* 左侧菜单
+ ============================================================================ */
+body .index_nav .allcategory {
+    height: 54px;
+}
+
+body .index_nav .allcategory .title {
+    height: 54px;
+    line-height: 54px;
+}
+
+body .index_nav .category .class {
+    width: 100%;
+    height: 100%;
+}
+
+/* 七天、闪电、正品
+ ============================================================================ */
+body .index_top .policy ul li {
+    width: auto;
+}
+
+/* 我的商城、购物车Widget
+ ============================================================================ */
+body .head_menu dl.my_store dt {
+    width: auto;
+    height: auto;
+}
+
+/*小图标*/
+body .head_menu dl dt i {
+    margin-left: 5px;
+}
+
+/*我的用户中心*/
+body .head_menu dl dd .my_carttitle {
+    height: 37px;
+}
+
+/*用户名*/
+body .head_menu dl dd .my_carttitle h4 {
+    line-height: 30px;
+}
+
+/*商家请点这里*/
+body .head_menu dl dd .browse-history .part-title {
+    height: 30px;
+}
+
+/*购物车结算*/
+body .head_menu dl.my_cart dt {
+    width: auto;
+    height: auto;
+}
+
+/*商品项目横线*/
+body .index_foolsame .tabnav {
+    height: 38px;
+}
+
+body .index_foolsame .index_middle .tab_selected {
+    height: 38px;
+}
+
+/*小图标*/
+body .head_menu dl.my_cart span.ico {
+    margin-right: 5px;
+}
+
+body .index_foolsame .right_brand ul li a {
+    height: auto;
+}
+
+/* 搜索框
+ ============================================================================ */
+/*商品、店铺*/
+body .head_search .tab .current {
+    height: 23px;
+    line-height: 23px;
+}
+
+/*输入框*/
+body .head_search .input_text {
+    height: 30px;
+}
+
+/*搜索按钮*/
+body .head_search .input_submit {
+    height: 30px;
+}
+
+/* 商城公告、联系方式
+ ============================================================================ */
+body .proclamation .tabnav li.tab_selected {
+    height: auto;
+}
+
+body .proclamation .tabnav li {
+    width: 50%;
+}
+
+body .index_top .index_right {
+    height: auto;
+}
+
+/* ==========================================================================
+   分类页面兼容
+ ============================================================================ */
+
+body .container {
+    padding: 0;
+}
+
+/* 横条
+ ============================================================================ */
+body .goodslist_nav .breadcrumb {
+    width: 1200px;
+    height: 45px;
+}
+
+body .index_foolsame .tabnav li {
+    height: 38px;
+}
+
+/* 品牌
+ ============================================================================ */
+
+body .brand_goods_search {
+    height: 50px;
+}
+
+/*品牌图片*/
+body .goodssearch_new table td ul .cat_brand_img {
+    overflow: hidden;
+}
+body .goodssearch_new table td ul .cat_brand_img img {
+    height: 40px;
+    width: 105px;
+}
+
+/*更多按钮*/
+body .brand_goods_search_more,
+body .brand_goods_search_more1 {
+    width: auto;
+}
+
+/* 为你推荐
+ ============================================================================ */
+body .container .left h1 {
+    height: auto;
+}
+
+/*推荐商品*/
+body .goodsdetail_rec .content ul li {
+    padding: 0;
+}
+
+body .goodsdetail_rec dl dd.goods_price {
+    top: 195px;
+}
+
+/* 排序
+ ============================================================================ */
+body .goods_bar {
+    height: auto;
+}
+
+body .sorting_goods li a {
+    height: auto;
+}
+
+/* 商品列表项
+ ============================================================================ */
+body .store_goods_list a {
+    height: auto;
+}
+
+/*价格*/
+body .squares .goodslist_price {
+    height: auto;
+}
+
+/*评论*/
+body .squares .goodslist_sell ul li {
+    width: 50%;
+    height: auto;
+}
+
+/*名称*/
+body .goodslist_name {
+    margin-top: 6px;
+}
+
+body .goodslist_name a {
+    line-height: 30px;
+}
+
+/* 分页
+ ============================================================================ */
+body .page {
+    margin: 37px 0;
+}
+
+/* ==========================================================================
+   个人中心
+ ============================================================================ */
+
+/* 横条
+ ============================================================================ */
+body .member_content .user_nav {
+    height: auto;
+}
+
+/* 左侧菜单标题
+ ============================================================================ */
+body .member_left .left_same .side_menu H1 {
+    height: auto;
+}
+
+/* 右侧项目
+ ============================================================================ */
+body .member_right {
+    height: 860px;
+}
+
+/* 用户概览
+ ============================================================================ */
+body .member_right .user_title {
+    height: auto;
+}
+
+/* 订单项目
+ ============================================================================ */
+/*我的订单*/
+body .uorderlist ul {
+    width: 530px;
+}
+
+body .uorderlist ul li .o_u_listimg {
+    width: auto;
+}
+
+/*订单分类*/
+body .u_floor1 .u_orderlist .order_title {
+    width: 532px;
+}
+
+/*没有订单*/
+body .no_orderlist P {
+    width: 532px;
+}
+
+body .empty {
+    width: auto;
+}
+
+/* 购物车项目
+ ============================================================================ */
+body .member_cart {
+    width: 397px;
+    height: 414px;
+}
+
+body .u_gocart {
+    height: auto;
+}
+
+/*购物车没商品*/
+body .cartno {
+    width: 500px;
+}
+
+body .no_cartlist {
+    width: auto;
+}
+
+/* 收藏夹
+ ============================================================================ */
+body .u_favorite {
+    height: auto;
+}
+
+body .u_store {
+    width: 397px;
+    height: 291px;
+}
+
+/* 我的订单
+ ============================================================================ */
+body .user_order .order_title_nav ul {
+    height: 37px;
+}
+
+body .user_order .order_title_nav ul li a {
+    height: auto;
+}
+
+body .order_detail .form-control {
+    height: 32px;
+}
+
+/*订单搜索框*/
+body .user_ordersearch .ordershearch_word input {
+    height: 28px;
+    font-size: 12px;
+}
+
+/*订单详情标题*/
+body .order_detail .order_intro H1 {
+    height: auto;
+}
+
+/*订单详情图片*/
+body .detail_goodslist table tr .d1 table tr td img {
+    width: 60px;
+    height: 60px;
+}
+
+/*查看详情按钮*/
+body .go_detailDetail {
+    height: auto;
+}
+
+/* ==========================================================================
+   购物车
+ ============================================================================ */
+body .cart_wrapper .cart_pointout {
+    height: auto;
+}
+
+body .storelist tbody tr .full-icon {
+    height: auto;
+}
+
+body .total_wrapper {
+    height: auto;
+}
+
+body .storelist tbody tr .cart_quantity div input {
+    height: 20px;
+    padding: 0;
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   结算页
+ ============================================================================ */
+body .bottom-ckt-inventory input {
+    height: 30px;
+}
+
+
+/* ==========================================================================
+   商品详情页
+ ============================================================================ */
+
+/* 购买数量
+ ============================================================================ */
+body .goods-figure-input a i {
+    height: 17px;
+}
+
+/* 购买、添加到购物车按钮
+ ============================================================================ */
+body .goods-btn a.buynow,
+body .goods-btn a.addcart {
+    height: auto;
+}
+
+/* 进入店铺、收藏商家按钮
+ ============================================================================ */
+body .goods_store .store_outdside .go_store .goto_store,
+body .goods_store .store_outdside .go_store a{
+    height: auto;
+}
+
+/* 客服中心
+ ============================================================================ */
+body .nc-s-c-s1 .title {
+    height: auto;
+}
+
+/* 热销排行
+ ============================================================================ */
+
+body .ncs-top-panel dd.goods-pic a {
+    padding: 0;
+    margin: 4px;
+}
+
+body .goods-pic .thumb.size40 img {
+    width: 38px;
+    height: 38px;
+    margin-top: -2px;
+}
+
+body .goods-pic .thumb.size100 img {
+    width: 98px;
+    height: 98px;
+    margin-top: -8px;
+    margin-left: -4px;
+}
+
+/* 推荐商品
+ ============================================================================ */
+body .goodsdetail_rec .title {
+    height: auto;
+}
+
+/* 发表评论
+ ============================================================================ */
+body .discuss_issue .discuss_ok {
+    width: 979px;
+}
+
+/*商品咨询*/
+body .point_out {
+    width: auto;
+    height: auto;
+}
+
+body .point_out P {
+    position: static;
+    margin-left: 70px;
+    margin-top: 40px;
+}
+
+body #askBtn {
+    height: 33px;
+    line-height: 20px;
+}
+
+body .discuss_issue {
+    height: auto;
+}
+
+body .tabbar ul {
+    height: 37px;
+}
+
+body .tabbar ul li.current a {
+    outline: none;
+}
+
+/* 提示框
+ ============================================================================ */
+body .ui_title {
+    height: auto;
+}
+
+/* 个人中心订单详情页 赠送图标
+ ============================================================================ */
+body .detail_goodslist table tr .full-icon {
+    height: auto;
+}
+
+body .member_center .form-control {
+    height: 30px;
+}
+
+body .member_center .address ul li a {
+    height: auto;
+}
+
+body .favorite_title ul li a {
+    height: auto;
+}
+
+/* 个人中心 我的评论
+ ============================================================================ */
+
+body .user_comment h1 {
+    height: auto;
+}
+
+body .user_comment ul li .comment_inpro {
+    width: 100%;
+}
+
+/* 促销活动
+ ============================================================================ */
+body .store_goods_main_intro .store_intro .content .store_shop_info {
+    height: auto;
+}
+
+
+/* 商家店铺模板
+ ============================================================================ */
+body .store_goods_list {
+    clear: both;
+    width: 1000px;
+}
+
+body .store_goods_search {
+    height: 40px;
+}
+
+body .ncs_array li a {
+    width: auto;
+}
+
+body .store-top-tools ul .store-more span {
+    background-position: -83px 0px;
+}
+
+body .ncs-array li a {
+    width: auto;
+}
+
+body .sstore-all-goods li {
+    height: auto;
+}
+
+body .sstore-all-goods li h3 {
+    border-bottom: none;
+}
+
+body .store-search-right a {
+    height: auto;
+}
+
+body .store-hot-list ul li .hot-list-box .hot-intro {
+    width: 100%;
+}
+
+body .store-box .store-server h2 {
+    width: 50px;
+    height: auto;
+}
+
+body .store-recommend ul li .rec-img {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+body .store-recommend ul li .rec-intro h2 {
+    height: auto;
+}
+
+body .store-recommend ul li .rec-intro {
+    width: 210px;
+    margin-left: 10px;
+}
+
+body .store-recommend ul li .rec-intro .rec-parameter .go-rec-detail {
+    height: auto;
+}
+
+body .new-list-box ul li p .hot-sale {
+    margin-right: 10px;
+}
+
+body .information-top,
+body .information-phone,
+body .information-evaluate,
+body .information-collection {
+    padding: 15px 0 0 5px;
+    height: 120px;
+}
+
+/* 手机注册页
+ ============================================================================ */
+
+body .icon-checkmark {
+    width: auto;
+}
+
+body .form-item .mobile-input {
+    height: 31px;
+}
+
+body .send-sms-btn {
+    top: 0;
+    margin-right: 30px;
+}
+
+#next-button {
+    width: 100px;
+}
+
+body .regis_same dl dd .text {
+    height: 30px;
+}
+
+body #iptlogin {
+    height: 30px;
+}
+
+/* 登陆页
+ ============================================================================ */
+body .m_week a {
+    width: auto;
+}
+
+/* 找回密码页
+ ============================================================================ */
+body .find-title ul li {
+    width: 360px;
+}
+
+body .same-find {
+    width: auto;
+}
+
+body .find-by-phone .find-code-box {
+    height: 35px;
+}
+
+body .find-by-phone .find-code-box .find-code {
+    height: 33px;
+}
+
+body .find-by-phone .find-code-box .get-message {
+    top: 50%;
+    margin-top: -10px;
+    padding: 0;
+}
+
+/* 支付页面
+ ============================================================================ */
+body .cashier-order-detail {
+    width: 850px;
+}
+
+body .cashier-order-inside h3 {
+    width: auto;
+}
+
+body .cashier-tools {
+    width: 850px;
+}
+
+body .cashier-tools-title h3 {
+    width: auto;
+    margin: 0;
+    padding-left: 20px;
+}
+
+body .cashier-pay-list li {
+    height: auto;
+}
+
+body .cashier-pay {
+    width: auto;
+}
+
+body .alipay-right {
+    width: 350px;
+}
+
+body .alipay-right p {
+    width: auto;
+}
+
+body .alipay-right .pay-erweima {
+    width: auto;
+}
+
+body .cashier-pay-list {
+    width: auto;
+}
+
+/* 帮助中心
+============================================================================ */
+body .besides .help2_wh .help_left h1 {
+    height: auto;
+}

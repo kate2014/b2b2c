@@ -1,0 +1,27 @@
+<!-- 浮动菜单 -->
+<div class="store-float">
+	<p class="store-collect" rel="${store.store_id!0}">收藏本店</p>
+	<#if store.qq??>
+		<a  href="http://wpa.qq.com/msgrd?v=3&amp;uin=${store.qq!''}&amp;site=qq&amp;menu=yes" class="call-store">联系店家客服</a>
+	<#else>
+		<a href="javascript:void(0)" class="call-store">暂无客服</a>
+	</#if>
+	<a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html" class="sotre-goodslist-more"><i></i>更多商品<i class="sotre-more-left"></i></a>
+</div>
+
+<script>
+	$(function(){
+ 		//收藏本店
+ 		$(".store-collect").click(function(){
+ 			var storeId = $(this).attr("rel");  //店铺ID
+ 			$.ajax({ 
+ 				url:ctx+'/api/b2b2c/store-collect/add-collect.do?store_id='+storeId,
+ 				dataType:'json',
+ 				success:function(result){
+ 					$.alert(result.message);
+ 				} 
+ 			});
+ 		})
+	})
+</script>
+

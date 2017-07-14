@@ -1,0 +1,54 @@
+<div class="main">
+	<div class="detail" style="margin-left: 10px;">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td>上传身份证照片：</td>
+				<td >
+	        		<input type="hidden" name="id_img" id="id_img" />
+	        		<input type="hidden" name="name_auth" value="0"/>
+        		 	<a href="javascript:;" class="sysbtn upload" onclick="openImgDlg(getImgPath1);">上传图片</a> 
+        		 	<span id="fileUploadMsg1"> </span>
+					<div>
+						<img id="img1" src="${ctx}${themes_path!''}/images/default_goods_image_tiny.gif" style="width:100px; height:100px;"> 
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>上传执照照片：</td>
+				<td >
+	        		<input type="hidden" name="license_img" id="license_img"/>
+	        		<input type="hidden" name="store_auth" value="0"/>
+	        		<span class="specImage"> 
+					<a href="javascript:;" class="sysbtn upload" onclick="openImgDlg(getImgPath2);">上传图片</a> 
+					<span id="fileUploadMsg2"> </span>
+					<div >
+					
+						<img id="img2" src="${ctx}${themes_path!''}/images/default_goods_image_tiny.gif" style="width:100px; height:100px;">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+/**
+ * 上传图片回调函数
+ */
+function getImgPath1(path) {
+	console.info(path);
+	$("#id_img").val(path);
+	$("#img1").attr('src', path);
+	console.info(path);
+	console.info($("#img1").attr('src'));
+	$("input[name='name_auth']").val(2);
+}
+
+/**
+ * 上传图片回调函数
+ */
+function getImgPath2(path) {
+	$("#license_img").val(path);
+	$("#img2").attr('src', path);
+	$("input[name='store_auth']").val(2);
+}
+</script>

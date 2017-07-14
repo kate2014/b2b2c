@@ -1,0 +1,7 @@
+#Tomcat publish data
+#Tue Apr 25 15:28:35 CST 2017
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\Administrator\\.m2\\repository\\org\\springframework\\spring-web\\4.2.4.RELEASE\\spring-web-4.2.4.RELEASE.jar=WEB-INF/lib/spring-web-4.2.4.RELEASE.jar
+org.eclipse.jst.j2ee.server\:core=WEB-INF/lib/core-6.2.1.jar
+org.eclipse.jst.j2ee.server\:b2b2c-core=WEB-INF/lib/b2b2c-core-6.2.1.jar
+org.eclipse.jst.j2ee.server\:cms-core=WEB-INF/lib/cms-core-6.2.1.jar
+org.eclipse.jst.j2ee.server\:shop-core=WEB-INF/lib/shop-core-6.2.1.jar

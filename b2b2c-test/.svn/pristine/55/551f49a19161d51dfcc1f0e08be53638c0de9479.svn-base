@@ -1,0 +1,460 @@
+package com.enation.app.javashop.b2b2c.shop;
+
+import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.enation.app.shop.core.member.model.MemberAddress;
+import com.enation.app.shop.core.member.service.IMemberAddressManager;
+import com.enation.app.shop.core.order.model.Order;
+import com.enation.app.shop.core.order.service.IOrderManager;
+import com.enation.app.shop.core.order.service.OrderStatus;
+import com.enation.framework.database.IDaoSupport;
+import com.enation.framework.test.SpringTestSupport;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import net.sf.json.JSONObject;
+
+/** 
+* 会员我的咨询和我的评论      单元测试类
+* @author LYH 
+* @version v1.0
+* @since v6.2
+* 2017年2月18日 下午4:08:58 
+*/
+@Transactional(propagation=Propagation.NOT_SUPPORTED)
+public class MemberCommentTest extends SpringTestSupport{
+	
+	@Autowired
+	private IDaoSupport daoSupport;
+	
+	@Autowired
+	private IOrderManager orderManager;
+	
+	@Autowired
+	private IMemberAddressManager memberAddressManager;
+	
+   //-----------------------------我的咨询--------------------------
+	
+	/**
+	 * 不登陆进行商品咨询  无权限
+	 * @throws Exception 
+	 */
+	@Test
+	public void memberZixunNologinTest() throws Exception{
+		
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/add.do")
+				 .param("goods_id", "408")
+				 .param("commenttype", "2")
+				 .param("content", "挺好的商品哦")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+		         .andDo(MockMvcResultHandlers.print())  
+		         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(0) );    
+	}
+	/**
+	 * 登录-food商品咨询-kans回复咨询
+	 * @throws Exception 
+	 */
+	@Test
+	public void memberZixunLoginTest() throws Exception{
+		
+		//启用b2b2c组件
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/core/admin/component/start.do")
+				 .param("componentid", "b2b2cComponent")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+		         .andDo(MockMvcResultHandlers.print())  
+		         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		//会员food登录
+		this.memberFoodLogin();
+		
+		//清空会员评论列表
+		this.daoSupport.execute("TRUNCATE table es_member_comment");
+		
+		//商品咨询
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/add.do")
+				 .param("goods_id", "408")
+				 .param("commenttype", "2")
+				 .param("content", "挺好的商品哦")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+		         .andDo(MockMvcResultHandlers.print())  
+		         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+
+		//kans登录进行审核food提交的咨询
+		this.memberKansLogin();
+		
+		//审核通过并回复咨询
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/edit.do")
+				 .param("status", "1")//审核通过1，拒绝2
+				 .param("comment_id", "1")
+				 .param("reply", "亲！谢谢您的赞美哦！")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 .session(session)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+	}
+	
+	//---------------------------------我的评论----------------------------
+	
+  /**
+   * 不登陆进行商品评价
+   * @throws Exception
+   */
+	@Test
+	public void memberPinglunNologinTest() throws Exception{
+		
+		//商品评论
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/addComment.do")
+				 .param("orderid", "1")
+				 .param("store_desccredit", "5")
+				 .param("store_servicecredit", "2")
+				 .param("store_deliverycredit", "3")
+				 .param("grade_408", "3")
+				 .param("content", "商品还可以吧")
+				 .param("picnames_408", "http://localhost:8080/b2b2c/statics/attachment//comments//goods/2017/2/25/23//14141641.jpg")
+				 .param("file", "2")
+				 .param("goods_id", "402")
+				 .param("commenttype", "1")
+				 .param("product_id", "408")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+		         .andDo(MockMvcResultHandlers.print())  
+		         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(0) );
+
+	}
+	
+	/**
+	 * food登录-形成已完成订单--进行评论--kans回复评论
+	 * @throws Exception 
+	 */
+	@Test
+	public void memberPinglunLoginTest() throws Exception{
+		
+		//启用b2b2c组件
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/core/admin/component/start.do")
+				 .param("componentid", "b2b2cComponent")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+		         .andDo(MockMvcResultHandlers.print())  
+		         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		//food进行登录
+		this.memberFoodLogin();
+		
+		//--------------会员food创建订单----------------------
+		
+		//加入一个商品到购物车
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/store/store-cart/add-product.do")
+				 .param("ajax", "yes")
+				 .param("store_id", "17")
+				 .param("exchange", "")
+				 .param("goodsid", "401")
+				 .param("action", "add-product")
+				 .param("showCartData", "0")
+				 .param("productid", "407")
+				 .param("havespec", "1")
+				 .param("num", "1")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1));  
+		
+		//取得会员food的默认地址
+		MemberAddress addr = this.memberAddressManager.getMemberDefault(16);
+        
+		//将地址压入session
+		mockMvc.perform(
+			      MockMvcRequestBuilders.post("/api/store/store-order/change-address.do")
+			      .param("address_id", ""+addr.getAddr_id())
+			      .session(session)
+			      .contentType(MediaType.APPLICATION_JSON)
+			      .accept(MediaType.APPLICATION_JSON)
+				 )
+				  .andDo(MockMvcResultHandlers.print())  
+				  .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		
+		//创建订单 
+		 MvcResult result =mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/store/store-order/create.do")
+				 .param("addressId", ""+addr.getAddr_id())
+				 .param("paymentId", "0")
+				 .param("typeId", "0")
+				 .param("bonusid", "0-0")
+				 .param("storeid", "1")
+				 .param("remark", "")
+				 .param("shipDay", "任意时间")
+				 .param("receipt", "2")
+				 .param("receiptType", "1")
+				 .param("receiptContent", "办公用品")
+				 .param("receiptTitle", "")
+				 .session(session)
+			 .contentType(MediaType.APPLICATION_JSON)
+			 .accept(MediaType.APPLICATION_JSON)
+			 )
+		 	.andDo(MockMvcResultHandlers.print())  
+
+		 	//返回正确结果
+		 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) )
+		 	
+		 	//订单价格为58.0
+		 	.andExpect( MockMvcResultMatchers.jsonPath("$.data.order_amount").value(58.0))
+		 	
+			//商品格为58.0
+		 	.andExpect( MockMvcResultMatchers.jsonPath("$.data.goods_amount").value(58.0))
+		 	
+		 	//运费是0
+		 	.andExpect( MockMvcResultMatchers.jsonPath("$.data.shipping_amount").value(0.0))
+		 	
+		 	//订单状态为0
+		 	.andExpect( MockMvcResultMatchers.jsonPath("$.data.status").value(0))
+		 	
+		 	.andReturn() ;
+		 
+		 	//由返回结果中查出orderid
+	 		String resultStr= 	result.getResponse().getContentAsString();
+	 		JSONObject orderResult = JSONObject.fromObject(resultStr);
+	 		Map orderData =(Map) orderResult.get("data");
+	 		Integer orderid = (Integer)orderData.get("order_id");
+	 		
+	 		//根据orderid获取 aymentid
+	 		int paymentid = this.daoSupport.queryForInt("select payment_id from es_payment_logs where order_id=?", orderid);
+	 		
+	 		//--------------管理员登录----------------------
+            this.adminlogin();
+		            
+
+			//--------------支付----------------------
+
+		  	//支付此订单
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/shop/admin/payment/pay.do")
+					 .param("orderId", ""+orderid)
+					 .param("payment_id",""+ paymentid)
+					 .param("paymoney", "58.0")
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					
+					 )
+				 	.andDo(MockMvcResultHandlers.print())  
+				 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  		
+			
+			
+			//断言订单为已支付状态
+			Order order  = this.orderManager.get(orderid);
+			Assert.assertEquals(OrderStatus.ORDER_PAY, order.getStatus().intValue()); 
+			
+			
+			//--------------发货----------------------
+			//填写快递单号
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/shop/admin/order-print/save-ship-no.do")
+					 .param("order_id", ""+orderid)
+					 .param("expressno","11111111101")
+					 .param("logi_name", "圆通快递")
+					 .param("logi_id", "1")
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 )
+				 	.andDo(MockMvcResultHandlers.print())  
+				 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  		
+			
+			//发货
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/shop/admin/order-print/ship.do")
+					 .param("order_id", ""+orderid)
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 )
+				 	.andDo(MockMvcResultHandlers.print())  
+				 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  	
+			
+			//断言发货状态
+			order  = this.orderManager.get(orderid);
+			Assert.assertEquals(OrderStatus.ORDER_SHIP, order.getStatus().intValue()); 
+			Assert.assertEquals(OrderStatus.SHIP_YES, order.getShip_status().intValue()); 
+			
+			//登陆
+			this.memberFoodLogin();
+			
+			//会员food确认收货
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/api/shop/order/rog-confirm.do")
+					 .param("orderId", ""+orderid)
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 )
+				 	.andDo(MockMvcResultHandlers.print())  
+				 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) ); 
+			
+			
+			//断言发货状态
+			order  = this.orderManager.get(orderid);
+			Assert.assertEquals(OrderStatus.ORDER_COMPLETE, order.getStatus().intValue()); 
+			Assert.assertEquals(OrderStatus.SHIP_ROG, order.getShip_status().intValue()); 
+			
+			//清空会员评论列表
+			this.daoSupport.execute("TRUNCATE table es_member_comment");
+			
+			//会员food对订单商品进行评论
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/addComment.do")
+					 .param("orderid", ""+orderid)
+					 .param("store_desccredit", "3")
+					 .param("store_servicecredit", "2")
+					 .param("store_deliverycredit", "5")
+					 .param("grade_407", "3")
+					 .param("content", "商品还可以吧")
+					 .param("picnames_407", "http://localhost:8080/b2b2c/statics/attachment//comments//goods/2017/2/25/23//14141641.jpg")
+					 .param("file", "2")
+					 .param("goods_id", "401")
+					 .param("commenttype", "1")
+					 .param("product_id", "407")
+					 .session(session)
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 )
+			         .andDo(MockMvcResultHandlers.print())  
+			         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+
+			//会员kans进行登录，并进行评价回复
+			this.memberKansLogin();
+			
+			//对food的此评价进行回复
+			mockMvc.perform(
+					 MockMvcRequestBuilders.post("/api/b2b2c/store-comment-api/edit.do")
+					 .param("status", "1")  //审核通过1 ，审核拒绝2
+					 .param("comment_id", "1")
+					 .param("reply", "谢谢您的评价！！欢迎下次光临呢")
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 )
+			         .andDo(MockMvcResultHandlers.print())  
+			         .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+ }
+		
+	/**
+	 * food登陆方法
+	 * @throws Exception
+	 */
+	private void memberFoodLogin() throws Exception{
+
+		//--------------登录----------------------
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberlogin"));
+			
+		//登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member/login.do")
+				 .param("username", "food")
+				 .param("password", "111111")
+				 .param("validcode", "1111")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 .session(session)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		//为会员添加一个默认地址
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member-address/add.do")
+				 .param("def_addr", "1")
+				 .param("name", "虎虎")
+				 .param("mobile", "15373167788")
+				 .param("tel", "06356877715")
+				 .param("province", "上海")
+				 .param("province_id", "2")
+				 .param("city", "徐汇区")
+				 .param("city_id", "2813")
+				 .param("region", "城区")
+				 .param("region_id", "51976")
+				 .param("town", "")
+				 .param("town_id", "")
+				 .param("addr", "测试地址")
+				 .param("shipAddressName", "家里")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+						
+	}
+	/**
+	 * kans登陆方法
+	 * @throws Exception
+	 */
+	private void memberKansLogin() throws Exception{
+
+		//--------------登录----------------------
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberlogin"));
+			
+		//登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member/login.do")
+				 .param("username", "kans")
+				 .param("password", "111111")
+				 .param("validcode", "1111")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 .session(session)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		
+	}
+   /*
+    *公用的后台登陆方法 
+    *@throws Exception
+    */
+	private void adminlogin() throws Exception{
+
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=admin"));
+		
+		//管理员登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/core/admin/admin-user/login.do")
+				 .param("username", "admin")
+				 .param("password", "admin")
+				 .param("valid_code", "1111")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		}
+}

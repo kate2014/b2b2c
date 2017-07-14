@@ -1,0 +1,49 @@
+/************专题样式*************/
+.index-subject-main{background:#fff;padding-bottom:1px;padding-top:30px;clear:both;}
+.subject-main{width:1200px;margin:0 auto;}
+.subject-main .subjectTitle{float:left;	font-size:16px;font-weight:bold;height:35px;line-height:35px;width:100%;}
+.subject-img{clear:both;vertical-align:middle;}
+.subject-img img{border:1px solid #d1d3d4;width:1180px;padding:10px;}
+/**************专题次页商品样式***************/
+.subjectGoods{width:1219px;height:320px;margin:0 auto;position:relative;clear:both;}
+.subjectGoods ul{margin:0 auto;height:320px;width:1227px;clear:both;position:relative;padding-left: 45px;}
+.subjectGoods ul li.subject_goods{border:4px solid #e4e4e4;width:232px;float:left;margin-right:5px;}
+.subjectGoods .subject_goods_img{height:232px;margin-bottom:10px;width:232px;}	
+.subjectGoods .subject_goods_name{height:36px;margin:0 auto;overflow:hidden;width:210px;}
+.subjectGoods .subject_goods_price{height:25px;margin:0 auto;overflow:hidden;width:210px;}
+.subjectGoods .subject_goods_price span{color:#f00;}
+/**************专题次页商品下方的大图***************/
+.subjectImage .subjectImage_img{overflow:hidden;text-algin:center;width:1237px;margin:10px auto;}
+.subjectImage .subjectImage_img span{margin:0 auto;width:100%;}
+.subjectImage .subjectImage_img img{max-width:100%;display:block;vertical-align:middle;width:1219px;height:400px;margin:0 auto;}
+
+
+
+
+/****************后台编辑按钮的样式、 江宏岩****************/
+.subject_goods_edit{
+	left:20%;
+	position:absolute;
+	z-index:10;
+}
+.subject_goods_delete{
+	left:25%;
+	position:absolute;
+	z-index:10;
+}
+.subject_image_edit{
+	left:20%;
+	position:absolute;
+	z-index:10;
+}
+.subject_image_delete{
+	left:25%;
+	position:absolute;
+	z-index:10;
+}
+
+
+
+
+
+

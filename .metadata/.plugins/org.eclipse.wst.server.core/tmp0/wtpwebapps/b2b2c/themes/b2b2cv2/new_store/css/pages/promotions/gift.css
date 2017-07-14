@@ -1,0 +1,65 @@
+.gift-top-tools {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.gift-top-tools .gift-add {
+    font-size: 12px;
+    margin-top: 10px;
+    width: 50px;
+    float: left;
+}
+
+.gift .gift-seach {
+    float: right;
+    margin-top: 10px;
+}
+
+.gift .gift-seach input {
+    height: 15px;
+    width: 100px;
+    float: left;
+    margin-top: 2px;
+}
+
+.gift .gift-seach .btn {
+    font-size: 12px;
+    float: left;
+    margin-left: 10px;
+}
+
+.gift table {
+    font-size: 12px;
+}
+
+.gift table th,
+.gift table td {
+    text-align: center;
+}
+
+.gift table thead th {
+    background-color: #f2f2f2;
+    border-bottom: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.gift table th {
+    text-align: center;
+}
+
+.gift table tbody td {
+    vertical-align: middle;
+}
+
+.gift-table-img img {
+    height: 45px;
+    max-width: 100px;
+}
+
+.gift-oper .btn {
+    font-size: 12px;
+    margin-right: 5px;
+}

@@ -1,0 +1,27 @@
+<#include '/new_store/store_header.html' />
+<div class="store_main">
+	<div class="open_store" style="height: 300px;">
+		<h1>欢迎来到${header.title}商家中心</h1>
+			<#if storeMember.is_store==0>
+				<h3 class="store_prompt">您现在还没有店铺，无法对商家中心功能进行操作，您可以：</h3>
+				<div class="no_store">
+					<a href="./apply/step.html" class="" >马上开店</a>
+					<h4>进入马上开店并填写相关信息，即可开设您的店铺。</h4>
+				</div>
+			<#else>
+				<#if myStoreDetail.disabled==0>
+					<h3 class="store_prompt">您的申请正在审核中，等会儿再来看看吧...</h3>
+				<#elseif myStoreDetail.disabled==2>
+					<h3 class="store_prompt">店铺已经禁用，请联系管理员...</h3>
+				<#elseif myStoreDetail.disabled==-1>
+					<h3 class="store_prompt">抱歉，您的申请未通过.......</h3>
+					<div class="no_store">
+						<a href="./apply/reApply.html" class="" >再次申请</a>
+						<h4>店铺审核未通过，您可以再次提交申请。</h4>
+					</div>
+				</#if>
+			</#if>
+	</div>
+</div>		
+<#include '/common/footer.html' />
+

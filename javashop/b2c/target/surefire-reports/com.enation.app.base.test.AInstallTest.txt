@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.enation.app.base.test.AInstallTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 45.7 sec - in com.enation.app.base.test.AInstallTest

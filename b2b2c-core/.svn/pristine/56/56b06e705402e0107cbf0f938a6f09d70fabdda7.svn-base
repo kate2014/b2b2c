@@ -1,0 +1,61 @@
+<#assign regionSelectDirective="com.enation.app.shop.front.tag.goods.other.regions.RegionSelectDirective"?new()>
+<div class="main">
+	<div class="detail" style="margin-left: 10px;">
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td>银行开户名：</td>
+				<td colspan="3">
+					<input <#if store.disabled != 1>disabled="disabled"</#if>class="input_text easyui-validatebox" maxlength="30" type="text" name="bank_account_name" value="${store.bank_account_name!''}" data-options='required:true'" />
+				</td>
+			</tr>
+				<tr>
+				<td>开户银行地址：</td>
+				<td colspan="3" style="overflow: visible"><#if
+					store.bank_provinceid??> <#if store.disabled != 1>
+					${store.store_province}-${store.store_city}-${store.store_region}
+					<#if store.store_town ??> <#if store.store_town !=''>
+					-${store.store_town!''} </#if> </#if> <#else>
+
+					<dl>
+						<dd id="selectAddress2">
+							<script type="text/javascript">
+                $(function () {
+                    $('#selectAddress2').addressSelect({
+                        deData: [${store.bank_provinceid}, ${store.bank_cityid}, ${store.bank_regionid}, ${store.bank_townid!''}],
+                        names : {
+                            province: 'bank_province',
+                            city    : 'bank_city',
+                            region  : 'bank_region',
+                            town    : 'bank_town'
+                        }
+                    });
+                })
+            </script>
+						</dd>
+					</dl> </#if> <#else> <#if store.disabled != 1> 未选择 <#else>
+					<@regionSelectDirective province_name='bank_province'
+					city_name='bank_city' region_name='bank_region'/> </#if> </#if>
+				</td>
+			</tr>
+			<tr>
+				<td>公司银行账号：</td>
+				<td colspan="3">
+					<input <#if store.disabled != 1>disabled="disabled"</#if> class="easyui-validatebox input_text" maxlength="20" data-options="required:true" type="text" name="bank_account_number" value="${store.bank_account_number!''}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>开户银行支行名称：</td>
+				<td colspan="3">
+					<input <#if store.disabled != 1>disabled="disabled"</#if> class="easyui-validatebox input_text"  maxlength="30" type="text" name="bank_name" value="${store.bank_name!''}" data-options="required:true"/>
+				</td>
+			</tr>
+			<tr>
+				<td>支行联行号：</td>
+				<td colspan="3">
+					<input <#if store.disabled != 1>disabled="disabled"</#if> class="easyui-validatebox input_text" maxlength="20" data-options="required:true" type="text" name="bank_code" value="${store.bank_code!''}"/>
+				</td>
+			</tr>
+		
+		</table>
+	</div>
+</div>

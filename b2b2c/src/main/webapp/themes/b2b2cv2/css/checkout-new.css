@@ -1,0 +1,845 @@
+/* 是头发的特技 是特技的头发 duang duang duang...
+ ============================================================================ */
+.li-ckt-info,
+.address-li-ckt-info,
+.center-ckt-info /*,
+.ul-ckt-pay*/,
+.detail-item-discount,
+.bill_btn {
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+/* 无耻老贼 住口！
+ ============================================================================ */
+.aliases-li-ckt-info,
+.li-ckt-pay,
+.more-collapse-ckt,
+.ckt-checkbox,
+.item-discount-inventory {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 一些公共样式
+ ============================================================================ */
+.ckt-checkbox {
+    position: relative;
+    display: block;
+    height: 28px;
+    line-height: 28px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.ckt-checkbox:hover,
+.ckt-checkbox.selected {
+    height: 26px;
+    line-height: 26px;
+    border: 2px solid #ff3500;
+}
+.ckt-checkbox.selected {
+    background: url("../images/icon-ckt-selected.png") no-repeat bottom right;
+    background-size: 20px 20px;
+}
+
+/*
+ ============================================================================ */
+.ckt-control i {
+    font-style: normal;
+}
+
+.ckt-control .clearfix {
+    clear: both;
+}
+
+.ckt-control .placeholder-20 {
+    clear: both;
+    height: 20px;
+}
+
+.ckt-control {
+    width: 998px;
+    margin: 0 auto;
+    color: #666666;
+    font-size: 12px;
+}
+
+.ckt-title {
+    float: left;
+    line-height: 42px;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+}
+
+.ckt-content {
+    border: 1px solid #f0f0f0;
+    padding: 0 20px;
+    clear: both;
+    background-color: #ffffff;
+}
+
+/* 模块样式
+ ============================================================================ */
+.ckt-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.top-ckt {
+    clear: both;
+    line-height: 40px;
+}
+
+.title-top {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.other-top {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+}
+
+.other-top a {
+    color: #005ea7;
+}
+
+.other-top a:hover {
+    color: #ff6700;
+}
+
+/* 收货人信息
+ ============================================================================ */
+.center-ckt-info {
+    height: 42px;
+    margin: 10px 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.li-ckt-info {
+    position: relative;
+    height: 30px;
+    margin: 6px 0;
+    font-size: 12px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.li-ckt-info:hover {
+    background-color: #fff3f3;
+}
+
+.name-li-ckt-info,
+.address-li-ckt-info,
+.mobile-li-ckt-info,
+.operate-li-ckt-info {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+.name-li-ckt-info {
+    margin-left: 150px;
+    width: 55px;
+    text-align: center;
+}
+
+.ckt-checkbox.info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 148px;
+}
+
+.ckt-checkbox.info:hover,
+.ckt-checkbox.info.selected {
+    width: 146px;
+}
+
+.address-li-ckt-info {
+    width: 490px;
+}
+
+.address-li-ckt-info.min {
+    width: 330px;
+}
+
+.mobile-li-ckt-info {
+    width: 80px;
+    text-align: center;
+}
+
+.default-li-ckt-info {
+    float: left;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 4px;
+    margin-left: 10px;
+    background-color: #7b7b7b;
+    color: #ffffff;
+    text-align: center;
+}
+
+.set-default-li-ckt-info {
+    margin-left: 10px;
+    color: #005ea7;
+    line-height: 28px;
+}
+
+.operate-li-ckt-info {
+    display: none;
+    float: left;
+    margin-left: 10px;
+}
+
+.operate-li-ckt-info.show {
+    display: block;
+}
+
+.operate-li-ckt-info a {
+    margin-right: 5px;
+    color: #005ea7;
+}
+
+.collapse-ckt-info {
+    display: none;
+    width: 70px;
+    height: 30px;
+    margin-left: 20px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.collapse-ckt-info.show {
+    display: block;
+}
+
+.icon-collapse-ckt-info {
+    display: inline-block;
+    vertical-align: middle;
+    height: 10px;
+    line-height: 10px;
+    width: 9px;
+    margin-left: 5px;
+    background: url('../images/icon-ckt-addr.png') no-repeat 0 0;
+}
+
+.icon-collapse-ckt-info.more {
+    background: url('../images/icon-ckt-addr.png') no-repeat 0 -10px;
+}
+
+/* 支付方式
+ ============================================================================ */
+.content-ckt-pay {
+    margin: 10px 20px;
+}
+
+.ul-ckt-pay {
+    float: left;
+}
+
+.ul-ckt-pay.min {
+    width: 550px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.ckt-checkbox.pay {
+    float: left;
+    width: 98px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.ckt-checkbox.pay.selected,
+.ckt-checkbox.pay:hover {
+    width: 96px;
+}
+
+.collapse-ckt-pay {
+    display: none;
+    float: left;
+    width: 70px;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 20px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.collapse-ckt-pay.more {
+    width: 45px;
+    margin-left: 0;
+}
+
+.icon-collapse-ckt-pay {
+    display: inline-block;
+    vertical-align: middle;
+    height: 10px;
+    line-height: 10px;
+    width: 9px;
+    margin-left: 5px;
+    background: url('../images/icon-ckt-pay.png') no-repeat 0 0;
+}
+
+.icon-collapse-ckt-pay.more {
+    background: url('../images/icon-ckt-pay.png') no-repeat -10px 0;
+}
+
+.icon-collapse-ckt-pay.coll {
+    background: url('../images/icon-ckt-addr.png') no-repeat 0 -10px;;
+}
+
+/* 配送清单
+ ============================================================================ */
+.content-ckt-inventory {
+
+}
+
+.item-ckt-inventory {
+    margin-top: 10px;
+}
+
+.left-item-inventory {
+    float: left;
+    width: 30%;
+    padding-bottom: 10px;
+    background-color: rgba(255, 253, 238, .5);
+}
+
+.right-item-inventory {
+    float: left;
+    width: 70%;
+    padding-bottom: 10px;
+    background-color: rgba(218, 240, 254, .6);
+}
+
+.title-item-inventory {
+    height: 20px;
+    line-height: 20px;
+    margin-top: 10px;
+    padding-left: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.title-item-inventory .store-name {
+    float: left;
+}
+
+.title-item-inventory .store-total {
+    float: right;
+    margin-right: 10px;
+}
+
+.title-item-inventory .store-total div {
+    float: left;
+    margin-right: 20px;
+}
+
+.title-item-inventory .store-total div i,
+.title-item-inventory .store-total div span {
+    color: red;
+    font-weight: bold;
+}
+
+.content-item-inventory {
+    margin-bottom: 10px;
+}
+
+.express-inventory {
+    padding-bottom: 5px;
+}
+
+.time-express {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.time-express span {
+    float: left;
+}
+
+.title-time-express {
+    color: #999999;
+}
+
+.ckt-checkbox.express {
+    float: left;
+    width: 127px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.ckt-checkbox.express:hover,
+.ckt-checkbox.express.selected {
+    width: 125px;
+}
+
+.edit-express {
+    color: #005ea7;
+    margin-left: 20px;
+}
+
+.hr-inventory {
+    width: 268.8px;
+    height: 1px;
+    margin: 0 auto;
+    background-color: #dddddd;
+}
+
+.discount-inventory {
+    padding-bottom: 10px;
+}
+
+.item-discount-inventory {
+    float: left;
+    position: relative;
+    width: 130px;
+    background-color: rgba(255, 51, 0, 0.8);
+    margin-top: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #ccc;
+}
+
+.item-discount-inventory.full {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.bottom-item-inventory {
+    background-color: rgba(39, 169, 227, 0.3);
+}
+
+.item-bottom-item-inventory {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #ffffff;
+    overflow: hidden;
+}
+
+.tag-item-bottom-inventory {
+
+}
+
+.tag-item-bottom-inventory >a {
+    color: #ffffff;
+    padding: 5px 10px;
+    background-color: #ff3500;
+}
+
+.price-item-bottom-inventory {
+    margin-left: 10px;
+    color: red;
+}
+
+.name-item-bottom-inventory {
+    margin-left: 10px;
+}
+
+.no-item-discount-inventory {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.money-item-discount {
+    height: 35px;
+    line-height: 34px;
+    text-align: center;
+    font-size: 16px;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.lace-item-discount {
+    width: 100%;
+    height: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.lace-discount {
+    width: 200%;
+    height: 10px;
+    position: absolute;
+    top: -6px;
+    left: -5px;
+}
+
+.lace-discount i {
+    display: block;
+    float: left;
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border-radius: 100%;
+    margin-right: 4px;
+}
+
+.detail-item-discount {
+    width: 100%;
+    height: 0px;
+    position: absolute;
+    background-color: #ffffff;
+    cursor: auto;
+    overflow: hidden;
+    z-index: 3;
+    -webkit-box-shadow: 0 2px 15px #ccc;
+    -moz-box-shadow: 0 2px 15px #ccc;
+    box-shadow: 0 2px 15px #ccc;
+}
+
+.detail-item-discount.show {
+    height: 50px;
+}
+
+.detail-item-discount p {
+    color: #777777;
+    margin-left: 5px;
+}
+
+.detail-item-discount p.first {
+    margin-top: 8px;
+}
+
+.select-discount {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.select-discount.show {
+    display: block;
+}
+
+.bg-select-discount {
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+    border-bottom: 20px solid #ffffff;
+    border-left: 25px solid transparent;
+    z-index: 2;
+}
+
+.icon-select-discount {
+    position: absolute;
+    right: 1px;
+    bottom: -4px;
+    color: rgba(255, 51, 0, 0.8);
+    z-index: 3;
+    font-size: 12px;
+}
+
+.content-item-inventory.goods {
+    margin: 10px;
+}
+
+.table-gooods-inventory tr {
+    border-top: 1px solid #ffffff;
+}
+
+.table-gooods-inventory tr:first-child {
+    border-top: none;
+}
+
+.table-gooods-inventory td {
+    text-align: center;
+}
+
+.num-gooods-inventory {
+	width: 50px;
+	text-align: center;
+}
+
+.table-gooods-inventory .name-gooods-inventory {
+    width: 340px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+}
+
+.img-gooods-inventory {
+    position: relative;
+    overflow: hidden;
+}
+
+.tag-goods-inventory {
+    position: absolute;
+    width: 100%;
+    display: block;
+    height: 15px;
+    color: #ffffff;
+    background-color: #ff3500;
+    top: 11px;
+    left: 18px;
+    z-index: 2;
+    transform: rotate(36deg);
+    font-size: 12px;
+    text-align: center;
+    line-height: 15px;
+}
+
+.tag-goods-inventory:hover,
+.tag-goods-inventory:focus {
+    color: #ffffff;
+}
+
+.img-gooods-inventory img {
+    height: 75px;
+    padding: 5px;
+}
+
+.price-gooods-inventory,
+.subtotal-gooods-inventory {
+    color: red;
+    font-weight: bold;
+}
+
+.bottom-ckt-inventory {
+    margin-top: 15px;
+    clear: both;
+}
+
+.bottom-ckt-inventory input {
+    width: 250px;
+    height: 15px;
+    padding: 5px 10px;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.ckt-item.invoice {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: none;
+}
+
+.content-ckt.invoice > div {
+    float: left;
+    margin-left: 20px;
+}
+
+.content-ckt.invoice .edit-invoice {
+    margin-left: 25px;
+    color: #005ea7;
+}
+
+.ckt-checkbox.time {
+    width: 125px;
+    margin-left: 10px;
+    float: left;
+}
+
+.ckt-checkbox.time:hover,
+.ckt-checkbox.time.selected {
+    width: 123px;
+}
+
+.invoice-dialog {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.invoice-content {
+    clear: both;
+}
+
+.ckt-checkbox.head-invoice {
+    width: 295px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.ckt-checkbox.head-invoice.selected {
+    width: 293px;
+    padding-left: 10px;
+}
+
+.ckt-checkbox.head-invoice:hover {
+    border: 1px solid #dddddd;
+    width: 295px;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ckt-checkbox.head-invoice.selected:hover {
+    width: 293px;
+    border: 2px solid #ff3500;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 10px;
+}
+
+.title-invoice-head,
+.items-invoice-head {
+    float: left;
+}
+
+.title-invoice-head {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.items-invoice-head {
+    margin-left: 20px;
+}
+
+.company-invoice-input {
+    display: none;
+    padding-left: 10px;
+    width: 230px;
+    border: none;
+    outline: none;
+}
+
+.company-invoice-input:focus {
+    border: none;
+    outline: none;
+}
+
+.company-invoice-input.shows {
+    display: inline-block;
+}
+
+.ckt-checkbox.content-invoice {
+    float: left;
+    width: 70px;
+    margin-left: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.ckt-checkbox.content-invoice:hover,
+.ckt-checkbox.content-invoice.selected {
+    width: 68px;
+}
+
+/* 新增地址样式
+ ============================================================================ */
+
+.dd-aliases span {
+    float: left;
+}
+
+.example-aliases {
+    float: left;
+    display: block;
+    width: 35px;
+    height: 20px;
+    margin-right: 5px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+.example-aliases:hover {
+    color: rgba(255, 51, 0, 0.8);
+    border: 1px solid rgba(255, 51, 0, 0.8);
+}
+
+/* 总结
+ ============================================================================ */
+
+.ckt-total {
+    min-height: 300px;
+}
+
+.details-ckt-total {
+    float: right;
+    padding: 0 20px;
+}
+
+.details-ckt-total li {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.title-details-ckt-total {
+    width: 200px;
+    float: left;
+    margin-right: 80px;
+    text-align: right;
+}
+
+.price-details-ckt-total {
+    float: right;
+    color: #333333;
+}
+
+.clear-details-ckt-total {
+    clear: both;
+}
+
+.amounts-payable-ckt {
+    float: right;
+    padding: 0 20px;
+}
+
+.summary-ckt-total {
+    height: 30px;
+    padding-top: 10px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    clear: both;
+}
+
+.title-details-ckt-total.amounts {
+    margin-right: 0;
+}
+
+.price-details-ckt-total.amounts {
+    color: #ff3500;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.address-info-ckt {
+    clear: both;
+    float: right;
+    padding: 0 20px;
+    color: #999999;
+}
+
+.ckt-total .bill_btn {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    width: 130px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #27a9e3;
+    float: right;
+    margin: 20px 0;
+    border-radius: 2px;
+}
+
+.ckt-total .bill_btn:hover {
+    background-color: #26b5ec;
+}

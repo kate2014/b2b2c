@@ -1,0 +1,208 @@
+<#assign dateformat= "com.enation.framework.directive.DateformateDirective"?new()>
+<#-- 退货申请标签 -->
+<#assign storeSellBackTag=newTag("storeSellBackTag")>
+<#assign storeSellBack=storeSellBackTag("{'id': ${id} }")>
+<#-- 退货申请 -->
+<#assign sellBack=storeSellBack.sellBack>
+<#-- 退货订单 -->
+<#assign orderinfo=storeSellBack.orderInfo>
+<#-- 退货商品列表 -->
+<#assign goodsList=storeSellBack.goodsList>
+<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/return_auth.css">
+<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/return_auth.js"></script>
+<div class="return-auth">
+    <form id="return_info">
+        <input type="hidden" id="id" value="${id}">
+        <div class="return_detail info">
+            <div class="return-info" style="border-right: 1px solid #d8d8d8">
+                <h1>订单信息</h1>
+                <div class="return_info-list">
+                    <input type="hidden" value="${sellBack.id}" name="id"/>
+                    <input type="hidden" value="${sellBack.type}" id="i_type"/>
+                    <ul>
+                        <li style="margin-top: 15px;"><span>退<span class="i-type"></span>单号：</span><span>${sellBack.tradeno }</span></li>
+                        <li><span>关联订单：</span><span>${orderinfo.sn }</span></li>
+                        <li><span>支付金额：</span><span>${orderinfo.paymoney?string("currency")}</span></li>
+                         <li><span>申请退款金额：</span><span>${sellBack.apply_alltotal?string("currency")}</span></li>
+                        <li><span>退<span class="i-type"></span>人　：</span><span>${orderinfo.ship_name }</span></li>
+                        <li>
+                            <span>退<span class="i-type"></span>状态：</span>
+                            <input type="hidden" value="3" id="status">
+                        <span>
+                            <#if sellBack.type==2>
+                                <#if sellBack.tradestatus  == 0>
+                                    <span>申请退货</span>
+                                <#elseif sellBack.tradestatus  == 1>
+                                    <span>审核通过</span>
+                               <#elseif sellBack.tradestatus  == 3>
+                                    <span>等待平台退款</span>
+                                <#elseif sellBack.tradestatus  == 2>
+                                    <span>已拒绝</span>
+                                 <#elseif sellBack.tradestatus  == 6>
+                                    <span>已退款</span>
+                                </#if>
+                            <#elseif sellBack.type=1>
+                                <#if sellBack.tradestatus  == 0>
+                                    <span>等待审核</span>
+                                <#elseif sellBack.tradestatus  == 1>
+                                    <span>审核通过</span>
+                                <#elseif sellBack.tradestatus  == 3>
+                                    <span>等待平台退款</span>
+                                <#elseif sellBack.tradestatus  == 2>
+                                    <span>审核拒绝</span>
+                                 <#elseif sellBack.tradestatus  == 6>
+                                    <span>已退款</span>
+                                </#if>
+                            </#if>
+                        </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="return-oper">
+                <input type="hidden" name="id" value="${sellBack.id}"/>
+                <table>
+                    <tr>
+                        <td class="return-table-title">申请时间：</td>
+                        <td><@dateformat time="${sellBack.regtime?c}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    </tr>
+                    <tr style="line-height: 20px; ">
+                        <td class="return-table-title">退<span class="i-type"></span>原因：</td>
+                        <td>
+                        	<@substring title="${sellBack.reason!''}" length=78 dot="..."/>
+                        </td>
+                    </tr>
+                    <tr style="line-height: 20px; ">
+                        <td class="return-table-title">退<span class="i-type"></span>描述：</td>
+                        <td title="${sellBack.remark!''}"><@substring title="${sellBack.remark!''}" length=100 dot="..."/>
+                            <#if (sellBack.remark?length > 50)>
+                                <a href="javascript: void(0);" class="show-remark" data-container="body" data-trigger="focus" data-toggle="popover" data-placement="bottom" data-content="${sellBack.remark}">查看全部</a>
+                                <script type="text/javascript">
+                                    $('.show-remark').popover();
+                                </script>
+                            </#if>
+                        </td>
+                    </tr>
+                    <tr  style="line-height: 20px; ">
+                        <td class="return-table-title">审核备注：</td>
+                        <td title="${sellBack.seller_remark!''}"><@substring title="${sellBack.seller_remark!''}" length=100 dot="..."/>
+                            <#if sellBack.seller_remark??&&(sellBack.seller_remark?length > 50)>
+                                <a href="javascript: void(0);" class="show-seller-remark" data-container="body" data-trigger="focus" data-toggle="popover" data-placement="bottom" data-content="${sellBack.seller_remark}">查看全部</a>
+                                <script type="text/javascript">
+                                    $('.show-seller-remark').popover();
+                                </script>
+                            </#if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>退款金额：
+                        </td>
+                        <td>
+                        	<#if sellBack.tradestatus==1>
+                            	<input type="text" class="form-control" name="alltotal_pay" id="alltoty_pay"   value="${sellBack.apply_alltotal!''}"  maxlength="8" style="width: 100px; height: 15px; float:left;"
+                                       onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                                 <a href="javascript: void(0);" class="btn btn-default refund" sell_back_id="${sellBack.id}" style="font-size: 12px; height: 15px;vertical-align: top;margin-left: 10px;">退款</a>
+                                <#else>
+                                    ￥${sellBack.alltotal_pay!'0'}
+                            </#if>  
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="return-table">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr style="background-color: #f2f2f2">
+                    <th style="min-width: 85px;">商品图片</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>购买数量</th>
+                    <#if sellBack.type==2>
+                        <th>退货数量</th>
+                    </#if>
+
+                    <!--<th>已入库数量</th>
+                    <#if sellBack.tradestatus==1 || sellBack.tradestatus==5>
+                        <th>入库数量</th>
+                        <th>操作</th>
+                    </#if>-->
+                </tr>
+                </thead>
+                <tbody>
+                <#list goodsList as item>
+                    <tr>
+                        <td style="width:50px">
+                            <a target="_blank" href="${ctx}/goods-${item.goods_id}.html">
+                            <span style="display: block; height: 50px;" class="cart-product-img">
+                                <img src="${item.goods_image!''}"  style="cursor: pointer;" />
+                            </span>
+                            </a>
+                        </td>
+                        <td style="width:300px;">
+                            <a target="_blank" href="${ctx}/goods-${item.goods_id}.html">
+                                ${item.goods_name}${item.spec!''}
+                                <#if item.other?? >
+                                    ${item.other}
+                                </#if>
+                            </a>
+                        </td>
+                        <td><span>${item.price?string.currency}</span></td>
+                        <td>
+                            <span>${item.ship_num}</span>
+                        </td>
+                        <#if sellBack.type==2>
+                            <td>
+                                <span class="return-num">${item.return_num}</span>
+                            </td>
+                        </#if>
+                        <!--<td>
+                            <span class="returned-num">${item.storage_num!'0' }</span>
+                        </td>
+                        <#if sellBack.tradestatus==1 || (item.return_num > item.storage_num) && sellBack.tradestatus==5>
+                            <td class="air">
+                                <#if sellBack.tradestatus==1 || (item.return_num > item.storage_num) && sellBack.tradestatus==5 >
+                                    <input type="number" class="form-control return-input" value="${item.return_num - item.storage_num!'0'}" style="width: 60px; height: 20px; margin: 0 auto; " onkeyup="this.value=this.value.replace(/\D/g,'')"/>
+                                <#elseif sellBack.tradestatus==3>
+                                    ${item.storage_num!'0'}
+                                    <#elseif sellBack.tradestatus==4>
+                                    已取消
+                                </#if>
+                            </td>
+                            <td>
+                                <#if item.storage_num lt item.return_num>
+                                    <#if sellBack.tradestatus==1 || sellBack.tradestatus==5>
+                                        <a href="javascript: void(0);" class="return-save" goods_id="${item.goods_id}" product_id="${item.product_id}">入库</a>
+                                    </#if>
+                                </#if>
+                            </td>
+                        </#if>-->
+                    </tr>
+                </#list>
+                <#if sellBack.gift_id?exists && sellBack.gift_id != 0>
+					<#--创建“订单赠品”标签-->
+					<#assign orderGiftDetailTag = newTag("orderGiftDetailTag")>
+					<#--调用“订单赠品”标签，并传递参数-->
+					<#assign gift = orderGiftDetailTag("{'order_id':${sellBack.orderid},'gift_id':${sellBack.gift_id}}")>
+					<tr>
+						<td style="width:50px">
+							<span style="display: block; height: 50px;" class="cart-product-img">
+								<img src="${gift.gift_img!''}" width="35"/>
+							</span>
+						</td>
+						<td style="width:300px;">
+							<p>${gift.gift_name}<span style="color: red; ">（赠品）</span></p>
+						</td>
+						<td><span>${gift.gift_price?string.currency}</span></td>
+						<td><span>1</span></td>
+						<td><span>1</span></td>
+					</tr>
+				</#if>
+                </tbody>
+            </table>
+        </div>
+        <!--<div class="return-save-all">
+            <a href="javascript: void(0);" class="btn btn-info" id="save_all">全部入库</a>
+        </div>-->
+    </form>
+</div>

@@ -1,0 +1,39 @@
+<style>
+	.swfupload{ 
+	filter:alpha(opacity=0);  
+      -moz-opacity:0;  
+      -khtml-opacity: 0;  
+      opacity: 0; 
+}
+</style>
+<div id="step2" class="step-item" style="display: none;">
+	<dl>
+   		<dt>上传身份证照片:<span id="id_imgText"></span></dt>
+   		<dd>
+     		<div class="apply_id_img" status="id_img"></div>
+     		<input type="file" id="id_img" status="id_img" />
+     		&nbsp;&nbsp;<span class="applyPro">支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB</span>
+     		<input type="hidden" name="id_img" id="id_imgImg"/>
+     		<input type="hidden" name="name_auth" value="0" id="id_imgStatus">
+   		</dd>
+    </dl>
+    <dl>
+   		<dt>上传执照照片:<span id="license_imgText"></span></dt>
+   		<dd>
+     		<div class="apply_license_img" status="license_img"></div>
+     		<input type="file" id="license_img" status="license_img"/>
+     		&nbsp;&nbsp;<span class="applyPro">支持格式jpg,jpeg,png,gif，请保证图片清晰且文件大小不超过400KB</span>
+     		<input type="hidden" name="license_img" id="license_imgImg"/>
+     		<input type="hidden" name="store_auth" value="0" id="license_imgStatus"/>
+   		</dd>
+    </dl>
+	<dl class="bottom">
+		<dt>&nbsp;</dt>
+		<dd>
+			<p class="mb10">
+				<input type="button" class="submit" value="上一步" id="return_basic"/>&nbsp;&nbsp;&nbsp;
+				<input type="button" class="submit" value="下一步" id="next_bill"/>
+			</p>
+		</dd>
+	</dl>
+</div>

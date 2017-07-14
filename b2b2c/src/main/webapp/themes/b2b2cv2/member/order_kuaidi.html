@@ -1,0 +1,18 @@
+
+<ul class="send-list-box">
+<#if kuaidiResult?exists>
+        <#if kuaidiResult.message??&& kuaidiResult.message=='ok'>
+         <#list kuaidiResult.data as kd>
+       	  	<li <#if kd_index == 0>class="first"</#if>>
+       	  		<i class="node-icon"></i>
+       	  		<span class="ship-time">${kd.time}:</span>
+       	  		<span class="ship-text">${kd.context}</span>
+       	  	</li>
+         </#list>
+         <#else>
+         	<li class="order-ship-error">${kuaidiResult.message}</li>
+       </#if>
+<#else>
+       <li class="order-ship-error">出现错误，请稍后重试  ${kuaidiResult.message}</li>
+</#if>
+</ul>

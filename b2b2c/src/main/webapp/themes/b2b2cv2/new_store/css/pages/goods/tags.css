@@ -1,0 +1,123 @@
+.f12{font-size: 12px;}
+
+/* 整个表格样式 */
+.main_table{
+	background: #fff;
+	padding-top: 20px;	
+}
+
+.main_table a{font-size: 12px;}
+
+/* 标签列表首页 表格样式 */
+.store_taglist{
+	border: 1px solid #ccc;
+    font-size: 12px;
+    
+}
+
+.store_taglist thead{
+	vertical-align: middle;
+	background: #f8f8f8;
+	
+}
+
+.store_taglist tr th {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    height: 20px;
+    line-height: 20px;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #fafafa;
+    border: 1px solid #e6e6e6;
+    border-bottom: 0px none;
+    font-size: 14px;
+}
+
+.store_taglist tr td {
+    background-color: #fff;
+    padding: 11px 0;
+    text-align: center;
+    border: 1px solid #e6e6e6;
+}
+
+/* 标签列表 修改编辑页面样式 */
+
+/*CSS3 过渡特效, 显示、隐藏【批量删除】按钮*/
+.batch_del{
+	margin-left: -90px;
+    -webkit-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -moz-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -ms-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -o-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+}
+
+.show{margin-left: 5px;}
+
+.tabmenu{overflow: hidden;}
+
+.tabmenu a{
+	display: inline-block;
+    width: 65px;
+    height: 24px;
+    padding: 0;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;
+    float: left;
+    margin-right: 20px; 
+}
+
+/* 标签列表 */
+
+#goodsTagForm{
+	margin-top: 30px;
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+.groupbuy_list_table{
+	width: 100%;
+	font-size: 12px;
+}
+
+.groupbuy_list_table tbody tr th{
+	height: 37px;
+	background: #f8f8f8;
+	vertical-align: middle;
+	font-size: 14px;
+	
+}
+
+.list_tbody .list_tr{
+	height: 55px;
+	line-height: 55px;
+	vertical-align: center;
+	padding: 5px 0;
+	text-align: center;
+	border-top: 1px solid #ccc;
+}
+
+.checkbox_td{
+	width: 30px;
+	padding-left: 50px;
+}
+
+.input_text{
+	height: 27px\0;
+	width: 100px;
+	text-align: center;	
+	*text-align:left;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.list_goodname{
+	text-align: left;
+}
+
+.border_erro{
+	border: 1px solid #d9534f;
+}

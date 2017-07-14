@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '评价管理' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/lightbox.css" />
+    <script src="${ctx}${themes_path}/js/lightbox.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/evaluation.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/evaluation.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_evaluation' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li class="active" onclick="location.reload(); "><a href="javascript: void(0);">评价列表</a></li>
+        <li><a href="./evaluation_score.html">店铺评分</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#assign storeConsultListTag=newTag('storeConsultListTag')/>
+        <#assign storeConsult=storeConsultListTag("'type':'1'")/>
+        <div class="evaluation">
+            <!-- 筛选工具栏 -->
+            <div class="filter-tools">
+                <div class="filter-box filter-blurry">
+                    <span>模糊搜索：</span>
+                    <input type="text" class="form-control" id="filter_blurry" data-original-title="可按商品名称、会员名称、评论内容搜索" data-placement="top" data-trigger="focus">
+                </div>
+                <div class="exact-seach">
+                    <div class="filter-box filter-good-name">
+                        <span>商品名称：</span>
+                        <input type="text" class="form-control" id="filter_good_name">
+                    </div>
+                    <div class="filter-box filter-comment">
+                        <span>评论内容：</span>
+                        <input type="text" class="form-control" id="filter_comment">
+                    </div>
+                    <div class="filter-box filter-grade">
+                        <span>评价：</span>
+                        <select id="filter_grade">
+                            <option value="-1">--全部--</option>
+                            <option value="3">好评</option>
+                            <option value="2">中评</option>
+                            <option value="1">差评</option>
+                        </select>
+                    </div>
+                    <div class="filter-box filter-reply-status">
+                        <span>回复状态：</span>
+                        <select id="filter_reply_status">
+                            <option value="2">--全部--</option>
+                            <option value="1">已回复</option>
+                            <option value="0">未回复</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-box filter-seach">
+                    <a href="javascript: void(0);" class="btn btn-info" id="filter_seach" style="width: 60px; ">搜索</a>
+                    <a href="javascript: void(0);" class="btn btn-success" id="exact_seach">精确搜索</a>
+                </div>
+            </div>
+            <!-- 咨询、评论列表 -->
+            <div class="s_commont_list">
+                <table class="table table-bordered table-responsive">
+                    <thead style="border: 1px solid #dddddd; ">
+                    <tr  style="border: none; ">
+                        <th style="width:50%; border:none; ">评论</th>
+                        <th style="width:15%; border:none; ">用户</th>
+                        <th style="width:20%; border:none; ">时间</th>
+                        <th style="width:15%;border-bottom: none; border-left: none; border-top: none; border-right: 1px solid #dddddd;">操作</th>
+                    </tr>
+                    </thead>
+                    <#if storeConsult.totalCount != 0>
+                        <tbody>
+                        <#list storeConsult.cmmentList.result as comment>
+                            <tr style="height: 10px; background-color: #ffffff; "></tr>
+                            <tr>
+                                <th  colspan="20">
+                                <span>
+                                    <input type="hidden" name="commentId" value="${comment.comment_id}"/>
+                                    <a href="${ctx}/goods-${comment.goods_id}.html" target="_blank"> ${comment.goods_name}</a>
+                                </span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="width:50%;text-align:left;padding-left:20px">
+                                    <div><i>评论内容：</i><p>${comment.content!''}</p></div>
+                                    <#-- 获取商品评论图片相册标签 -->
+                                        <#assign commentGalleryListTag = newTag("commentGalleryListTag")>
+                                            <#-- 调用商品评论图片相册标签 -->
+                                                <#assign galleryList = commentGalleryListTag("{'comment_id':${comment.comment_id}}")>
+                                                    <div class="suolue" style="clear: both;">
+                                                        <#if galleryList?size != 0>
+                                                            <#list galleryList as gallery>
+                                                                <a href="<@imgurl pic='${gallery.original}'/>" rel="lightbox[evaImg_${gallery.comment_id}]" style="float: left; margin: 10px;" target="_blank"> <@image src="${gallery.original}"  width="50" height="50"/> </a>
+                                                            </#list>
+                                                        </#if>
+                                                    </div>
+                                                    <#if comment.reply??>
+                                                        <div style="color:#d93600"><i>回复评论：</i><p>${comment.reply!''}</p></div>
+                                                    </#if>
+                                </td>
+                                <td>${comment.uname}</td>
+                                <td><@dateformat time="${comment.dateline?c}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                <td>
+                                    <#if comment.replystatus == 0 || (comment.replystatus == 1 && comment.status==0)>
+                                        <a class="reply btn btn-info" style="font-size: 12px; " commentId="${comment.comment_id}" href="javascript:void(0)">回复</a>
+                                    </#if>
+                                </td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                        </table>
+                        <div class="app-paging-tools">
+                            <div class="demo"></div>
+                            <div class="paging">
+                                <@pager pageno="${storeConsult.page!'1'}" pagesize="${storeConsult.pageSize}" totalcount="${storeConsult.totalCount}" />
+                            </div>
+                        </div>
+                    <#else>
+                        </table>
+                        <div class="app-no-data">
+                            <span class="a-no-data">暂无相关数据</span>
+                        </div>
+                    </#if>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+<script type="text/javascript">
+    //设置图片缩放的属性	add by DMRain 2016-5-10
+    lightbox.option({
+        'albumLabel': '第%1张   共%2张',	//设置显示的文字
+        'maxWidth': 500,			//设置显示图片弹出框的宽度
+        'maxHeight': 500,			//设置显示图片弹出框的高度
+        'resizeDuration': 300,		//设置图片显示的加载时间(毫秒)
+        'positionFromTop': 100,		//设置弹出框到屏幕顶部的距离
+        'wrapAround': true			//设置可以循环查看图片
+    })
+
+</script>
+</body>
+</html>

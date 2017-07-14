@@ -1,0 +1,270 @@
+/*禁止选中*/
+.pagination a,
+.right-top-tools .trash span {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*CSS3 过渡特效*/
+.right-top-tools .seach,
+.right-top-tools .seach input,
+.right-top-tools .seach .seach-btn.show {
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+/*
+  ============================================================================ */
+
+.goods_warehouse{
+    /*background-color: #ffffff;*/
+}
+
+/*----- top-tools -----*/
+.top-tools {
+    height: 28px;
+    padding: 11px 0;
+    background-color: #ffffff;
+}
+.left-top-tools,
+.right-top-tools {
+    float: left;
+    width: 50%;
+    height: 26px;
+}
+/*----- left-top-tools -----*/
+.left-top-tools {
+    overflow: hidden;
+}
+.left-top-tools a {
+    display: inline-block;
+    width: 65px;
+    height: 24px;
+    padding: 0;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;
+    float: left;
+    margin-right: 20px;
+}
+.left-top-tools .down-all-goods {
+    margin-left: -90px;
+    -webkit-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -moz-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -ms-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    -o-transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+    transition: all .3s cubic-bezier(0, 0.81, 0.69, 1.5);
+}
+.left-top-tools .down-all-goods.show {
+    margin-left: 0px;
+}
+
+
+
+/*----- right-top-tools -----*/
+.right-top-tools .inner-tools {
+    float: right;
+    position: relative;
+}
+
+.right-top-tools .cat,
+.right-top-tools .status-select,
+.right-top-tools .seach {
+    width: 100px;
+    height: 26px;
+    float: left;
+    margin-right: 20px;
+}
+.right-top-tools select {
+    width: 100px;
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.right-top-tools select option {
+    width: 100%;
+    font-size: 12px;
+    color: #333333;
+}
+.right-top-tools .status-select {
+    margin-right: 120px;
+}
+
+.right-top-tools .seach {
+    position: absolute;
+    right: 0;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    width: 80px;
+    background-color: #ffffff;
+    overflow: hidden;
+    z-index: 97;
+
+}
+.right-top-tools .seach.focus {
+    width: 200px;
+    border: 1px solid rgba(82, 168, 236, 0.8);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+.right-top-tools .seach span {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 8px;
+    position: relative;
+    top: 2px;
+}
+.right-top-tools .seach input {
+    width: 40px;
+    height: 16px;
+    border: none;
+    font-size: 12px;
+    padding: 5px;
+    outline: none;
+}
+.right-top-tools .seach input.focus {
+    width: 140px;
+}
+
+.right-top-tools .seach .seach-btn {
+    display: inline-block;
+    position: absolute;
+    width: 40px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 24px;
+    padding: 0;
+    right: -500px;
+    top: 0px;
+    -webkit-border-radius:0 2px 2px 0;
+    -moz-border-radius:0 2px 2px 0;
+    border-radius:0 2px 2px 0;
+}
+.right-top-tools .seach .seach-btn.show {
+    right: 0;
+}
+
+
+/*----- table -----*/
+.goods_warehouse table {
+    background-color: #ffffff;
+}
+.goods_warehouse table thead tr {
+    background-color: #f8f8f8;
+}
+
+.goods_warehouse input[type="checkbox"] {
+    cursor: pointer;
+    display: inline-block;
+}
+.goods_warehouse .check-width {
+    width: 15px;
+    height: 15px;
+}
+
+.goods_warehouse table tr {
+    line-height: 40px;
+    color: #333333;
+    font-size: 14px;
+}
+.goods_warehouse table>thead>tr>th {
+    padding: 0;
+    line-height: 40px;
+    text-align: center;
+}
+.goods_warehouse table>tbody>tr>th {
+    padding: 0;
+}
+
+/*列宽*/
+.select {width: 5.5%;}
+.img {width: 7%;}
+.name {width: 24%;}
+.price {width: 8%;}
+.warehouse {width: 8.5%;}
+.can-warehouse {width: 8.5%;}
+.create-time {width: 16.7%;}
+.status {width: 4%;}
+.operate {width: 19.8%;}
+
+
+/*----- tbody -----*/
+.goods_warehouse table tbody tr {
+    height: 60px;
+}
+.goods_warehouse table tbody th {
+    padding: 0;
+    line-height: 60px;
+    overflow: hidden;
+    text-align: center;
+    overflow: hidden;
+    font-size: 12px;
+}
+.goods_warehouse table tbody th a {
+    overflow: hidden;
+}
+.goods_warehouse table tbody .th-img {
+    line-height: 0;
+}
+.goods_warehouse table tbody .th-img img{
+    margin-top: 5px;
+    height: 50px;
+}
+.th-name a {
+    font-size: 12px;
+}
+.goods-operate a {
+    text-align: center;
+    line-height: 15px;
+    font-size: 12px;
+}
+
+/*----- tools -----*/
+
+.bottom-tools {
+    height: 50px;
+    background-color: #ffffff;
+}
+.demo {
+    float: left;
+    width: 50%;
+}
+
+
+/*----- paging 分页 -----*/
+.paging {
+    height: 60px;
+}
+
+.page {
+    float: right;
+    margin-right: 55px;
+}
+.paging .page span {
+    display: block;
+    float: left;
+    line-height: 50px;
+    font-size: 12px;
+    margin-right: 10px;
+}
+.pagination {
+    margin-top: 7px;
+}
+.pagination a {
+    font-size: 12px;
+    color: #4d90fe;
+}
+.pagination a.selected {
+    background-color: #eeeeee;
+    cursor: not-allowed;
+    color: #333333;
+}
+

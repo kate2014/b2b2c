@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+		<parent>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>b2b2c-parent</artifactId>
+			<version>6.2.1</version>
+			<relativePath>../b2b2c-parent</relativePath>
+		</parent>
+		
+	<artifactId>b2b2c</artifactId>
+	<packaging>war</packaging>
+	<name>b2b2c Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+ 		<dependency>
+ 			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+ 		</dependency>
+		<dependency>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>core</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>shop-core</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>cms-core</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>b2b2c-core</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.enation.app.javashop</groupId>
+			<artifactId>b2c</artifactId>
+			<version>6.2.1</version>
+			<type>war</type>
+		</dependency>
+		
+	</dependencies>
+	<build>
+		<finalName>b2b2c</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>	
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/front</source>
+							</sources>
+
+						</configuration>
+					</execution>
+					
+
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/front</directory>
+									<includes>
+										<include>**/*.xml</include>
+										<include>**/*.html</include>
+										<include>**/*.css</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+										
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

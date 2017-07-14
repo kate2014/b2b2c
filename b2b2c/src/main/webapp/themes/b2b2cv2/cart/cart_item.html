@@ -1,0 +1,187 @@
+
+<#-- 创建购物车标签 -->
+<#assign cartTag= newTag("storeCartGoodsTag")>
+<#--通过购物车标签获取购物项列表 -->
+<#assign itemList = cartTag() >	
+<#-- 创建会员是否登录标签 -->
+<#assign memberIsLoginTag= newTag("memberIsLoginTag")>
+<#-- 获取是否登录  -->
+<#assign isLogin = memberIsLoginTag() >	 
+
+<#include 'cart_message.html'>
+
+<script type="text/javascript">
+	var isLogin = ${isLogin?string};
+</script>
+	<style type="text/css">
+		input[type=checkbox]{
+			cursor: pointer;
+		}
+	</style>
+<div class="border">
+<#if itemList?exists && itemList?size gt 0>
+		<#list itemList as store >
+	<table class="storelist" >
+		<thead>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>商品</th>
+			<th>&nbsp;</th>
+			<th class="w120">单价(元)</th>
+			<th class="w120">数量</th>
+			<th class="w120">小计(元)</th>
+			<th class="w80">操作</th>
+		</thead>
+			<tbody >
+				<tr>
+					<th style="text-align: center; width: 50px;">
+						<input type="checkbox" name="select_store" store_id="${store.store_id}" stype="width:40px;" />
+					</th>
+					<th colspan="3">
+						<strong>
+							<a href="${ctx}/store_themes/${(store.store_id)!0}/store-activity.html?menu=store" target="_blank">店铺名称：${store.store_name}</a>
+						</strong>
+					</th>
+                    <th class="cart-bonus-th" style="text-align: center;">
+                        <i class="cart-bonus-icon" style="position: relative;">
+                            <#assign store_id = store.store_id />
+                            <#include './cart_bonus.html' />
+                        </i>
+                    </th>
+                    <th colspan="3">
+                        <#if store.activity_name??>
+                            <a target="_blank" href="${ctx}/store_themes/${store.store_id}/store-activity.html?menu=store" style="float: right;">查看详细</a>
+                            <span class="full-icon" style="float: right;">店铺促销活动进行中</span>
+                        </#if>
+                    </th>
+				</tr>
+			<#list store.goodslist as item >
+				<tr itemid="${item.id}" productid="${item.product_id}" price="${item.coupPrice}" <#if item.others.exchange_point??>point="${item.others.exchange_point}"</#if>>
+					<td style="text-align: center;">
+						<input type="checkbox" name="product_id" store_id="${store.store_id}" value="${item.product_id}"  <#if item.is_check?? && item.is_check==1> checked="checked" </#if> <#if item.others.exchange_point??>exchange="true"<#else>exchange="false"</#if>/>
+					</td>
+					<td style="width: 100px;">
+						<a target="_blank" href="goods-${item.goods_id}.html">
+							<span style="display: block;height: 50px;" class="cart-product-img" ur="${item.image_default!''}">
+								<@image  src="${item.image_default!''}" style="cursor: pointer;" />
+							</span>
+						</a>
+					</td>
+					<td class="cart_goodsname">
+						<a target="_blank" href="goods-${item.goods_id}.html">${item.name}</a>
+						<#if item.others?exists>
+							<#if item.others.specList?exists>
+								<span>
+									<#list item.others.specList as spec>
+										<#if spec_index!=0></#if><strong>${spec.name}:<em style="color:#ED7108">${spec.value}</em></strong>
+									</#list>
+								</span>
+							</#if>
+							<#if item.others.gys_name?exists>
+								供应商：${item.others.gys_name!''}
+							</#if>
+						</#if>
+					</td>
+					<td>
+						<#if item.activity_id?exists && item.activity_id != 0>
+							<span class="full-icon">促销商品</span>
+						</#if>
+					</td>
+					<td>
+						${item.price?string("currency")}<#if item.others.exchange_point??>+${item.others.exchange_point}分</#if>
+					</td>
+					<td class="cart_quantity">
+						<div id="num" class="Numinput" value="${item.num}" itemid="${item.id}" productid="${item.product_id}" >
+							<span class="numadjust decrease">-</span>
+							<input size="5" name="num" autocomplete="off" type="text" value="${item.num}" class="w55">
+							<span class="numadjust increase">+</span>
+						</div>
+					</td>
+					<td class="itemTotal">${item.subtotal?string("currency")}<#if item.others.exchange_point??>+${item.others.exchange_point?number*item.num}分</#if></td>
+					<td class="cart_last"><a href="javascript:;" class="delete">删除</a></td>
+				</tr>
+				<tr>
+				<td style="padding:3px;background:#fff;" colspan="20" <#if !item_has_next>class="itemlast"</#if>></td>
+			</tr>
+			</#list>
+			</tbody>
+		</#list>
+	</table>	
+			<!-- 总价 -->
+			<div class="total_wrapper">
+				<#include 'cartTotal.html' />
+			</div>
+			<div class="button_wrapper">
+				<div class="btnd btn1">
+					<i class="cleanbtn"></i>
+					<input type="button" class="clean_btn" value="清空购物车所有商品">
+				</div>
+				<div class="btnd btn2">
+					<i class="returnbuybtn"></i>
+					<input type="button" class="returnbuy_btn" value="继续到商城逛逛"  />
+				</div> 	
+				<div class="btnd btn3">
+					<i class="checkoutbtn"></i>		
+					<input type="button"  class="checkout_btn" value="填写核对购物信息"   />
+				</div>
+			</div>
+			<div id="login_tip" style="display:none">
+				<div class="cart_tourist">
+					<div class="cart_message">
+						您当前是游客身份，游客身份不能购买商品！<br><br>
+					</div>
+					<div class="button_wrapper">
+						<input type="button" class="tourist_btn to_login_btn" value="马上登录">
+						
+						<input type="button" class="tourist_btn to_checkout_btn"  value="去注册">
+					</div>
+				</div>
+			</div>
+		<#else/>
+			<div class="cartno">
+				<h1>您的购物车中暂无商品</h1><a href="index.html">挑选心爱的商品</a><a href="member/order.html">查看我的订单</a>
+			</div>
+		</#if>
+</div>
+    <script type="text/javascript">
+        $(function () {
+            $('.cart-bonus-icon').hover(function () {
+                var bonusBox = $(this).find('.cart-bonus-box');
+                bonusBox.addClass('open');
+                setTimeout(function () {
+                    bonusBox.addClass('show')
+                }, 20)
+            }, function () {
+                var bonusBox = $(this).find('.cart-bonus-box');
+                bonusBox.removeClass('show');
+                setTimeout(function () {
+                    bonusBox.removeClass('open')
+                }, 200)
+            })
+
+            $('.cart-bonus-btn').on('click', function () {
+                var $this    = $(this),
+                    store_id = $this.attr('store_id'),
+                    type_id  = $this.attr('type_id');
+                $.ajax({
+                    url : ctx + '/api/b2b2c/bonus/receive-bonus.do',
+                    data: {
+                        store_id: store_id,
+                        type_id : type_id
+                    },
+                    type: 'POST',
+                    success: function (res) {
+                        if(res.result == 1){
+                            $this[0].disabled = true
+                            $this.html('已领取');
+                        }else {
+                            $.message.error(res.message);
+                        }
+                    },
+                    error: function () {
+                        $.message.error('出现错误，请重试！');
+                    }
+                })
+            })
+        })
+    </script>

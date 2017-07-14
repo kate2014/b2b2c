@@ -1,0 +1,162 @@
+<#assign  title="修改密码" />
+<#include 'member_header.html' />
+<#assign memberSecurityCenterTag = newTag("memberSecurityCenterTag") >
+<#assign security = memberSecurityCenterTag()>
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li class="selected"><a href="security.html"><span>修改密码</span></a></li>
+		</ul>
+	</div>
+	<!-- 修改密码提示 -->
+	<div class="password_explain">
+		<h2>温馨提示</h2>
+		<ul>
+			<li>1、密码只能为6--16个英文字母或数字</li>
+			<li>2、为了您的账号安全，必须正确输入旧密码才能修改。</li>
+		</ul>
+	</div>
+	<div class="password_change">
+		<form class="validate" action="" method="post"  >
+			<div class="vefy_input_05">
+				<span class="input_span">新的登陆密码：</span>
+				<input class="input_text" type="password" name="newpassword" dataType="string"	fun="isPasswd" id="password" placeholder="请输入新密码" isrequired="true"/>
+			</div>
+			<div class="vefy_input_05">
+				<span  class="input_span">请再输入一次密码：</span>
+				<input class="input_text" type="password" name="re_passwd" dataType="string" id="passwd_re"  fun="checkpwd" placeholder="请确认新密码" isrequired="true"/>
+			</div>
+			<div class="vefy_input_05">
+				<span  class="input_span">验证码：</span>
+				<input id="authCode" class="itxt" type="text" name="authCode" tabindex="2" placeholder="请输入验证码" style="width: 100px;">
+				<label>
+					<img src="${ctx}/validcode.do?vtype=membervalid" alt="验证码" id="code-img" class="ml10" style="cursor: pointer;height: 34px;width: 100px;border: 0 none;vertical-align: middle;">
+					看不清？
+					<a class="ftx-05" href="javascript:;" id="change-code" style="color: #005ea7;">换一张</a>
+				</label>
+			</div>
+			<input class="green-btn" type="button" name="btnReg" value="确定修改"/>
+		</form>
+	</div>
+</div>	
+
+<script>
+	$(function(){
+		
+		$("#change-code").click(function(){
+			$("#code-img").attr("src","${ctx}/validcode.do?vtype=membervalid&r="+new Date().getTime());
+		});
+		$("#code-img").click(function(){
+			$(this).attr("src","${ctx}/validcode.do?vtype=membervalid&r="+new Date().getTime());
+		});
+		
+		$(".green-btn").click(function(){
+			var useroldpwd = $("#useroldpwd").val();
+			var usernewpwd = $("#password").val();
+			var useraffirmpwd = $("#passwd_re").val();
+			
+			if(!$(".validate").checkall()){
+				return false;
+			}
+			
+			if($("#authCode").val() == ""){
+				alert("请输入验证码");
+				return false;
+			}
+			
+			$(".validate").ajaxSubmit({
+				url:"${ctx}/api/shop/member/update-password.do",
+				dataType : 'json',
+				success:function(result){
+					if(result.result==1){
+						alert("修改成功，请使用新密码重新登陆！");
+						//退回到首页，重新登录
+						$.ajax({
+							url:"${ctx}/api/shop/member/logout.do",
+							dataType:"json",
+							cache: false,             //清楚缓存，暂时测试，如果产生冲突，请优先考虑是否是这条语句。
+							success:function(result){
+								if(result.result==1){
+									location.href="${ctx}/index.html";
+									
+								}else{
+									$.alert(result.message);
+									$("#code-img").attr("src","${ctx}/validcode.do?vtype=membervalid&r="+new Date().getTime());
+								}	
+								$.Loading.hide();
+							},
+							error:function(){
+								$.Loading.hide();
+								$.alert("出错了:(");
+								$("#code-img").attr("src","${ctx}/validcode.do?vtype=membervalid&r="+new Date().getTime());
+							}
+						});
+					}
+					else{
+						$.alert(result.message);
+						$("#code-img").attr("src","${ctx}/validcode.do?vtype=membervalid&r="+new Date().getTime());
+					}
+				}
+			})
+
+
+		})
+	})
+</script>
+<script>
+function isPasswd(s){  
+	//var patrn=/^(\w){6,20}$/;
+	var patrn=/^(\w){6,16}$/;
+	if (!patrn.exec(s)) return "密码格式不正确"  
+	return true  
+}
+function checkpwd(){    
+	if( $("#passwd_re").val()==$("#password").val() ){
+		return true;
+	}
+	else{ 
+		return "密码不一致";
+	}
+}
+</script>
+<style>
+.address_list thead tr th, td{border:0px none;background:none;}
+.password_change .vefy_input_05{width:836px;height:40px;line-height:40px;margin-bottom:10px;}
+.password_change .vefy_input_05 span{
+	   height: 38px;
+	   float:left;
+    vertical-align: middle;
+      font-size: 14px;
+    line-height: 38px;
+    padding-right: 10px;
+    text-align: right;
+     width: 210px;
+     
+     
+}
+.password_change .vefy_input_05 .tip{text-align:left;font-size:12px;color:#ff6700;}
+.password_change .vefy_input_05 input{
+	width:280px;height:36px;line-height:36px;border:1px solid #e3e3e3;float:left;margin-right:10px;padding:0px 10px;background-color: white;
+}
+.password_change .btn{width:836px;height:40px;}
+.password_change .btn input{
+	display:inline-block;height:38px;line-height:38px;margin-left:220px;
+}
+.green-btn {
+    background-color: #f5fbef;
+    background-image: linear-gradient(to bottom, #f5fbef 0px, #eaf6e2 100%);
+    border: 1px solid #bfd6af;
+    border-radius: 2px;
+    display: inline-block;
+    height: 30px;
+    width: 185px;
+    line-height: 18px;
+    padding: 2px 14px 3px;
+    color: #323333;
+    text-decoration: none;
+    margin-left: 220px;
+    margin-top: 20px;
+}	
+</style>
+</div>
+<#include '../common/footer.html'/>

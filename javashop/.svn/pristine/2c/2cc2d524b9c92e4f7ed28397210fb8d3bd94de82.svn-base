@@ -1,0 +1,39 @@
+
+/*table*/
+.site-table thead tr th {text-align: center;}
+.site-table tbody tr td {text-align: center;}
+.site-table tbody tr td .layui-btn+.layui-btn{margin-left: 0px;}
+.table-hover tbody tr:hover{ background-color: #EEEEEE; }
+.admin-table-page {position: fixed;z-index: 19940201;bottom: 0;width: 100%;background-color: #eee;border-bottom: 1px solid #ddd;left: 0px;}
+.admin-table-page .page{padding-left:20px;}
+.admin-table-page .page .layui-laypage {margin: 6px 0 0 0;}
+
+/**/
+.admin-main {margin: 15px;}
+.dropdown{
+    position: relative;
+    vertical-align: middle;
+}
+.dropdown-menu{
+    background-color: whitesmoke;
+    display: none;
+    position: absolute;
+    left: 23%;
+    border-radius: 5px;
+    z-index: 1000;
+}
+.dropdown-menu li{
+    width: 114px;
+    height: 29px;
+    text-align: center;
+    line-height: 29px;
+}
+.dropdown-menu li i{
+    padding-right: 10px;
+}
+.dropdown-menu li:hover {
+    background-color: #5FB878;
+}
+.dataTables_scrollBody{
+    overflow:visible !important
+}

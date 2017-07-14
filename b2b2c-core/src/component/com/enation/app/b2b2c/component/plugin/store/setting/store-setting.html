@@ -1,0 +1,56 @@
+<div>
+	<div class="main" style="background-color: white;">
+		<table class="form-table">
+			<tr>
+				<th >商家商品是否审核</th>
+				<td>
+					<input type="radio" name="store.auth"   value="1" <#if store.auth=="1">checked="checked"</#if> />是&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="store.auth"   value="0"  <#if store.auth=="0">checked="checked"</#if>  />否
+				</td>
+			</tr>
+			<tr>
+				<th style="width:160px">商家能否购买自己的商品</th>
+				<td>
+					<input type="radio" name="store.buy_self_auth" value="1" <#if (store.buy_self_auth!"0") =="1">checked="checked"</#if> />是&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="store.buy_self_auth" value="0" <#if (store.buy_self_auth!"0") =="0">checked="checked"</#if>  />否
+				</td>
+			</tr>
+			<tr name="auth"  <#if store.auth=="0"> style="display: none" </#if>>
+				<th>修改商品是否审核</th>
+				<td>
+					<input type="radio" name="store.edit_auth"   value="1" <#if store.edit_auth=="1">checked="checked"</#if> />是&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="store.edit_auth"   value="0"  <#if store.edit_auth=="0">checked="checked"</#if>  />否
+				</td>
+			</tr>
+			<tr name="auth"  <#if store.auth=="0"> style="display: none" </#if>>
+				<th>自营商品是否审核</th>
+				<td>
+					<input type="radio" name="store.self_auth"   value="1" <#if store.self_auth=="1">checked="checked"</#if> />是&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="store.self_auth"   value="0"  <#if store.self_auth=="0">checked="checked"</#if>  />否
+				</td>
+			</tr>
+			<tr>
+				<th >商家模板路径</th>
+				<td>
+					<input type="text" class="input_text" name="store.store_themes"   value="${store.store_themes}" />
+				</td>
+			</tr> 
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	
+
+	$("input[name='store.auth']").change(function(){
+		if($(this).val()==1){
+			$("tr[name='auth']").show();
+		}else{
+			$("tr[name='auth']").hide();
+			$("input[name='store.edit_auth']").eq(1).click();
+			$("input[name='store.self_auth']").eq(1).click();
+		}
+	});
+})
+</script>

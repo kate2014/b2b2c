@@ -1,0 +1,120 @@
+<!-- 统计图div -->
+<div id="region_money_statistics"  style="display: inline-block; width: 47%;"></div>	
+<div id="region_money_highcharts"  style="display: inline-block; width: 47%;"></div>
+<script type="text/javascript">
+	$(function() {
+		getRegionMoney();
+		var type = $("#cycle_type").val();
+		// 如果统计类型 是按年统计
+		if (type == "2") {
+			$("#month").hide();
+		} else {
+			$("#month").show();
+		}
+
+		// 统计类型变更事件
+		$("#cycle_type").change(function() {
+
+			var type = $(this).val();
+
+			// 如果统计类型 是按年统计
+			if (type == "2") {
+				$("#month").hide();
+			} else {
+				$("#month").show();
+			}
+		});
+	});
+
+	function getRegionMoney() {
+		var cycle_type = $("#cycle_type :selected").val();
+		var year = $("#year :selected").val();
+		var month = $("#month :selected").val();
+		$.ajax({
+			url : "${ctx}/api/operator-statistics/region-money-list-json.do",
+			data:{'cycle_type':cycle_type,'year':year,'month':month,'storeid':store_id},
+			type : "POST",
+			dataType : 'json',
+			success : function(result) {
+				regionStatistics(result.message,"下单会员数");
+				var conf=regionHighchart(result.highchartmessage,"下单会员数");
+				//初始化柱状图
+				initHistogram("region_money_highcharts",conf)
+			},
+			error : function(e) {
+				$.Loading.error("出现错误 ，请重试");
+			}
+		});
+	}
+	/**
+	 * 初始化区域分析图
+	 * @param id	html 初始化div的id
+	 * @param conf	相关配置
+	 */
+	 
+function regionStatistics(data,name){
+		$('#region_money_statistics').highcharts('Map', {
+			chart :{
+				backgroundColor: '#FFFFFF'
+			},
+		    title : {														//标题
+		        text : '区域分析统计'
+		    },
+		    subtitle : {
+		        text : ''
+		    },
+		    mapNavigation: {												 //导航功能
+		        enabled: false,
+		        buttonOptions: {
+		            verticalAlign: 'bottom'
+		        }
+		    },
+		    colorAxis: {
+		        min: 0,
+		    },
+		    series : [{														//定义数据列
+		        data : data,
+		        mapData: Highcharts.maps['countries/china'],
+		        joinBy: 'hc-key',
+		        name: name,
+		        states: {
+		            color: '#FF0000'
+		        },
+		        dataLabels: {
+		            enabled: true,
+		            format: '{point.name}'
+		        }
+		    }],
+		    credits: {                                                       //版权信息
+		        text: ''
+		    }
+		});
+	};
+	
+	function regionHighchart(json,ytitle){
+		var categories = []; //X轴 时间
+		var data = [];	// Y轴 增加数量
+		//alert(JSON.stringify(json));
+		// 遍历生成 data,categories
+		for(var i in json) {
+			var member = json[i];
+			//添加到数组
+			categories.push(member.local_name + "");
+			data.push(member.num);
+		}
+		var conf = {
+				title : "地区排行",		//统计图标题
+				yDesc : "会员下单金额" ,			//y轴 描述
+												//X 轴数据 [数组]
+				categories : categories,				
+		            							//Y轴数据 [数组]
+				 series: [{
+			            name: '会员下单金额',
+			            data: data
+			        }]						
+
+			};
+		return conf;
+	}
+
+</script>

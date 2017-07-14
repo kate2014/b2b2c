@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "标签列表 - 商品管理" />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/tags.css"> 
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/goods/tags.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_goods' />
+<#assign lowerPageName = 'lower_goods_tags' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li><a href="javascript: void(0);">标签列表</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div class="app-wappler">
+    <div class="inner-app-wappler">
+    <#assign storeTagsListTag=newTag("storeTagsListTag")/>
+	<#assign storeTagsList=storeTagsListTag()!''/>
+      	<div  class="main_table">
+	      	<#if storeTagsList??>
+			<table cellspacing="0" cellpadding="0" border="0"  width="100%" class="store_taglist">
+				<thead>
+					<tr>
+						<th style="width:500px;">标签名称</th>
+						<th style="width:200px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list storeTagsList as storeTag>
+						<tr>
+							 <td style="width:500px;">${storeTag.tag_name}</td>
+							  <td style="width:200px;">
+							    	<a href="tags_edit.html?tagid=${storeTag.tag_id}&mark=${storeTag.mark}" class="btn btn-info f12" name="showInfo" >标签商品设置</a>
+							  </td>
+						</tr>
+					</#list>
+				</tbody>
+			</table>
+			<#else>
+		  		<p class="no_blank">暂无符合条件的数据记录</p>
+		  	</#if>
+			</div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+	<div class="head-help">
+		<span class="icomoon question-ico"></span>
+		<a href="javascript: void(0);" class="title-help">帮助和服务</a>
+		<span class="icomoon close-ico" title="关闭">x</span>
+	</div>
+	<div class="body-help">
+		<p>帮</p>
+		<p>助</p>
+		<p>与</p>
+		<p>客</p>
+		<p>服</p>
+	</div>
+</div>
+<div class="open-help">
+	<span class="icomoon question-ico"></span>
+	<a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

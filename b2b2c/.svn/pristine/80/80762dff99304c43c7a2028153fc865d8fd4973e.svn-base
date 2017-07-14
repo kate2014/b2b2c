@@ -1,0 +1,71 @@
+<#include '/common/header.html' />
+<#assign memberIsLoginTag = newTag("memberIsLoginTag")>
+<#assign isLogin = memberIsLoginTag()>
+<#if isLogin>
+<#assign memberInfoTag = newTag("memberInfoTag")>
+<#assign member = memberInfoTag()>
+</#if>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/member/register/css/register.css" />
+	<div class="index_logo">
+		<a href="${ctx}/index.html"><@image src="${logo}" class="pngFix" style="width:240px;height:60px;" /></a>
+		<!-- <span class="user_title">用户注册</span> -->
+	</div>
+	<div class="steps steps-4">
+		<ol>
+			<li class="active"><i>1</i><span class="tsl" data-phase-id="r_p_createAccount">填写手机号</span></li>
+			<li class="active"><i>2</i><span class="tsl" data-phase-id="r_p_fillUserInfo">填写账号信息</span></li>	
+			<li  class="active"><i class="iconfont">&#x2714;</i><span class="icon-checkmark">注册成功</span></li>
+		</ol>
+
+	</div>
+	<div class="content">
+	<div class="content_in">
+        <h3 class="success_title" style="padding-left:250px;color:#3e3e3e;">恭喜注册成功，你的账户为：</h3>
+        <div  class="form-item">
+        	<span class="form-label tsl" data-phase-id="r_p_mobileNum">登录名&nbsp;&nbsp;</span>
+            <div class="mobile-text" style="line-height: 37px;">
+                 <span class="mobile_num user_name">${member.uname}</span>
+			</div>
+        </div>
+        <div class="form-item" style="padding-top:0;">
+            <span class="form-label tsl" data-phase-id="r_p_mobileNum">绑定手机&nbsp;&nbsp;</span>
+            <div class="mobile-text" style="line-height: 37px;">
+                 <span class="mobile_num">${member.mobile}&nbsp;&nbsp;（用户接收短信验证码）</span>
+			</div>
+        </div>
+        <div class="binds">
+        	<div class="bind_app bind_sina">
+        		<div class="bind_logo bind_sina_logo">
+					<img src="${ctx}${themes_path}/member/register/images/weibo.jpg" title="微博绑定" alt="微博绑定" style="width:55px;">
+				</div>
+        		<div class="bind_other bind_sina_other">
+					<p class="bind_title">快速绑定微博账号 </p>
+					<a class="bind_btn bind_sina_btn" href="${ctx}/member/bind-member.html">立即绑定</a>
+				</div>
+        	</div>
+        	<div class="bind_app bind_qq">
+				<div class="bind_logo bind_qq_logo">
+					<img src="${ctx}${themes_path}/member/register/images/qq.jpg" title="QQ绑定" alt="QQ绑定" >
+				</div>
+        		<div class="bind_other bind_qq_other">
+					<p class="bind_title">快速绑定QQ账号 </p>
+					<a class="bind_btn bind_qq_btn" href="${ctx}/member/bind-member.html">立即绑定</a>
+				</div>
+				
+        	</div>
+        	<div class="bind_app bind_wechat">
+        		<div class="bind_logo bind_wechat_logo">
+					<img src="${ctx}${themes_path}/member/register/images/weixin.jpg" title="微信绑定" alt="微信绑定" >
+				</div>
+				<div class="bind_other bind_wechat_other">
+					<p class="bind_title">快速绑定微信账号 </p>
+					<a class="bind_btn bind_sina_btn" href="${ctx}/member/bind-member.html">立即绑定</a>
+				</div>
+        	</div>       
+        </div>
+        <div class="clear"></div>
+    </div>
+    </div>
+
+
+<#include '/common/footer.html' />

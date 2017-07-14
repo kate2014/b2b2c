@@ -1,0 +1,169 @@
+<#assign  title="评论" />
+<#include 'member_header.html' />
+<#--创建“订单访问权限判断”标签-->
+<#assign orderAccessAuthTag = newTag("orderAccessAuthTag")>
+<#assign auth = orderAccessAuthTag('{"order_sn":"${ordersn}"}')>
+<#--创建“订单详细”标签-->
+<#assign orderDetailTag = newTag("orderDetailTag")>
+<#assign orderDetail = orderDetailTag('{"ordersn":"${ordersn}"}')>
+<#--创建“订单评论货物列表”标签-->
+<#assign orderItemCommentsListTag = newTag("orderItemCommentsListTag")>
+<#assign orderItemCommentsList = orderItemCommentsListTag("{'orderid':${orderDetail.order_id}}")>
+<script  src="${ctx}${themes_path}/js/Comment.js"  ></script>
+
+
+
+<style>
+	.left_member{display:none;}
+	
+	#content_wrapper{width:1200px;margin:0;padding:36px 0 0 0;}
+	.imgbar_wrap{width:830px;height:100px;overflow:hidden;}
+	
+	.img_list{float:left;margin:10px 0 0 0;height:50px;}
+	.img_list li{float:left;margin:0 10px 0 0;height:50px;}
+	.img_list li img{width:50px;height:50px;}
+
+	.upload_wrap{height:100px;float:left;}
+	.imgbar_wrap .upload_wrap .upload{width:50px;height:100px;}
+	.upload_wrap .upload .localUpload_wrap{width:50px;height:50px;border:0 none;margin:10px 0 0 0;}
+	.upload_wrap .localTitle{display:none;}
+	.upload_wrap .upload .localUpload_wrap .localUpload{width:50px;height:50px;background:url(${ctx}${themes_path}/images/bg-upload.png) no-repeat center center;margin:0;}
+	.discuss_form .imgbar_wrap .img_list .img_box img {width:50px;cursor: move;}
+</style>
+<#if (orderItemCommentsList?size>0)  >
+	<div class="user_order" style="width:1200px;float:none">
+		<div class="member-comment-box">
+		<form action="#" method="post" id="discussForm">
+			<input type="hidden" name="orderid" value="${orderDetail.order_id}" />
+			<#list orderItemCommentsList as item>
+			<script>
+				//上传图片插件配置
+				var image_uploader_setting_buyers_show_${item.product_id}= {
+					imageName : "picnames_${item.product_id}",	// 表单提交时 的name
+					subFolder : "/comments/${goods_id!''}/goods",		// 上传目录
+					showImgs : [],	//显示的img值数组，不提交。只做显示用
+					actualImgs : [],	// 实际的img值数组，会提交
+					fileNumLimit : 6
+				}
+			</script>
+				<div class="comment-list-box">
+					<!-- 商品列表 -->
+					<div class="comment-list-left">
+						<div class="comment-list-img">
+							<a target="_blank" href="../goods-${item.goods_id}.html">
+								<@image height="50" src="${item.image!''}"  style="cursor: pointer;" />
+							</a>
+						</div>
+						<p><a target="_blank" href="../goods-${item.goods_id}.html">${item.name} </a></p>
+						<!-- <strong>${(item.num * item.price)?string.currency}</strong> -->
+						<#if item.other?? >
+							<span>${item.other!''}</span>
+						</#if>
+					</div>
+					<!-- 商品评论 -->
+					<div class="comment-list-right" id="discuss_form_wrapper">
+						<h3><i></i><span>请填写商品动态评分</span></h3>
+						<div>
+								<div class="discuss_issue" style="height: auto;">
+									<div class="discuss_score member-grade">
+										<div>
+											<h2>
+												<b>描述相符：</b> 
+												<span class="grade"> 
+													<span><a href="javascript:;" class="selected" status="store_desccredit_${item.product_id}" >1</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_desccredit_${item.product_id}" >2</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_desccredit_${item.product_id}" >3</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_desccredit_${item.product_id}" >4</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_desccredit_${item.product_id}" >5</a></span> 
+													<input type="hidden" name="store_desccredit" id="store_desccredit_${item.product_id}" value="5">
+												</span> 
+												<span class="value_wrapper">
+													<span  name="gradevalue" status="store_desccredit_${item.product_id}">5</span>分
+												</span>
+											</h2>
+											
+											<h2>
+												<b>服务态度：</b> 
+												<span class="grade"> 
+													<span><a href="javascript:;" class="selected" status="store_servicecredit_${item.product_id}">1</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_servicecredit_${item.product_id}">2</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_servicecredit_${item.product_id}">3</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_servicecredit_${item.product_id}">4</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_servicecredit_${item.product_id}">5</a></span> 
+													<input type="hidden" name="store_servicecredit" id="store_servicecredit_${item.product_id}" value="5">
+												</span> 
+												<span class="value_wrapper">
+													<span  name="gradevalue" status="store_servicecredit_${item.product_id}">5</span>分
+												</span>
+											</h2>
+											
+											<h2>
+												<b>发货速度：</b> 
+												<span class="grade" > 
+													<span><a href="javascript:;" class="selected" status="store_deliverycredit_${item.product_id}">1</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_deliverycredit_${item.product_id}">2</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_deliverycredit_${item.product_id}">3</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_deliverycredit_${item.product_id}">4</a></span> 
+													<span><a href="javascript:;" class="selected" status="store_deliverycredit_${item.product_id}">5</a></span> 
+													<input type="hidden" name="store_deliverycredit" id="store_deliverycredit_${item.product_id}" value="5">
+												</span> 
+												<span class="value_wrapper">
+													<span  name="gradevalue" status="store_deliverycredit_${item.product_id}">5</span>分
+												</span>
+											</h2>
+										</div>
+									</div>
+									<div class="grade-critic">
+										<b>评分：</b>
+										<label><input type="radio" name='grade_${item.product_id}' value="3" checked="checked"/><i class="score_fine">好评</i></label>		
+										<label><input type="radio" name='grade_${item.product_id}' value="2"/><i class="score_middle">中评</i></label>
+										<label><input type="radio" name='grade_${item.product_id}' value="1"/><i class="score_no">差评</i></label>
+									</div>
+									<div class="comment-from-box">
+										<div class="comment_form">
+											<textarea name="content" id="discuss_content"  maxlength="180" placeholder="请在此处输入您的评论"></textarea>
+										</div>
+										<div class="discuss_form">
+										
+										 
+										
+											<!-- <h6>上传买家秀</h6> -->
+											<@imageuploader name="buyers_show_${item.product_id}"/>
+											<input type="hidden" name="goods_id" value="${item.goods_id}" />
+											<input type="hidden" name="commenttype" value="1" />
+											<input type="hidden" name="product_id" value="${item.product_id}" />										
+										</div>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</#list>
+			</form>
+			<div class="discuss_ok" style="display:ture"> 
+				<input class="regis_ent" type="button" value="发表评论" id="discussBtn"/>	
+			</div>
+		</div>
+	</div>
+	<#else>
+	<!-- 评论完成 -->
+	<div class="comment-success" style="display:true;">
+		<i class="success-img"></i>
+		<h1>感谢您的评价，去看看其他商品吧</h1>
+		<h2>查看订单详情：<a href="order.html">返回订单中心 ></a></h2>
+	</div>
+	</#if>
+</div>
+<script>
+$(function(){
+	Grade.init();
+});	
+</script>
+
+
+<#include '../common/footer.html'/>
+
+
+
+
+

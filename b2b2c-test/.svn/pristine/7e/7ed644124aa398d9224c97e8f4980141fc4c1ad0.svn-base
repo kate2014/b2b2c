@@ -1,0 +1,127 @@
+package com.enation.app.javashop.b2b2c.shop;
+
+import org.junit.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.enation.framework.test.SpringTestSupport;
+
+
+/**
+ * 多店会员模块单元测试
+ * @author kingapex
+ * @version v1.0
+ * @since v6.0
+ * 2016年10月31日下午2:14:01
+ */
+public class MemberRegisterTest extends SpringTestSupport {
+	
+	
+	/**
+	 * 进行手机注册和登陆的测试
+	 * @throws Exception
+	 */
+	@Test
+	public void phoneRegisterTest() throws Exception{
+		
+		//发送验证码
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/shop/sms/sms-safe.do")
+				.param("mobile", "18618487756")
+				.param("key","register")
+				.contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+
+		).andDo(MockMvcResultHandlers.print())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/shop/sms/send-sms-code.do")
+				.param("mobile", "18618487758")
+				.param("key","register")
+				.contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+
+		).andDo(MockMvcResultHandlers.print())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		
+		//用手机注册
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/shop/member/reg-mobile.do")
+				.param("license", "agree")
+				.param("mobile","18618487758")
+				.param("password","wangfeng")
+				.param("repassword","wangfeng")
+				.param("username","kingapex1")
+				
+				.contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+
+		).andDo(MockMvcResultHandlers.print())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberlogin"));
+		
+		//登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member/login.do")
+				 .param("username", "kingapex1")
+				 .param("password", "wangfeng")
+				 .param("validcode", "1111")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+	 
+		
+	}
+	/**
+	 * 进行邮箱注册和登陆的测试
+	 * @throws Exception
+	 */
+	@Test
+	public void emileRegisterTest() throws Exception{
+		
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberreg"));
+		
+		//注册api正确测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member/register.do")
+				 .param("username", "kobe1")
+				 .param("email", "999@qq.com")
+				 .param("password", "111111")
+				 .param("reg_password", "111111")
+				 .param("validcode", "1111")
+				 .param("license", "agree")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+		
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberlogin"));
+				
+		//登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member/login.do")
+				 .param("username", "kobe1")
+				 .param("password", "111111")
+				 .param("validcode", "1111")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+			 
+	}
+}

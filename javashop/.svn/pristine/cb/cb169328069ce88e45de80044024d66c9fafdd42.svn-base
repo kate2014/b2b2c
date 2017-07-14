@@ -1,0 +1,157 @@
+/**
+ * Created by lishida on 2017/1/11.
+ */
+/*Javascript代码片段*/
+//layui.config({
+//    base: 'plugins/layui/modules/'
+//});
+//
+//layui.use(['icheck', 'laypage','layer'], function() {
+//    var $ = layui.jquery,
+//        laypage = layui.laypage,
+//        layer = parent.layer === undefined ? layui.layer : parent.layer;
+//    $('input').iCheck({
+//        checkboxClass: 'icheckbox_flat-green'
+//    });
+//});
+(function ($) {
+    $.fn.extend({
+        "grid": function (options) {
+            //检测用户传进来的参数是否合法
+            if (!isValid(options))
+                return this;
+            var opts = $.extend({}, defaluts, options); //使用jQuery.extend 覆盖插件默认参数
+            return this.each(function () {  //这里的this 就是 jQuery对象。这里return 为了支持链式调用
+                var $this = $(this); //获取当前dom 的 jQuery对象，这里的this是当前循环的dom
+                //根据参数来设置 dom的样式
+                $this.dataTable({
+                    "processing": true,//是否显示加载状态
+                    "serverSide": true,//连接服务端
+                    ajax: {
+                        //指定数据源
+                        url: opts.url,
+                        type: "get"
+                    },
+                    "scrollY": false,//dt高度
+                    "lengthMenu": [
+                        [5, 10, 15, -1],
+                        [5, 10, 15, "All"]
+                    ],//每页显示条数设置
+                    "stripeClasses": false,
+                    "lengthChange": true,//是否允许用户自定义显示数量
+                    "bPaginate": true, //翻页功能
+                    "bFilter": false, //列筛序功能
+//                   "stateSave": true,//保存当前操作信息
+                    "searching": true,//本地搜索
+                    "ordering": true, //排序功能
+                    "Info": true,//页脚信息
+                    "autoWidth": true,//自动宽度
+                    "oLanguage": {//国际语言转化
+                        "oAria": {
+                            "sSortAscending": " - click/return to sort ascending",
+                            "sSortDescending": " - click/return to sort descending"
+                        },
+                        "sLengthMenu": "显示 _MENU_ 记录",
+                        "sZeroRecords": "对不起，查询不到任何相关数据",
+                        "sEmptyTable": "未有相关数据",
+                        "sLoadingRecords": "正在加载数据-请等待...",
+                        "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+                        "sInfoEmpty": "当前显示0到0条，共0条记录",
+                        "sInfoFiltered": "（数据库中共为 _MAX_ 条记录）",
+//                       "sProcessing": "<img src='../resources/user_share/row_details/select2-spinner.gif'/> 正在加载数据...",
+                        "sSearch": "模糊查询：",
+                        "select": true,
+                        "sUrl": "",
+                        //多语言配置文件，可将oLanguage的设置放在一个txt文件中，例：Javascript/datatable/dtCH.txt
+                        "oPaginate": {
+                            "sFirst": "首页",
+                            "sPrevious": " 上一页 ",
+                            "sNext": " 下一页 ",
+                            "sLast": " 尾页 "
+                        }
+                    },
+                    "columns": opts.columns,
+
+                    "columnDefs": opts.columnDefs,
+                    "order": [
+                        [0, null]//设置第一列的排序图标为默认
+                    ],
+                });
+
+                //格式化高亮文本
+            });
+
+        }
+    });
+    //默认参数
+    var defaluts = {
+        columns: '',
+        url: '',
+        columnDefs:''
+    };
+    //私有方法，检测参数是否合法
+    function isValid(options) {
+        return !options || (options && typeof options === "object") ? true : false;
+    }
+})(window.jQuery);
+
+$(function () {
+    //全选or全不选
+    $("#selected-all").on("click", function () {
+        if ($(this).prop("checked") === true) {
+            $("input[name='checklist']").prop("checked", true);
+            $("input[name='checklist']").parents('tr').addClass('selected');
+        } else {
+            $("input[name='checklist']").prop("checked", false);
+            $("input[name='checklist']").parents('tr').removeClass('selected');
+        }
+    });
+
+
+    //点击空白选中本行
+    $('.site-table tbody ').on('click', 'tr ', function () {
+        var $this = $(this);
+        var $input = $this.children('td').eq(0).find('input');
+        if ($input[0].checked) {
+            $input.prop("checked", false);
+            $this.removeClass('selected');
+        } else {
+            $input.prop("checked", true);
+            $this.addClass('selected');
+        }
+    });
+    //单行选中or不选
+    $('.site-table tbody').on('click', 'tr input[name="checklist"]', function (event) {
+        event.stopImmediatePropagation();
+        if ($(this).prop("checked") === true) {
+            $(this).parents('tr').addClass('selected');
+        } else {
+            $(this).parents('tr').removeClass('selected');
+        }
+    });
+
+        //删除选中行
+        $('#delete').click(function () {
+            $("#example tbody :checkbox:checked").parents('tr').remove();
+        });
+
+    //按钮点击下拉
+    $('.site-table tbody').on('click', 'tr button[name="drop-btn"]', function (event) {
+        event.stopImmediatePropagation();
+        //$(".dropdown").toggle();
+
+        if (this.nextElementSibling.style.display==""||this.nextElementSibling.style.display=="none"){
+            $(".dropdown-menu").hide();
+            this.nextElementSibling.style.display="block";
+
+        }else {
+            this.nextElementSibling.style.display="";
+        }
+
+    });
+    //点击空白隐藏下拉菜单
+    $(document).bind("click",function(){
+        $(".dropdown-menu").hide();
+    });
+
+})

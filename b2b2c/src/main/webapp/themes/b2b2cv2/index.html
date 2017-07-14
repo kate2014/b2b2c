@@ -1,0 +1,187 @@
+<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+<#assign groupbuyIsOn =checkCmptIsOnTag("{'componentName':'多商户团购组件'}") />
+<#assign floorIsOn=checkCmptIsOnTag("{'componentName':'装修组件'}") />
+<#include 'common/header.html' /> 
+<#include 'common/reception_header.html'/>
+<link rel="stylesheet" href="${ctx}${themes_path}/css/index.css" type="text/css" />
+<script src="${ctx}${themes_path}/js/home_index.js"></script>
+<style type="text/css">
+.category { display: block !important;}
+</style>
+<#-- 获取商品列表标签 -->
+<#assign goodsListTag = newTag("goodsListTag")>
+<#-- 文章 -->
+<#assign dataSearchTag=newTag("dataSearchTag") />
+<div class="clear"></div>
+<#assign advListTag= newTag("advListTag")>
+<#-- 调用广告信息,传递参数acid:1 -->
+<#assign adv = advListTag("'acid':'1'")!'' >
+<#-- 获取广告列表 -->
+<#assign advList = adv.advList /> 
+<#assign n = 1 />
+<#--检测组件是否启用 -->
+<#if groupbuyIsOn=="ON">
+	<#-- 团购活动 -->
+	<#assign groupBuyActTag=newTag("groupBuyActTag")>
+	<#assign groupBuyAct=groupBuyActTag()>
+	<#if groupBuyAct!="">
+		<#-- 获取商品列表标签 -->
+		<#assign groupBuyGoodsListTag = newTag("groupBuyGoodsListTag")>
+		<#assign goodsList=groupBuyGoodsListTag("'tagid':'${groupBuyAct.act_tag_id}','goodsnum':'5'")>
+		<#-- 团购时间 -->
+		<#assign groupBuyActSurplusTag=newTag("groupBuyActSurplusTag")>
+		<#assign groupBuyActSurplus=groupBuyActSurplusTag("{'end_time':${groupBuyAct.end_time} }")>
+	</#if>
+</#if>
+<div class="index_top">
+	<#-- 轮播广告 -->
+	  <ul id="fullScreenSlides" class="full_screen">
+		  <#list advList as adv>
+	          <li style="background: url('${adv.atturl}') no-repeat center top">
+	          	<a target="_blank" title="${adv.aname!''}" href="${ctx}${adv.url!''}" style="display:block;width:100%;height:100%;"></a>
+	          </li>
+	       </#list>  
+  		</ul>
+
+	<div class="index_right">
+		<div class="policy">
+			<ul>
+				<li class="b1">七天包退</li>
+				<li class="b2">正品保障</li>
+				<li class="b3">闪电发货</li>
+			</ul>
+		</div>
+		<div class="groupbuy">
+			<#if groupbuyIsOn=="ON">
+				<#-- 团购模块-->
+				<div class="title">
+					<i>团</i>限时团购
+				</div>
+				<#if groupBuyAct!="">
+					<ul style="left: 0px; width: 630px;">
+						<#list goodsList as goods>
+					        <li>
+							    <dl>
+							    	<@image class="scrollLoading" src="${goods.thumbnail!''}" alt="${goods.name}" width="210px" height="150px" />
+									<dt>${goods.name}</dt>
+						            <dd class="price">
+						            	<span class="groupbuy-price">${goods.gb_price?string.currency}</span>
+						            	<span class="buy-button"><a href="${ctx}/goods.html?goodsid=${goods.goods_id}">立即团</a></span>
+						            </dd>
+							    </dl>
+						   	</li>
+					   	</#list>
+					</ul>
+				<#else>
+					<#assign adv = advListTag("'acid':'11'")!'' >
+					<#-- 获取广告列表 -->
+					<ul>
+						<#list adv.advList as adv3>
+							 <li>
+				             	<a target="_blank" title="${adv3.aname!''}" href="${ctx}${adv3.url!''}">
+				                	<@image border="0" src="${adv3.atturl}" alt="${adv3.aname!''}"/>
+				                </a>
+			                </li>
+			             </#list>
+					</ul>
+			 	</#if>
+			<#else>
+				<#assign adv = advListTag("'acid':'12'")!'' >
+					<#-- 获取广告列表 -->
+					<ul>
+						<#list adv.advList as adv3>
+							 <li>
+				             	<a target="_blank" title="${adv3.aname!''}" href="${ctx}${adv3.url!''}">
+				                	<@image border="0" src="${adv3.atturl}" alt="${adv3.aname!''}"/>
+				                </a>
+			                </li>
+			             </#list>
+					</ul>	
+			</#if>
+			<div class="pagination"></div>
+      	    <div class="arrow pre" style="opacity: 0;"></div>
+      	    <div class="arrow next" style="opacity: 0;"></div>
+		</div>
+		
+		<div class="proclamation">
+			<ul class="tabnav mallinfo">
+				<li class="tab_selected" show="index_news"><h3>商城公告</h3></li>
+				<li show="index_tel" style="border-left:1px solid #e7e7e7;"><h3>联系方式</h3></li>
+			</ul>
+			<div class="floor_list index_news ">
+				<ul >
+					<#-- 调用CMS数据搜索标签，并传递所在模型ID参数-->
+					<#assign webPage = dataSearchTag('{"modelid":2,"catid":26}') />
+					<#list webPage.result as articlea>
+						<#if articlea_index lt 5>
+							<li> 
+								<a href="help-26-${articlea.id}.html"><@substring	title="${articlea.title!''}" length="30" dot="..." /></a>
+							</li> 
+						</#if>
+					</#list>
+				</ul>
+			</div>
+			<div class="floor_list index_tel" style="display:none;">
+				<ul style="overflow: hidden;height: 110px;">
+	          		<#assign webPage = dataSearchTag('{"modelid":3,"catid":28}') />
+					<#list webPage.result as articlea>
+						<#if articlea_index lt 5>
+							<li style="width: 100%;"> <span class="index-phone-title">${articlea.name!''}：</span><span class="index-phone-word">${articlea.context!''}</span></li> 
+						</#if>
+					</#list>
+				</ul>
+        	</div>
+		</div>
+	</div>
+</div>
+
+<#if floorIsOn=="ON" >
+<#include '/showcasestyle/showcase-style.html'>
+</#if>
+<div class="clear"></div>
+<#if floorIsOn=="ON" >
+<#assign floorListTag=newTag("floorListTag") >
+		<#assign floorlist=floorListTag("{'pageid':1}")>
+		<#list floorlist as floors>
+			<#assign floor_id=floors.id>
+			<#assign floor_index = floors_index + 1>
+			<#include '${floors.path}' />
+		</#list>
+</#if>
+<#-- 底部广告位 -->
+<div style="clear: both;"></div>
+<div id="web_chat_dialog" style="display: none; float: right;"></div>
+<a id="chat_login" href="javascript:void(0)" style="display: none;"></a>
+<div class="clear"></div>
+<script>
+$(function(){
+
+	//标签切换
+	 $(".index_same .tabnav li").mouseover(function(){
+		$(".index_same .tabnav li").removeClass("tab_selected");
+		$(this).addClass("tab_selected");
+		var goodslistnum = $(this).attr("rel");
+		$(".index_goodlist").hide();
+		$("#goods"+ goodslistnum).show();
+	}); 
+    $(".mallinfo li").mouseover(function(){
+    	var show=$(this).attr("show");
+    	$(".mallinfo li").removeClass("tab_selected");
+    	if(show=="index_news"){
+    		$(this).addClass("tab_selected");
+    		$(".index_news").show();
+	    	$(".index_tel").hide();
+    	}else{
+    		$(this).addClass("tab_selected");
+    		$(".index_tel").show();
+	    	$(".index_news").hide();
+    	}
+    });
+  //去除页面上的"编辑"按钮 
+	var a=$(".floor");
+	a.remove();
+})
+
+</script>
+<!-----footer------>
+<#include 'common/footer.html'/>

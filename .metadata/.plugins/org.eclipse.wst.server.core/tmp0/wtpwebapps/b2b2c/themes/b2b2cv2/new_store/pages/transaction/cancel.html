@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '结算管理' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/order.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/cancel.js"></script>
+    <script type="text/javascript" src="${ctx}${themes_path}/js/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_cancel' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="javascript: void(0);" onclick="location.reload();">取消订单申请</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+    	<!-- 获取店铺订单标签 -->
+        <#assign storeorderList = newTag("orderCancelApplicationTag")/>
+        <#assign orderList = storeorderList()/>
+        <#assign orderstatus = "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+        <!-- 获取店铺取消订单标签 -->
+        <#assign orderCancelApplicationTag = newTag("orderCancelApplicationTag") />
+        <#assign cancelBackInfo = orderCancelApplicationTag( ) />
+        <ul>
+       <div class="order-list">
+                <table class="order-table">
+                    <thead class="thead-order-table">
+                        <tr class="tools-thead">
+                            <th class="goods-price-num"><span class="goods">商品</span><span class="price-num">单价/数量</span></th>
+                            <th class="customer">买家</th>
+                            <th class="time">下单时间</th>
+                            <th class="pay-price">实付金额</th>
+                            <th class="state">操作</th>
+                        </tr>
+                    </thead>
+                    <#if orderList.totalCount != 0 >
+                        <tbody class="order-list-item">
+                            <#list orderList.result as order>
+                            <#if order.gift_id != 0>
+                                <#-- 获取会员订单促销活动赠品信息 -->
+                                <#assign orderGiftDetailTag = newTag("orderGiftDetailTag")>
+                                <#-- 调用会员订单促销活动赠品信息标签 -->
+                                <#assign activityGift = orderGiftDetailTag("{'gift_id':${order.gift_id},'order_id':${order.order_id}}")>
+                            </#if>
+                            <#if order.bonus_id != 0>
+                                <#-- 获取会员订单促销活动优惠券信息 -->
+                                <#assign orderBonusDetailTag = newTag("orderBonusDetailTag")>
+                                <#-- 调用会员订单促销活动优惠券信息标签 -->
+                                <#assign bonus = orderBonusDetailTag("{'bonus_id':${order.bonus_id},'order_id':${order.order_id}}")>
+                            </#if>
+                            <tr class="order-list-hr"></tr>
+                            <tr class="order-header">
+                                <td class="sn-order-header" colspan="2">订单编号：${order.sn}</td>
+                                <td colspan="2" style="border-left: 1px solid #f2f2f2; padding-left: 20px; overflow: hidden">
+                                    取消原因：<@substring title="${order.cancel_reason!''}" length=60 dot="..."/>
+                                    <#if (order.cancel_reason?length > 60)>
+                                        <a href="javascript: void(0);" class="show-remark" data-container="body" data-trigger="focus" data-toggle="popover" data-placement="bottom" data-content="${order.cancel_reason}">查看全部</a>
+                                        <script type="text/javascript">
+                                            $('.show-remark').popover();
+                                        </script>
+                                    </#if>
+
+                                </td>
+                                <td class="tools-order-header">
+                                    <a href="javascript: void(0);" sn="${order.sn}" >查看详情</a>
+                                </td>
+                            </tr>
+                            <#--创建“订单货物列表”标签-->
+                            <#assign orderItemListTag = newTag("orderItemListTag")>
+                            <#--调用“订单货物列表”标签，并传递参数-->
+                            <#assign orderItemList = orderItemListTag("{'orderid':${order.order_id}}")>
+                            <tr class="order-content">
+                                <td class="goods-price-num">
+                                    <#list orderItemList as item>
+                                        <p class="item-goods-price-num">
+                                            <img src="${item.image!''}" />
+                                            <a target="_blank" href="${ctx}/goods-${item.goods_id}.html"><@substring title="${item.name}" length="48" dot="..." /></a>
+                                            <span class="price-num">${item.price?string.currency}&nbsp;x&nbsp;${item.num}</span>
+                                        </p>
+                                    </#list>
+                                </td>
+                                <td class="order-customer">
+                                    <span>${order.ship_name!''}</span>
+                                </td>
+                                <td class="order-time">
+                                    <span><@dateformat time="${order.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></span>
+                                </td>
+                                <td class="order-pay-price">
+                                    <div>
+                                        <strong style="color: red; ">${order.order_amount?string.currency}</strong>
+                                        <p class="other">
+                                            运费(${(order.shipping_amount!0)?string.currency})<br>
+                                            ${order.payment_name}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td class="order-state">
+                                    <span>
+                                        <a href="javascript: void(0);" class="btn btn-success" order_id="${order.order_id}" status="1" style="font-size: 12px; margin-right: 10px;">通过</a>
+                                        <a href="javascript: void(0);" class="btn btn-info" order_id="${order.order_id}" status="0" style="font-size: 12px;">拒绝</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </#list>
+                    </tbody>
+                </table>
+                    <div class="app-paging-tools">
+                        <div class="demo"></div>
+                        <div class="paging">
+                            <@pager pageno="${orderList.page!'1'}" pagesize="${orderList.pageSize}" totalcount="${orderList.totalCount}" />
+                        </div>
+                    </div>
+                <#else>
+                </table>
+                    <div style="height: 10px; background-color: #FFFFFF; "></div>
+                    <div class="app-no-data">
+                        <span class="a-no-data">暂无相关数据</span>
+                    </div>
+                </#if>
+            </div>
+       </ul>
+
+    </div>
+</div>
+</body>
+</html>

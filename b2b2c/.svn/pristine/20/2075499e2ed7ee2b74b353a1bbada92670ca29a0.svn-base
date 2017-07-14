@@ -1,0 +1,61 @@
+<#assign storeBillOrderListTag = newTag("storeBillOrderListTag")>
+<#assign storeOrderList = storeBillOrderListTag()>
+<#-- 订单列表详细 -->
+<table class="table table-bordered table-bordered">
+    <thead>
+    <tr class="s_orderlist_title">
+        <th >订单编号</th>
+        <th >下单时间</th>
+        <th >订单金额</th>
+        <th >操作</th>
+    </tr>
+    </thead>
+    <#if storeOrderList.totalCount != 0 >
+        <tbody>
+        <#list storeOrderList.storeOrder.result as order>
+            <tr>
+                <td>
+                    ${order.sn}
+                </td>
+                <td>
+                    <@dateformat time="${order.create_time?c}" pattern="yyyy-MM-dd HH:mm"/>
+                </td>
+                <td>
+                    ${order.need_pay_money?string.currency}
+                </td>
+                <td>
+                    <a href="./order_detail.html?ordersn=${order.sn}">查看</a>
+                </td>
+            </tr>
+        </#list>
+        <tr>
+        </tr>
+        </tbody>
+</table>
+    <div class="app-paging-tools">
+        <div class="demo"></div>
+        <div class="paging">
+            <@ajaxpager pageno="${storeOrderList.page!'1'}" pagesize="${storeOrderList.pageSize}" totalcount="${storeOrderList.totalCount}" />
+        </div>
+    </div>
+<#else>
+</table>
+    <div class="app-no-data">
+        <span class="a-no-data">暂无相关数据</span>
+    </div>
+</#if>
+<script type="text/javascript">
+    (function(){
+        var paging = $('.app-paging-tools').find('.paging');
+        $(document).ready(function(){
+            //  给分页添加样式--同时兼容IE78
+            if(lteIE8){
+                paging.find('.page').addClass('pagination');
+            }else {
+                paging.find('ul').addClass('pagination');
+            };
+            //  分页去掉一个span
+            paging.find('span').eq(1).css({display: 'none'});
+        });
+    })();
+</script>

@@ -1,0 +1,67 @@
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+<section class="layout">
+	<article class="store_goods_main_intro">
+		<div class="store_intro_top"></div>
+		<div class="store_intro">
+			<#if currentAct.activity??>
+				<div class="content clearfix">
+					<h2 class="store_name">活动详细</h2>
+					<dl class="store_shop_info">
+						<h3>活动名称：</h3>
+						<p style="margin:10px 0 0 15px;">${currentAct.activity.activity_name!''}</p>
+						<h3 style="margin-top: 10px;">活动日期：</h3>
+						<p style="margin:10px 0 0 15px;"><@dateformat time="${currentAct.activity.start_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/> -- 
+						<@dateformat time="${currentAct.activity.end_time?c}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+					</dl>
+				</div>
+				<!-- 创建获取促销活动优惠详细信息标签 -->
+				<#assign storeActivityDetailTag = newTag("storeActivityDetailTag")>
+				<!-- 调用获取促销活动优惠详细信息标签 -->
+				<#assign detailList = storeActivityDetailTag("{'activity_id':'${currentAct.activity.activity_id}'}")>
+				<div class="content clearfix">
+					<dl class="store_shop_info" style="border-top: 1px dashed #e7e7e7;">
+						<h3 style="margin-top: 10px;">具体内容：</h3>
+						<#list detailList as detail>
+							<p style="margin:10px 0 0 15px;">单笔订单购满： <span style="color: red; font-size: small;">${detail.full_money?string("currency")}</span></p>
+							<p style="margin:10px 0 0 15px;">即可享受：
+								<#if detail.is_full_minus == 1>
+									【<span style="color: red; font-size: small;">减现金：${detail.minus_value?string("currency")}</span>】
+								</#if>
+								<#if detail.is_free_ship == 1>
+									【<span style="color: red; font-size: small;">免邮费</span>】
+								</#if>
+								<#if detail.is_send_point == 1>
+									【<span style="color: red; font-size: small;">送积分：${detail.point_value!0}积分</span>】
+								</#if>
+								<#if detail.is_send_bonus == 1>
+									<#assign bonusDetailTag = newTag("bonusDetailTag") />
+									<#assign bonus = bonusDetailTag("{'type_id':${detail.bonus_id}}") />
+									【<span style="color: red; font-size: small;">
+										送优惠券（<#if bonus.received_num lt bonus.create_num>剩余${bonus.create_num-bonus.received_num}张<#else>已赠完</#if>）</span>】
+								</#if>
+								<#if detail.is_send_gift == 1>
+									<#assign giftDetailTag = newTag("giftDetailTag") />
+									<#assign gift = giftDetailTag("{'gift_id':${detail.gift_id}}") />
+									【<span style="color: red; font-size: small;">送赠品（<#if gift.enable_store gt 0>剩余${gift.enable_store}份<#else>已赠完</#if>）</span>】
+								</#if>
+							</p>
+						</#list>
+					</dl>
+				</div>
+				<div class="user_contont" style="height: auto;border-top: 1px dashed #e7e7e7;">
+					<h3>活动介绍：</h3>
+					<div class="user_contont_intro" style="word-wrap: break-word;">
+						${currentAct.activity.description!''}
+					</div>
+				</div>
+			</#if>
+		</div>
+	</article>
+</section>
+<script type="text/javascript">
+
+$(function(){
+	$("p img").css('max-width','600px');
+});
+
+</script>

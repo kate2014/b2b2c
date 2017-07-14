@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <#assign title = "店铺统计 - 店铺概况"/>
+	<#include '/new_store/common/header.html' />
+
+	<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/statistics/statistics.css">
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-common.js"></script>
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/store-profile.js"></script>
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/highcharts/highcharts.js"></script>
+</head>
+<body>
+<#--获得会员信息-->
+<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+<#assign storeMember = checkB2b2cMemberTag()>
+	
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_store_profile' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li class="active"><a href="javascript: void(0);"  onclick="location.reload(); ">店铺概况</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+   <!-- 内部页面区↓ -->
+	<div class="inner-app-wappler">
+		<!-- 具体内容区↓ -->
+		<div class="sales-wappler">
+			<!-- 搜索条件区↓ -->
+			<!-- 无搜索条件 -->
+			<!-- 搜索条件区↑ -->
+			<!-- 最近30天概况数据展示区↓ -->
+			<div>
+				<table style="width:100%">
+					<tr>
+						<td  style="line-height: 50px">本页面所有有关近30天的展示数据,均为从昨日起最近30天的销售情况</td>
+					</tr>
+				</table>
+			</div>
+			<div style="height: 10px; background-color: #f2f2f2"></div>
+			<div id="status-last-30-day">
+				
+				<table style="width:100%">
+				
+				<tr>
+				<!-- 近30天下单金额 -->
+				<td style="padding:5px 5px 5px 5px">近30天下单金额 :<span id="order_money"></span></td>
+				<!-- 近30天下单会员数 -->
+				<td style="padding:5px 5px 5px 5px">近30天下单会员数:<span id="order_member"></span></td>
+				<!-- 近30天下单量 -->
+				<td style="padding:5px 5px 5px 5px">近30天下单量:<span id="order_num"></span></td>
+				<!-- 近30天下单商品数 -->
+				<td style="padding:5px 5px 5px 5px">近30天下单商品数:<span id="order_goods"></span></td>
+				<!-- 平均客单价 -->
+				<td style="padding:5px 5px 5px 5px">平均客单价:<span id="average_member_money"></span></td>
+				</tr>
+				<tr>
+				<!-- 平均价格 -->
+				<td style="padding:5px 5px 5px 5px">平均价格:<span id="average_goods_money"></span></td>
+				<!-- 商品收藏量 -->
+				<td style="padding:5px 5px 5px 5px">商品收藏量:<span id="goods_collect"></span></td>
+				<!-- 商品总数 -->
+				<td style="padding:5px 5px 5px 5px">商品总数:<span id="goods_sum"></span></td>
+				<!-- 店铺收藏量 -->
+				<td style="padding:5px 5px 5px 5px">店铺收藏量:<span id="store_collect"></span></td>
+				<!-- 下单高峰期 -->
+				<td style="padding:5px 5px 5px 5px">下单高峰期:<span id="order_fastigium"></span></td>
+				</tr>
+				</table>
+			</div>
+			<!-- 最近30天概况数据展示区↑ -->
+			<!-- 统计图区↓ -->
+			<div style="height: 10px; background-color: #f2f2f2"></div>
+			<!-- 最近30天下单金额统计图 -->
+			<div id="linechart-last-30-day"></div>
+			<!-- 统计图区↑ -->
+		</div>
+		<!-- 具体内容区↑ -->
+	</div>
+	<!-- 内部页面区 -->
+</div>
+<!--主页面区↑-->
+
+</body>
+<script type="text/javascript">
+var store_id=${storeMember.store_id};
+var ctx="${ctx}";
+</script>
+</html>

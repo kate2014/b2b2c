@@ -1,0 +1,41 @@
+<#if paramAr?exists && (paramAr?size)!=0 >
+<#-- 这里判断是否为0-->
+	<#list paramAr as group >
+		<div class="goods-info-group">
+			<div class="goods-info-group-inner">
+				<div class="info-group-title vbox">
+					<div class="group-inner">商品参数</div>
+				</div>
+				<div class="info-group-cont vbox">
+					<div class="group-inner">
+						<input type="hidden" name="groupnames" value="${group.name}" />
+						<input type="hidden" name="paramnums" value="${group.paramNum}" />
+						<#list group.paramList as gparam>
+							<div class="control-group" style="margin-top: 20px; ">
+								<label class="control-label" style="width: 85px; text-align: right; ">${gparam.name!''}：</label>
+								<input type="hidden" name="paramnames" value="${gparam.name!''}" />
+								<div class="controls">
+									<input type="text" class="form-control" name="paramvalues" maxlength="50" value="${gparam.value!''}">
+								</div>
+							</div>
+						</#list>
+					</div>
+				</div>
+			</div>
+		</div>
+	</#list>
+<#else> 
+	该类型未定义参数 
+</#if>
+
+<script type="text/javascript">
+	$(function(){
+		/* IE下input框样式兼容
+		 ============================================================================ */
+		(function(){
+			if(Sys.ie > 7){
+				$("input[type='text']").css({height: 25});
+			};
+		})();
+	});
+</script>

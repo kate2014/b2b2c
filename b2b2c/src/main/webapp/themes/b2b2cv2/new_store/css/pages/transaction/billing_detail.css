@@ -1,0 +1,43 @@
+
+.bill-alert {
+    background-color: #F9FAFC;
+    border: 1px solid #F1F1F1;
+    margin-bottom: 20px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    line-height: 30px;
+    font-size: 14px;
+}
+
+.store_orderlist table {
+    font-size: 12px;
+}
+
+.store_orderlist table thead th {
+    background-color: #e5e5e5;
+    text-align: center;
+}
+
+.store_orderlist table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+table {
+    font-size: 14px;
+}
+
+table th,
+table td {
+    text-align: center;
+}
+
+table thead th {
+    background-color: #e5e5e5;
+}
+
+table tbody td {
+    vertical-align: middle;
+}
+
+

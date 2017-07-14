@@ -1,0 +1,6 @@
+#jdbc.properties
+#Thu Dec 29 23:58:27 CST 2016
+jdbc.url=jdbc\:sqlserver\://192.168.1.88\:1433;databaseName\=wangfeng
+jdbc.username=sa
+jdbc.password=752513
+jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver

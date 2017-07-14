@@ -1,0 +1,42 @@
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+<div class="main" style="background-color: white;" >
+	<div class="easyui-panel" style="border-style: none;">
+		<div style="padding: 10px 0 10px 20px">
+			<form id="reviewForm" method="post" class="validate">
+			<input type="hidden" name="commentId" value="${memberComment.comment_id }"/>
+				<table>
+					<tr>
+						<td>
+							<h3>咨询内容： </h3>
+							<textarea rows="5" cols="70" style="resize: none;padding:10px;display: block;overflow: hidden;overflow-wrap: break-word;word-break: break-all;">${memberComment.content!''}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<#if memberComment.status == 0>
+								<h3>回复咨询： </h3>
+								<textarea rows="7" cols="70" id="recomment" name="recomment" style="border: solid #069 1px;"></textarea>
+							</#if>
+							<#if memberComment.status == 1>
+								<h3>店铺管理员于[<@dateformat time='${memberComment.replytime}' pattern='yyyy-MM-dd'/>]通过审核并回复如下： </h3>
+								<div class="division" style="border:1px solid #BEBEBE;height: 130px;width: 550px;padding:10px;display: block;overflow: hidden;overflow-wrap: break-word;word-break: break-all;">
+									${memberComment.reply!''}
+								</div>
+							</#if>
+							<#if memberComment.status == 2>
+								<h3>店铺管理员于[<@dateformat time='${memberComment.replytime}' pattern='yyyy-MM-dd'/>]拒绝通过审核并回复如下： </h3>
+								<div class="division" style="border:1px solid #BEBEBE;height: 130px;width: 565px;">
+									<#if memberComment.reply??>
+										${memberComment.reply!''}
+									<#else>
+										无回复
+									</#if>
+								</div>
+							</#if>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

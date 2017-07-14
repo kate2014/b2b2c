@@ -1,0 +1,151 @@
+<#assign title="我的评论" />
+<#include 'member_header.html' />
+<!-- 获取会员评论订单列表标签 -->
+<#assign memberCommentOrderListTag = newTag("memberCommentOrderListTag")>
+<!-- 调用会员订单列表标签 -->
+<#assign memberCommentOrderList = memberCommentOrderListTag()>
+<#assign orderList = memberCommentOrderList.ordersList.result>
+<#assign orderstatus= "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+<!-- 获取订单状态标签 -->
+<#assign orderStautsTag = newTag("orderStautsTag")>
+<!-- 调用订单状态标签 -->
+<#assign orderState = orderStautsTag()>
+
+
+<style>
+	.ui_lt{display:none;}
+	.ui_t{display:none;}
+	.ui_rt{display:none;}
+	.ui_lb{display:none;}
+	.ui_b{display:none;}
+	.ui_rb{display:none;}
+	.ui_dialog tr td{border:0px none;}
+</style>
+<div class="member_center">
+	<div class="favorite_title">
+		<ul>
+			<li class=""><a href="comments.html"><span>我的评论</span></a></li>
+			<li class="selected"><a href="waitcommont.html" ><span>待评论的商品</span></a></li>
+		</ul>
+	</div>
+	<!-- 待评论的商品 -->
+	<div class="wait_comment favorite_list user_order">
+	<!-- 订单列表 -->
+	<div class="order_list">
+		<#if memberCommentOrderList.totalCount gt 0 >
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th colspan="4" style="width:480px;">商品名称</th>
+						<th style="width:90px;">单价（元）</th>
+						<th style="width:120px;">数量</th>
+						<th style="width:100px;">交易状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- 订单详细 -->
+		 
+					<#list orderList as orderinfo>
+							<table class="order_box">							
+								<tr>
+									<td class="orderlist_sn" colspan="20" >
+										<span> 订单号：${orderinfo.sn!'' } </span>
+										<span> 下单时间：<@dateformat time="${orderinfo.create_time?c}" pattern="yyyy-MM-dd HH:mm"/> </span>
+									</td>
+								</tr>
+								<tr>
+									<td class="orderlist_goodslist" colspan="6" style="padding:6px 0px 0px 0px;border-right: 1px solid #f9dbcc;">
+										<#assign orderItemList =orderinfo.itemList>
+										<table class="orderitem_goodslist" cellpadding="0" cellspacing="0">
+											<#list orderItemList as item>
+												<tr>
+													<td class="order_image" style="border:0px none;">
+														<a target="_blank" href="../goods-${item.goods_id}.html">
+														
+																<@image height="50" src="${item.image!''}"  style="cursor: pointer;" />
+														</a>
+													</td>
+													<td class="order_listtiele" style="border:0px none;">
+														<a target="_blank" href="../goods-${item.goods_id}.html">${item.name}</a>
+													</td>
+													<td class="order_listprice" style="border:0px none;">
+														${item.price?number?string('0.00')}<#if item.exchange_point??&&item.exchange_point gt 0 >+${item.exchange_point!'0'}积分</#if>
+													</td>
+													<td class="order_listnum" style="border:0px none;">
+														${item.num}
+													</td>
+												</tr>
+											</#list>
+										</table>	
+									</td>
+									<td class="orderlist_staus" style="border-right: 1px solid #f9dbcc;">
+											<p>
+												<#-- 判断是否申请取消订单 -->
+												<#if orderinfo.is_cancel==1>
+													申请取消订单
+												<#else>
+													<@orderstatus status="${orderinfo.status}" type="order" />
+												</#if>
+											</p>
+											<a href="order_detail.html?ordersn=${orderinfo.sn}">订单详情</a>								
+											<a href="member_comment.html?ordersn=${orderinfo.sn}" class="go-comment">去评论</a>											
+										</td>
+									</tr>
+								</table>
+						</#list>
+					</tbody>
+				</table>
+			<#else>
+				<div class="empty" >暂无等待评论的商品</div>
+			</#if>
+		<@pager pageno="${memberCommentOrderList.page!'1'}" pagesize="${memberCommentOrderList.pageSize}" totalcount="${memberCommentOrderList.totalCount}" />
+	</div>
+	</div>
+</div>	
+<script>
+	$(function() {
+		Favorite.init();
+		$(".waitcomment").click(function() {
+			$(".tab ul li").removeClass("selected");
+			$(this).parent().addClass("selected");
+			$(".commontwait").load("waitcommont.html", function() {
+				$(".commontlist").hide();
+				$(".commontwait").show();
+				Favorite.init();
+			})
+		})
+		
+		$(".favorite").click(function(){
+			
+			$.Loading.show("正在收藏...");
+			$.ajax({ 
+				url:ctx+'/api/shop/collect/add-collect.do?goods_id='+$(this).attr("goodsid"),
+				dataType:'json',
+				success:function(result){
+					$.Loading.hide();
+					$.alert(result.message);
+				} 
+			}); 
+			
+		})
+
+
+		//  .f list li div 修正为 .favorite_intro  _by: Andste  2016-9-21
+		$(".favorite_intro").hover(function() {
+			$(this).animate({
+				"top": "-40px"
+			},
+			400, "swing");
+		},
+		function() {
+			$(this).stop(true, false).animate({
+				"top": "0"
+			},
+			400, "swing");
+		});
+	})
+</script>
+</div>
+<#include '../common/footer.html'/>
+
+

@@ -1,0 +1,251 @@
+package com.enation.app.javashop.b2b2c.shop;
+
+import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.enation.app.shop.core.member.model.MemberAddress;
+import com.enation.app.shop.core.member.service.IMemberAddressManager;
+import com.enation.app.shop.core.member.service.impl.MemberAddressManager;
+import com.enation.app.shop.core.order.model.Order;
+import com.enation.app.shop.core.order.service.IOrderManager;
+import com.enation.app.shop.core.order.service.OrderStatus;
+import com.enation.framework.database.IDaoSupport;
+import com.enation.framework.test.SpringTestSupport;
+
+import net.sf.json.JSONObject;
+
+/**
+ * 订单流程单元测试类
+ * @author LYH
+ * @version v1.0
+ * @since v6.2
+ * 2017年02月07日下午2:29:25
+ */
+public class OrderFlowTest extends SpringTestSupport {
+	
+	@Autowired
+	private IDaoSupport daoSupport;
+	
+	@Autowired
+	private IOrderManager orderManager;
+	
+	@Autowired
+	private IMemberAddressManager memberAddressManager;
+	
+	/**
+	 * 测试不登陆下单，应该是没有权限
+	 * @throws Exception
+	 */
+	@Test
+	public void testNotLogin() throws Exception{
+		
+		
+	    //加入一个商品到购物车
+	    mockMvc.perform(
+			 MockMvcRequestBuilders.post("/api/store/store-cart/add-product.do")
+			 .param("store_id", "17")
+			 .param("exchange", "")
+			 .param("goodsid", "394")
+			 .param("action", "add-product")
+			 .param("showCartData", "0")
+			 .param("productid", "400")
+			 .param("havespec", "1")
+			 .param("num", "1")
+			 .session(session)
+			 .contentType(MediaType.APPLICATION_JSON)
+			 .accept(MediaType.APPLICATION_JSON)
+			 )
+		 	.andDo(MockMvcResultHandlers.print())  
+		 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+	
+	    //添加地址
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member-address/add-new-address.do")
+				 .param("shipName", "虎虎")
+				 .param("province", "上海")
+				 .param("province_id", "2")
+				 .param("city", "奉贤区")
+				 .param("city_id", "2837")
+				 .param("region", "南桥镇")
+				 .param("region_id", "51928")
+				 .param("town", "")
+				 .param("town_id", "")
+				 .param("shipAddr", "双汇")
+				 .param("shipMobile", "15065665656")
+				 .param("shipAddressName", "学校")
+				 .param("def_addr", "1")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		
+	
+		//直接访问创建订单没有权限 
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/store/store-order/create.do")
+				 .param("addressId", "1")
+				 .param("paymentId", "0")
+				 .param("typeId", "0")
+				 .param("bonusid", "0-0")
+				 .param("storeid", "17")
+				 .param("remark", "")
+				 .param("shipDay", "任意时间")
+				 .param("receipt", "2")
+				 .param("receiptType", "")
+				 .param("receiptContent", "")
+				 .param("receiptTitle", "")
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect( MockMvcResultMatchers.content().bytes( "ajax 401 没有访问权限".getBytes() ));  
+				
+		
+	}
+	
+	
+	/**
+	 * 基础的订单创建测试：登陆、加入购物车、下单
+	 * @throws Exception
+	 */
+	@Test
+	public void testBase() throws Exception{
+		
+		//会员进行登录
+		this.memberlogin();
+		
+		MemberAddress addr = this.memberAddressManager.getMemberDefault(16);
+		//--------------创建订单----------------------
+		
+		//加入一个商品到购物车
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/store/store-cart/add-product.do")
+				 .param("store_id", "17")
+				 .param("exchange", "")
+				 .param("goodsid", "394")
+				 .param("action", "add-product")
+				 .param("showCartData", "0")
+				 .param("productid", "400")
+				 .param("havespec", "1")
+				 .param("num", "1")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1));  
+		
+		 
+		//创建订单 
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/store/store-order/create.do")
+				 .param("addressId", ""+addr.getAddr_id())
+				 .param("paymentId", "0")
+				 .param("typeId", "0")
+				 .param("bonusid", "0-0")
+				 .param("storeid", "17")
+				 .param("remark", "")
+				 .param("shipDay", "任意时间")
+				 .param("receipt", "2")
+				 .param("receiptType", "1")
+				 .param("receiptContent", "办公用品")
+				 .param("receiptTitle", "")
+				 .session(session)
+			 .contentType(MediaType.APPLICATION_JSON)
+			 .accept(MediaType.APPLICATION_JSON)
+			 )
+		 	.andDo(MockMvcResultHandlers.print())  
+		 	
+		 	//返回正确结果
+		 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );
+			 	
+
+	}
+	
+	
+	/**
+	 * 共用的会员登陆方法
+	 * @throws Exception
+	 */
+	private void memberlogin() throws Exception{
+
+		//--------------登录----------------------
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=memberlogin"));
+			
+		//登陆api测试
+		mockMvc.perform(
+					 MockMvcRequestBuilders.post("/api/shop/member/login.do")
+					 .param("username", "food")
+					 .param("password", "111111")
+					 .param("validcode", "1111")
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .accept(MediaType.APPLICATION_JSON)
+					 .session(session)
+					 )
+				 	.andDo(MockMvcResultHandlers.print())  
+				 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+		
+		//为会员添加一个默认地址
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/api/shop/member-address/add.do")
+				 .param("def_addr", "1")
+				 .param("name", "虎虎")
+				 .param("mobile", "15373167788")
+				 .param("tel", "06356877715")
+				 .param("province", "上海")
+				 .param("province_id", "2")
+				 .param("city", "徐汇区")
+				 .param("city_id", "2813")
+				 .param("region", "城区")
+				 .param("region_id", "51976")
+				 .param("town", "")
+				 .param("town_id", "")
+				 .param("addr", "测试地址")
+				 .param("shipAddressName", "家里")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+				
+	}
+	
+   /*
+    *公用的后台登陆方法 
+    *@throws Exception
+    */
+	private void adminlogin() throws Exception{
+
+		//执行验证码请求		
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/validcode/create.do?vtype=admin"));
+		
+		//管理员登陆api测试
+		mockMvc.perform(
+				 MockMvcRequestBuilders.post("/core/admin/admin-user/login.do")
+				 .param("username", "admin")
+				 .param("password", "admin")
+				 .param("valid_code", "1111")
+				 .session(session)
+				 .contentType(MediaType.APPLICATION_JSON)
+				 .accept(MediaType.APPLICATION_JSON)
+				 )
+			 	.andDo(MockMvcResultHandlers.print())  
+			 	.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1) );  
+	}
+	   
+	   
+	
+}

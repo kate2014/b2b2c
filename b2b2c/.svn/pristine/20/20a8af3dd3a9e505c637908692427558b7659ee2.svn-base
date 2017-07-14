@@ -1,0 +1,115 @@
+<div id="step1" class="step-item">
+	<dl>
+		<dt class="required">
+			<em class="pngFix"></em>店铺名称：
+		</dt>
+		<dd>
+			<p>
+				<input type="text" name="store_name" class="text store_name_title"
+					value="${myStoreDetail.store_name}" />
+			</p>
+			<p class="hint">请控制在20个字符以内</p>
+		</dd>
+	</dl>
+
+	<dl style="overflow: visible;">
+		<dt>
+			<em style="color: red;">*</em> 所在地区：
+		</dt>
+		<dd id="selectAddress1">
+            <script type="text/javascript">
+                $(function () {
+                    $('#selectAddress1').addressSelect({
+                        deData: [${myStoreDetail.store_provinceid}, ${myStoreDetail.store_cityid}, ${myStoreDetail.store_regionid}, ${myStoreDetail.store_townid!''}],
+                        names : {
+                            province: 'store_province',
+                            city    : 'store_city',
+                            region  : 'store_region',
+                            town    : 'store_town'
+                        }
+                    });
+                })
+            </script>
+		</dd>
+	</dl>
+	<dl>
+		<dt class="required">
+			<em class="pngFix"></em>详细地址：
+		</dt>
+		<dd>
+			<input type="text" name="attr" class="text w400" isrequired="true"
+				value="${myStoreDetail.attr}" />
+		</dd>
+	</dl>
+	<dl>
+		<dt class="required">
+			<em class="pngFix"></em>邮编：
+		</dt>
+		<dd>
+			<input type="text" name="zip" class="text w200" id="store_zip"
+				isrequired="true" dataType="post_code" value="${myStoreDetail.zip}" />
+		</dd>
+	</dl>
+	<dl>
+		<dt class="required">
+			<em class="pngFix"></em>手机号：
+		</dt>
+		<dd>
+			<input type="text" name="tel" class="text w200" id="cellphone"
+				isrequired="true" dataType="mobile" value="${myStoreDetail.tel}" />
+		</dd>
+	</dl>
+	<dl>
+		<dt class="required">
+			<em class="pngFix"></em>身份证号：
+		</dt>
+		<dd>
+			<input type="text" name="id_number" class="text w200" id="id_number"
+				value="${myStoreDetail.id_number}" />
+		</dd>
+	</dl>
+	<dl>
+       	<dt class="required" ><em class="pngFix"></em>经营类目：</dt>
+       	<dd>
+       	<#assign goodsParentsTypeTag = newTag("goodsParentsTypeTag")>
+       	<#assign goodsType = goodsParentsTypeTag()>
+       	<#list goodsType as type>
+            <input type="checkbox"  value="${type.cat_id}" name="goods_management_category"><span id="management_category" value="${type.name}">${type.name}</span>
+        </#list>
+       	</dd>
+    </dl>
+	<dl class="bottom">
+		<dt>&nbsp;</dt>
+		<dd>
+			<p class="mb10">
+				<input type="button" class="submit" value="下一步"
+					id="next_certification" />
+			</p>
+		</dd>
+	</dl>
+
+	<script type="text/javascript">
+		$(function(){
+			$("input[type='text']").css({height: 30});
+			$("select").css({height: 30});
+		});
+		
+		$("span[id='management_category']").each(function(index,item){
+			debugger;
+			var val = $(item).attr("value");
+			var arr = [];
+			arr.push(val);
+			<#assign storeManagementGoodsCategoryTag = newTag("storeManagementGoodsCategoryTag")>
+	       	<#assign categoryTag = storeManagementGoodsCategoryTag("{'store_id':${myStoreDetail.store_id}}")>
+	       	<#list categoryTag as category>
+	       	for(var j=0;j<arr.length;j++){
+	       			if("${category}" == arr[j]){
+	       				$("input[type='checkbox']")[index].checked = true;
+	       			}
+	       		
+	       	}
+	       	</#list>
+		});
+		
+	</script>
+</div>

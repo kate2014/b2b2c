@@ -1,0 +1,191 @@
+<#include '/store/store_header.html' />
+<!-- 调用地区标签 -->
+<#assign regionSelect = "com.enation.app.shop.front.tag.goods.other.regions.RegionSelectDirective"?new()>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/uploadify.css" />
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.uploadify.min.js"></script>
+<div class="store_main">
+	<div class="open_store">
+		<div class="open_store_form" >
+			<!-- 菜单 -->
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active" id="basic">
+						<a href="#" >基础信息</a>
+					</li>
+					<li class="normal" id="certification">
+						<a href="#">认证信息</a>
+					</li>
+					<li class="normal" id="bill">
+						<a href="#">账户信息</a>
+					</li>
+				</ul>
+			</div>
+			
+			<form id="applyForm" class="validate">
+				<#include '/store/apply/reApply_step1.html'/>
+				
+				<#include '/store/apply/reApply_step2.html'/>
+				
+				<#include '/store/apply/reApply_step3.html'/>
+			 </form>
+			
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+$(function(){
+	bindFileEvent($("#id_img"));
+	bindFileEvent($("#license_img"));
+	
+	<!-- 跳转-->
+	$("#next_certification").click(function(){
+		
+		if(!$("#step1").checkall()){
+			return false;
+		}
+		$(".tab li").attr("class","normal");
+		$("#certification").attr("class","active");
+		
+		$("#step1").hide();
+		$("#step2").show();
+	});
+	
+	$("#next_bill").click(function(){
+		$(".tab li").attr("class","normal");
+		$("#bill").attr("class","active");
+		
+		$("#step2").hide();
+		$("#step3").show();
+	});
+	
+	$("#return_basic").click(function(){
+		$(".tab li").attr("class","normal");
+		$("#basic").attr("class","active");
+		
+		$("#applyForm div").hide();
+		$("#step1").show();
+	});
+	
+	$("#return_certification").click(function(){
+		$(".tab li").attr("class","normal");
+		$("#certification").attr("class","active");
+		
+		$("#applyForm div").hide();
+		$("#step2").show();
+	});
+	
+	$("#apply").click(function(){
+		if($(".store_name_title").val()==""){
+			alert("店铺名称不能为空");
+			return false;
+		}
+		
+		if(!$("#applyForm").checkall())
+			return false;
+		$("#apply").attr({"disabled":"disabled"}); 
+		var options = {
+				url : "${ctx}/api/b2b2c/store-api/re-apply.do",
+				type : "POST",
+				async: false,
+				dataType : "json",
+				success : function(result) {
+					if(result.result==0){
+						alert(result.message);
+					}else{
+						location.href="${ctx}/store/apply/audit.html";
+					}
+					$("#apply").removeAttr("disabled");
+			 	},
+			 	error : function(e) {
+			 		alert("出现错误，请重试");
+				}
+			};
+		$('#applyForm').ajaxSubmit(options);
+	});
+	$("#region_id").setValidator(function(){
+		var value = $("#region_id").val();
+		if( value=="" || value=="0" ) return "地区信息不完整";
+		else return true;
+	});
+});
+
+function bindFileEvent(obj){
+	var status=$(obj).attr("status");
+	$(obj).uploadify({
+		'buttonText':'上传',		//显示文字
+		'fileObjName':'image',		//文件对象名称
+		'fileTypeDesc': '请选择',//允许上传的文件类型的描述，在弹出的文件选择框里会显示 
+		'fileTypeExts': '*.gif; *.jpg; *.png',//允许上传的文件类型，限制弹出文件选择框里能选择的文件 
+		'uploader' : '${ctx}/api/base/upload-image/upload.do?subFolder=store',
+		'swf'      : '${ctx}${themes_path}/uploadify.swf',
+		'height':'30',				//高度
+		'width':'80',
+		'multi':false,				//是否支持多文件上传
+		'progressData':'percentage',//设置文件上传时显示的数据
+		'uploadLimit':1,
+		'onFallback':function(){				//falsh兼容
+			alert("麻烦了，不兼容falsh!");
+		},							
+		'onUploadSuccess':function(file,data,response){
+			var img =jQuery.parseJSON(data);
+			$("#"+status+"Text").html("已上传");
+			$("#"+status+"Img").val(img.fsimg);
+			$("#"+status+"Status").val(2);
+			$(".apply_"+status).html("<img src='"+img.img+"'style='width:100px;height:100px'/>");
+		},
+		'onSelectError':function(file,errorCode,errorMsg){
+			if(errorCode==SWFUpload.QUEUE_ERROR.INVALID_FILETYPE){
+				this.queueData.errorMsg="请上传正确的格式";
+			}
+		}
+	});
+}
+//检测身份证
+function checkIDNumber(value){
+	var type=1;
+	var idNumber  = $("#id_number").val();
+	var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+	if(!reg.test(idNumber)){
+		return "身份证格式不正确！";
+	}
+	$.ajax({
+		url:"${ctx}/api/b2b2c/store-api/check-id-number.do",
+		type:"POST",
+		async: false,
+		data:"id_number="+idNumber,
+		dataType:"json",
+		success:function(json){
+			type=json.result;
+		}		
+	});
+	if(type==0)
+		return "身份证重复";
+	return true;
+}
+function checkStoreName(value){
+	var storeName=$("input[name='store.store_name']").val();
+	var type=1;
+	if(storeName.length>20){
+		return "店铺名称请控制在20个字符以内";
+	}
+	$.ajax({
+		url:"${ctx}/api/b2b2c/store-api/check-store-name.do",
+		type:"POST",
+		data:"storeName="+storeName,
+		async: false,
+		dataType:"json",
+		success:function(json){
+			type=json.result;
+		}		
+	});	
+	if(type==0)
+		return "店铺名称重复";
+	return true;
+	
+}
+</script>
+<#include '/common/footer.html' />

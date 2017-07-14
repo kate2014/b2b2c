@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '店铺幻灯片' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/uploadify.css" />
+    <script type="text/javascript" src="${ctx}${themes_path}/js/jquery.uploadify.min.js"></script>
+    <!--<script type="text/javascript" src="${ctx}${themes_path}/js/store_slide.js"></script>-->
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/store/slideshow.js"></script>
+    <script type="text/javascript" src="${ctx}${themes_path}/js/jquery.flexslider-min.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/store/slideshow.css">
+
+</head>
+<body>
+<#assign mainPageName = 'main_store' />
+<#assign lowerPageName = 'lower_store_slideshow' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li>
+            <a href="javascript: void(0); ">幻灯片设置</a>
+        </li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#-- 调用店铺幻灯片标签 -->
+        <#assign storeSlideListTag=newTag("storeSlideListTag")>
+            <#assign storeSlideList=storeSlideListTag()>
+        <div class="slideshow">
+            <!-- 说明 -->
+            <div class="slide_intro">
+                <ul>
+                    <li>1. 最多可上传5张幻灯片图片。</li>
+                    <li>2. 支持jpg、jpeg、gif、png格式上传，建议图片宽度1920px、高度在400px到500px之间、大小4.00M以内的图片。提交2~5张图片可以进行幻灯片播放，一张图片没有幻灯片播放效果。</li>
+                    <li>3. 操作完成以后，按“保存”按钮，可以在当前页面进行幻灯片展示。</li>
+                    <li>
+                        4. 跳转链接必须是
+                        <b style="color:red;">http:// 或 https://</b>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 设置 -->
+            <div class="slide_tool">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <#list storeSlideList as storeSlide>
+                            <li>
+                                <@image src="${storeSlide.img!''}" />
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+                <form method="post" id="slideForm"  enctype="multipart/form-data">
+                    <!-- 图片上传部分 -->
+                    <ul id="goods_images" class="goods_images">
+                        <#list storeSlideList as storeSlide>
+                            <li class="normal">
+                                <input type="hidden" name="silde_id" value="${storeSlide.silde_id}"/>
+                                <input type="hidden" id="fs_img${storeSlide.silde_id}" name="store_fs" value="${storeSlide.img!''}"/>
+                                <div class="picture">
+									<span class="thumb">
+										<#if storeSlide.img??>
+                                            <@image src="${storeSlide.img}" id="img${storeSlide.silde_id}"/>
+                                            <#else>
+                                                <img id="img${storeSlide.silde_id}" src="${ctx}/themes/b2b2c/images/default_sildeshow.gif" style="display: inline;">
+                                        </#if>
+									</span>
+                                </div>
+                                <div class="url">
+                                    <label>跳转URL...</label>
+                                    <input class="form-control" type="text" value="${storeSlide.silde_url!''}" name="silde_url" class="text">
+                                </div>
+                                <div class="upload_btn">
+                                    <a href="javascript:void(0);">
+                                        <input type="file" id="slideFile${storeSlide.silde_id}" fs="${storeSlide.silde_id}">
+                                    </a>
+                                </div>
+                            </li>
+                        </#list>
+                    </ul>
+
+                    <!-- 图片上传部分 -->
+                    <a href="javascript: void(0);" id="saveSlide" class="btn btn-success" style="width: 100px; margin-top: 20px; ">保存</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+<script type="text/javascript">
+    $(function() {
+        window.onload=function(){
+            <#list storeSlideList as storeSlide>
+            bindFileEvent($("#slideFile${storeSlide.silde_id}"));
+            </#list>
+        }
+        $("#saveSlide").unbind('click').on('click', function() {
+            var options = {
+                url : ctx + "/api/b2b2c/store-silde/edit-store-silde.do?ajax=yes",
+                type : "POST",
+                dataType : 'json',
+                success : function(data) {
+                    if (data.result == 1) {
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1000);
+                    }else{
+                        $.message.error(data.message);
+                    };
+                },
+                error : function(e) {
+                    $.message.error("出现错误 ，请重试");
+                }
+            };
+            $("#slideForm").ajaxSubmit(options);
+        });
+    })
+    function bindFileEvent(obj) {
+        $(obj).uploadify({
+            'buttonText' : '上传', //显示文字
+            'fileObjName' : 'image', //文件对象名称
+            //上传文件大小限制 'fileSizeLimit':'100KB',
+            'fileTypeDesc' : '请选择',//允许上传的文件类型的描述，在弹出的文件选择框里会显示
+            'fileTypeExts' : '*.gif; *.jpg; *.png',//允许上传的文件类型，限制弹出文件选择框里能选择的文件
+            'uploader' : '${ctx}/api/base/upload-image/upload.do?subFolder=store',
+            'swf' : '${ctx}${themes_path}/uploadify.swf',
+            'height' : '30', //高度
+            'width' : '70',
+            'multi' : true, //是否支持多文件上传
+            'progressData' : 'percentage',//设置文件上传时显示的数据
+            'uploadLimit' : 5,
+            'onFallback' : function() { //flash兼容
+                $.message.error("抱歉，请检查是否安装flash！");
+            },
+            'onUploadSuccess' : function(file, data, response) {
+                var img = jQuery.parseJSON(data);
+                var fs = $(obj).attr("fs");
+                $("#img" + fs).attr("src", img.img);
+                $("#fs_img" + fs).val(img.fsimg);
+            },
+            'onSelectError' : function(file, errorCode, errorMsg) {
+                if (errorCode == SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+                    this.queueData.errorMsg = "最多只能上传五个";
+                }
+                if (errorCode == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE) {
+                    this.queueData.errorMsg = "请上传正确的格式";
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

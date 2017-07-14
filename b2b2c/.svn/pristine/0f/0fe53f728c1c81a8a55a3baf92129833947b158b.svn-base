@@ -1,0 +1,140 @@
+<#include '/store/store_header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/uploadify.css" />
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.uploadify.min.js"></script>
+</script>
+<#assign storeThemesInfoTag=newTag("storeThemesInfoTag")>
+<#assign storeThemesInfo=storeThemesInfoTag()>
+<div class="store_center">
+	<#include '/store/left_menu.html' />
+	<div id="sotre_right_content" class="sotre_right_content">
+		<div class="path">
+			<span style="color:#999;">您的位置：</span>
+			<span>></span>
+			<a href="#">店铺设置 </a>
+		</div>
+		<div class="store_right_main">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active">
+						<a href="javascript:;">店铺模板设置</a>
+					</li>
+				</ul>
+			</div>
+			<!-- 店铺设置 -->
+			<div class="groupbuy_form">
+			      	<dl>
+			        	<dt class="store-themes-left"><em class="pngFix"></em>当前模板：</dt>
+			        	<dd class="store-themes-right">
+			          		<div class="current-template">
+								<img alt="" src="${ctx}/${storeThemesInfo.previewpath}/${storeThemesInfo.storeThemes.path}/preview.jpg" />					 
+			 				</div>
+			 				<div class="current-template-name">
+			 					<!-- <p style="cursor: pointer" class="del_favorite small-yellow">模板ID：${storeThemesInfo.storeThemes.id}</p> -->
+			 					<p style="cursor: pointer" class="del_favorite small-yellow">模板名称：${storeThemesInfo.storeThemes.name!''}</p>
+			 				</div>
+			        	</dd>
+			      	</dl>
+			      	<dl>
+			        	<dt class="store-themes-left"><em class="pngFix"></em>模板列表：</dt>
+			        	<dd class="store-themes-right">
+			        		<div class="template-list-box">
+			        			<ul>
+			        				<#assign n = 1>
+					          		<#list storeThemesInfo.storeThemesList.result as storeThemes>
+						 				<li>
+						 					<div class="change-template-list" themes_id="${storeThemes.id}">
+						 						<@image src="${ctx}/${storeThemesInfo.previewpath}/${storeThemes.path}/preview.jpg"  />
+						 					</div>
+						 					<h3 >模板名称：${storeThemes.name}</h3>
+						 					<h4 class="template-preview" rel="${ctx}/${storeThemesInfo.previewpath}/${storeThemes.path}/preview.jpg">预览</h4>
+						 					<@image src="${ctx}/${storeThemesInfo.previewpath}/${storeThemes.path}/preview.jpg"  class="hide-img-list" style="display:none"/>
+						 				</li>
+						 				<#assign n = n+1>
+						 			</#list>
+				 				</ul>
+				 			</div>
+			        	</dd>
+			      	</dl>
+					<dl class="bottom">
+			        	<dt>&nbsp;</dt>
+			        	<dd>
+							<input type="button" id="btnSubmit" value="保存修改" class="submit to_save" rel=""/>
+			        	</dd>
+			      	</dl>
+			</div>
+		</div>
+	</div>	
+</div>
+<div class="show-big">
+	<div class="show-big-box">
+		<div class="show-big-backdrop"></div>
+		<div class="backdrop-img">
+			<img src="" class="original-img" />
+
+		</div>
+		<div class="close-img">x</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(".change-template-list").click(function(){
+	$(".change-template-list").css("border","1px solid #fff");
+	$(this).css("border","1px solid #399510");
+	var  themesId = $(this).attr("themes_id");
+	$(".to_save").attr("rel",themesId);
+});
+
+$(".template-preview").click(function(){
+	var imgSrc = $(this).attr("rel");
+	$(".original-img").attr("src",imgSrc);   //获得原始图片
+	var bodyHeight = parseInt($(".pace-done").height());   //获得body高度
+	var imgHeight = parseInt($(this).next(".hide-img-list").height()); //获得图片原始高度
+	
+	
+	
+	
+	$(".show-big").show();
+	$(".close-img").show();
+	//判断原始图片高度与body高度，如果原始图片高度大于body高度，增遮罩高度使用图片高度，反之则使用body高度。
+	if(imgHeight >= bodyHeight){
+		$(".show-big-box").css("height",imgHeight*0.8+parseInt(40)+"px");  
+	}else{
+		$(".show-big-box").css("height",bodyHeight*0.8+parseInt(40)+"px");
+	}
+})
+
+//关闭按钮
+$(".close-img").click(function(){
+	$(".show-big").hide();
+	$(".show-big-box").css("height","");
+	$(".original-img").attr("src","");
+	$(this).hide();
+})
+
+
+$("#btnSubmit").click(function(){
+	var currentThemesId = $(this).attr("rel");
+	
+	if(currentThemesId == ""){
+		alert("请选择模板");
+		return false;
+	}
+	
+	if(confirm("确定要切换模板吗?")){
+		$.ajax({
+			url : "${ctx}/api/b2b2c/store-api/change-store-themes.do?themes_id="+currentThemesId,
+			dataType : 'json',
+			success : function(data) {	
+				$.Loading.message(data.message);
+				location.reload();
+			},
+			error : function(e) {
+				alert("出现错误 ，请重试");
+			}
+			
+		});  
+	}
+})
+</script>
+
+<#include '/common/footer.html' />

@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    //上传图片插件配置
+    var image_uploader_setting = {
+        imageName : "gift_img",	// 表单提交时 的name
+        subFolder : "/gift",		// 上传目录
+        showImgs : [],	//显示的img值数组，不提交。只做显示用
+        actualImgs : [],	// 实际的img值数组，会提交
+        fileNumLimit:1 //最多上传图片个数
+    }
+</script>
+<style type="text/css">
+    .gift {
+        font-size: 12px;
+        color: #333333;
+    }
+
+    .gift input {
+        height: 15px;
+        width: 150px;
+        font-size: 12px;
+        display: inline;
+    }
+
+    .gift em {
+        color: red;
+    }
+
+    input {
+        font-size: 12px;
+    }
+    .imgbar_wrap .img_list .img_box{width:130px;}
+</style>
+<div class="gift">
+    <div class="s_commont_list">
+        <form id="gift_form" class="validate" >
+            <div>
+                <h3>赠品信息</h3>
+                <div style="margin:10px 0 0 10px;">
+                    <div>
+                        <em>*</em>
+                        赠品名称：
+                        <input type="text" class="form-control" placeholder="不超过20个字" name="gift_name" maxlength="20" isrequired="true" style="width: 250px;">
+                    </div>
+                </div>
+                <div style="margin:10px 0 0 10px;">
+                    <div>
+                        <em>*</em>
+                        赠品价格：
+                        <input type="text" class="form-control gift_price" name="gift_price" isrequired="true" maxlength="10"
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')">
+                    </div>
+                </div>
+                <div style="margin:10px 0 0 10px;">
+                    <div>
+                        <em>*</em>
+                        赠品库存：
+                        <input type="text" class="form-control gift_num" name="actual_store" isrequired="true" maxlength="9" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    </div>
+                </div>
+                <div style="margin:10px 0 0 10px;">
+                    <div>
+                        <em>*</em>
+                        赠品图片：
+                        <div id="some_file_queue"></div>
+                        <div class="goods_image" style="position: relative; margin:5px 0 0 90px;">
+                            <@imageuploader />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+input[type='radio'] {
+    cursor: pointer;
+}
+
+.nav-top-tools {
+    margin-bottom: 10px;
+}
+
+.nav-top-tools .nav-add {
+    width: 50px;
+    font-size: 12px;
+}
+
+.navigation table {
+    text-align: center;
+    font-size: 14px;
+}
+
+.navigation table thead th {
+    background-color: #f2f2f2;
+    text-align: center;
+    border-bottom: none;
+}
+
+.navigation table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.nav-tools a {
+    font-size: 12px;
+    margin: 0 5px;
+}
+
+/* 新增导航dialog样式
+ ============================================================================ */
+
+.nav-form {
+    font-size: 14px;
+}
+
+.nav-form .nav-box {
+    clear: both;
+    line-height: 30px;
+    margin-top: 10px;
+}
+
+.nav-form .nav-title {
+    float: left;
+    display: block;
+    width: 100px;
+    text-align: right;
+}
+
+.nav-form .nav-input {
+    float: left;
+    margin-left: 10px;
+}
+
+.nav-form input {
+    height: 15px;
+}
+
+.nav-form p {
+    font-size: 12px;
+}
+
+.nav-show label {
+    margin-left: 20px;
+    cursor: pointer;
+}

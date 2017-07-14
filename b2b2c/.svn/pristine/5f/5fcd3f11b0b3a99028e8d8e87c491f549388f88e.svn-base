@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "分类管理 - 商品管理" />
+	<#include '/new_store/common/header.html' />
+   	<#assign title="店铺认证 - 店铺管理">
+	<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.uploadify.min.js"></script>	
+    <link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/uploadify.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/new_store/css/pages/setting/authenticate.css" />
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/setting/authenticate.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_setting' />
+<#assign lowerPageName = 'lower_setting_authenticate' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li><a href="javascript: void(0); ">店铺认证</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+    	<#-- 获取店铺信息 -->
+		<#assign myStoreDetailTag = newTag("myStoreDetailTag")>
+		<#-- 调用订单状态标签 -->
+		<#assign store = myStoreDetailTag()> 		
+		<#-- 调用地区标签 -->
+		<#-- 获取店铺信息 -->
+		<#assign myStoreDetailTag = newTag("myStoreDetailTag")>
+		<#-- 调用订单状态标签 -->
+		<#assign store = myStoreDetailTag()> 
+    	<!-- 认证信息 -->
+			<div class="groupbuy_form">
+				<form id="StoreAuthForm"  enctype="multipart/form-data">
+					<input type="hidden" value="${store.store_id}" name="store_id"/>
+					<dl>
+					      <dt>认证状态：</dt>
+					      <dd class="bg_gray">
+					      	<input type="hidden" value="${store.name_auth}" name="name_auth"/>
+							<#if store.name_auth==1 && store.id_img??>
+								<span style="color: #449d44;">店主信息已认证</span>
+					        	<a target="_blank" href="${store.id_img}" class="go_seek">&nbsp;查看身份证>></a>
+					       	<#elseif store.name_auth==2>
+					       			 店主信息正在审核...
+								<input type="hidden" name="fsid_img" value="${store.id_img!''}"  id="fs_id_img" />
+					       	<#else>
+					       		<span style="color: red;">店主信息未认证</span>
+					       		<#if store.id_img?? &&store.id_img!="">					       		 	
+					       			<a target="_blank" href="${store.id_img}" class="go_seek">&nbsp;查看未通过已上传身份证>></a>
+					       		</#if>					       		
+					        	<input type="file" id="id_img" status="id_img" text="上传身份证"/>
+					        	<input type="hidden" name="fsid_img" value="${store.id_img!''}"  id="fs_id_img" />
+					        	<img alt="" src="${staticserver}/images/transparent.gif" id="img_id_img" style="height:200px;">
+					       	</#if>
+						</dd>
+					</dl>
+					<dl>
+						<dt>店铺认证状态：</dt>
+						<dd class="bg_gray">
+							<input type="hidden" value="${store.store_auth}" name="store_auth"/>
+							<#if store.store_auth==1 && store.license_img??>
+								<span style="color: #449d44;">店铺信息已认证</span>
+					        	<a target="_blank" href="${store.license_img}" class="go_seek">&nbsp;查看营业执照>></a>
+					       <#elseif store.store_auth==2>
+					       		店铺信息正在审核...
+							   <input type="hidden" name="fslicense_img" value="${store.license_img!''}"  id="fs_license_img"  />
+					       	<#else>
+					       		<span style="color: red;">店铺信息未认证</span>
+					       		<#if store.license_img?? &&store.license_img!="">
+					       			<a target="_blank" href="${store.license_img}" class="go_seek">&nbsp;查看未通过已上传营业执照>></a>
+					       		</#if>
+								<input type="file" id="license_img" status="license_img" text="上传营业执照"/>
+								<input type="hidden" name="fslicense_img" value="${store.license_img!''}"  id="fs_license_img"  />
+								<img alt="" src="${staticserver}/images/transparent.gif" id="img_license_img" style="height:200px;">
+					       </#if>
+						</dd>
+					</dl>
+					<#if store.store_auth != 1 || store.name_auth != 1>
+					<dl class="bottom" style="border:none">
+						<dt>&nbsp;</dt>
+						<dd>
+							<input type="button" id="update" value="保存修改" class="btn btn-success submit to_save"/>
+						</dd>
+					</dl>
+					</#if>
+					
+				</form>
+			</div>
+    
+    </div>
+</div>
+<!--主页面区↑-->
+
+</body>
+</html>

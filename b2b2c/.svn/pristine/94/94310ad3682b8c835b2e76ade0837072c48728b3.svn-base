@@ -1,0 +1,193 @@
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/member/register/css/register.css" />
+	<div class="index_logo">
+		<a href="${ctx}/index.html"><@image src="${logo}" class="pngFix" style="width:240px;height:60px;" /></a>
+		<!-- <span class="user_title">欢迎注册</span> -->
+	</div>
+	<div class="steps steps-4">
+		<ol>
+			<li class="active"><i>1</i><span class="tsl" data-phase-id="r_p_createAccount">填写手机号</span></li>
+			<li><i>2</i><span class="tsl" data-phase-id="r_p_fillUserInfo">填写账号信息</span></li>	
+			<li ><i class="iconfont">&#x2714;</i><span>注册成功</span></li>
+		</ol>
+
+	</div>
+	<div class="content">
+        <form action="#" method="post" id="mobile-register-form" class="validate">
+            <div class="form-list form-main-list">
+                <div class="form-group">
+                    <div class="form-item">
+                        <span class="form-label tsl" data-phase-id="r_p_mobileNum">手机号</span>
+                        <div class="mobile-text">                            
+                            <input type="text" class="mobile-input form-control" name="mobile" id="mobile-num-txt" maxlength="11" placeholder="请输入您的手机号码">
+						</div>
+                    </div>
+                    <div class="form-item">
+						<span class="form-label tsl" data-phase-id="r_p_noCaptcha">验证码</span>
+						<div class="mobile-text">
+							<input type="text" class="mobile-input form-control" name="validate_sms_code" id="validate-sms-code-txt" maxlength="6" dataType="int" style="width: 200px; float: left;" />
+							<input type="button" class="btn btn-info send-sms-btn" id="send-sms-button" value="发送验证码">
+						</div>
+            		</div>
+            		<div class="form-item form-item-short">
+						<input id="license" type="checkbox" checked="checked" name="license" value="agree" style="margin-right:10px;"/>已阅读并同意<span class="protocol">服务协议</span>
+					</div>
+	                <div class="form-item form-item-short">
+	                     <a class="btn btn-danger" id="next-button">下一步</a>
+	                       <a class="btn btn-info" href="${ctx}/register.html?forward=${forward!''}">邮箱注册</a>
+	                </div>
+	                
+            	</div>
+            </div>
+        </form>
+    </div>
+
+<script>
+$(function(){
+
+	$('#validate-sms-code-txt').on('input propertychange', function(){
+		var _this = $(this), val = _this.val();
+		if(isNaN(val)){
+			$(this).val(val.substring(0,this.value.length-1));
+		}
+	});
+
+	$("#mobile-num-txt").on('input propertychange', function(){
+		var _this = $(this),
+			_val  = _this.val();
+		if(_val.length == 11){
+			if(!/^0?(13[0-9]|15[0-9]|18[0-9]|14[0-9]|17[0-9])[0-9]{8}$/.test(_val)){
+				_this.parent().addClass('error has-error');
+			}else {
+				_this.parent().removeClass('error has-error');
+			}
+		}
+	})
+	// 发送验证码
+	$("#send-sms-button").click(function(){
+		var _this = $(this);
+		var mobileNum = $.trim($("#mobile-num-txt").val());
+		if(!mobileNum){
+			$.message.error("手机号不能为空");
+			$("#mobile-num-txt").parent().addClass('error has-error');
+			return false;
+		}else if (!/^0?(13[0-9]|15[0-9]|18[0-9]|14[0-9]|17[0-9])[0-9]{8}$/.test(mobileNum)) {
+			$.message.error("请填写正确的手机号");
+			$("#mobile-num-txt").parent().addClass('error has-error');
+			return false;
+		}else {
+			$("#mobile-num-txt").parent().removeClass('error has-error');
+		}
+
+		$.ajax({
+		    url: ctx + '/api/shop/sms/sms-safe.do',
+            success: function (result) {
+                if(result.result == 1){
+                    var options = {
+                        url : ctx + "/api/shop/sms/send-sms-code.do?mobile=" + mobileNum+"&key="+"register",
+                        dataType:"json",
+                        success:function(result) {
+                            if(result.result == 1) {
+                                $.message.success('发送成功，请注意查收！');
+                                $.countDown(_this);
+                            } else {
+                                $.message.error(result.message);
+                            }
+                        },
+                        error : function(){
+                            $.message.error('出现错误，请重试！');
+                        }
+                    }
+                    $.ajax(options);
+                }else {
+                    $.message.error(result.message);
+                }
+            },
+            error: function () {
+                $.message.error('出现错误，请重试！');
+            }
+        })
+
+	});
+	
+	// 下一步操作
+	$("#next-button").click(function(){
+		
+		//判断是否同意《服务协议》是否被选中
+		if(!$("#license").is(':checked')){
+			$.message.error("请阅读服务协议，并勾选同意服务协议");
+			return false;
+		}
+		
+		if (!$("#mobile-register-form").checkall()) {
+			return false;
+		}
+		
+		// 此处等待非空校验
+		var mobileNum = $.trim($("#mobile-num-txt").val());
+		var $this = $(this);
+		var smsCode = $.trim($("#validate-sms-code-txt").val());
+		
+		var data = {"mobile" : mobileNum, "smsCode" : smsCode};
+		
+		var options = {
+			url : ctx + "/api/shop/member/vali-register-sms-code.do",
+			type : "post",
+			dataType:"json",
+			data : data,
+			success:function(data) {
+				if(data.result == 1){
+					location.href = '${ctx}/member/register/user_info.html';
+				}else {
+					$.message.error(data.message);
+				};
+			},
+			error : function(){
+				$.message.error("出现错误，请重试");
+				console.error('ajax error', a, b, c);
+			}
+		}
+		$.ajax(options);
+		
+	});
+	
+	
+	//点击弹出对话框
+	$(".protocol").on('click', function(){
+		$.ajax({
+			url:"protocol.html",
+			dataType:"html",
+			async:false,
+			cache:false,
+			success:function(html){
+				var options = {
+					title    : '用户注册协议',
+					html     : html,
+					top      : 100,
+					btn      : false,
+					backdrop : false,
+					width    : '800',
+				//	height   : '500',
+					showCall : function(){
+						$(".protocol-btn").on('click', function(){
+							//如果同意没有被勾选，点击同意以后，自动勾选
+							//if(!$("#license").is(':checked')){
+								//$("#license").attr("checked","checked");
+							//}
+							$('#dialogModal').modal('hide');  //关闭弹出层
+						})
+					},
+				}
+				$.dialogModal(options);
+				
+			},
+			error:function(){
+				$.message.error("糟糕，出错了:(");
+			}
+		});
+		//调用弹出对话框相关参数
+	})
+	
+});
+</script>
+<#include '/common/footer.html' />

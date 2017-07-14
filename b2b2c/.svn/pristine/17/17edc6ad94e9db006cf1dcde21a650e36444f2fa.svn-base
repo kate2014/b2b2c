@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <#assign title = "店铺统计 - 运营报告"/>
+	<#include '/new_store/common/header.html' />
+
+	<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/statistics/statistics.css">
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-common.js"></script>
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-buy.js"></script>
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/highcharts/highcharts.js"></script>
+</head>
+<body>
+<#--获得会员信息-->
+<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+<#assign storeMember = checkB2b2cMemberTag()>
+
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_statistics_sales' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./sales.html?cycle_type=1">销售统计</a></li>
+        <li><a href="./region.html?cycle_type=1" >区域分析</a></li>
+        <li class="active"><a href="javascript: void(0);"  onclick="location.reload(); ">购买分析</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+   <!-- 内部页面区↓ -->
+	<div class="inner-app-wappler">
+		<!-- 具体内容区↓ -->
+		<div class="sales-wappler">
+			<!-- 搜索条件区↓ -->
+			<div class="filter-tools">
+				<table style="float:left;">
+					<td width="70">
+						<select id="cycle_type" name="cycle_type">
+							<option value="1"<#if cycle_type?number==1
+								>selected="selected" </#if> >按照月统计</option>
+							<option value="2"<#if cycle_type?number==2
+								>selected="selected" </#if> >按照年统计</option>
+						</select>
+					</td>
+					<td width="70">
+						<select id="year"> </select>
+					</td>
+					<td width="70">
+						<select id="month" 
+							<#if cycle_type?number==0 > style="display: none;" </#if> >
+						</select>
+					</td>
+					<td style="text-align: left;">
+						<a id="search_statis" class="btn btn-info" href="javascript:void(0);" style="font-size: 12px;">开始搜索</a>
+					</td>
+					<td>
+						<a id="set_price_ranges" href="javascript:void(0)" class="btn btn-info" style="font-size: 12px; margin-left: 30px; ">价格区间筛选</a>
+					</td>
+				</table>
+			</div>
+			<!-- 搜索条件区↑ -->
+			<!-- 统计图区↓ -->
+			<div id="buy_money"></div>
+			<div style="height: 10px; background-color: #f2f2f2"></div>
+			<!-- 购买时段分布图 -->
+			<div id="buy_time"></div>
+			<!-- 统计图区↑ -->
+		</div>
+		<!-- 具体内容区↑ -->
+	</div>
+	<!-- 内部页面区 -->
+	<!-- 隐藏dialog ↓-->
+	<div  style="display:none;">
+		<div id="dialog_div" style="margin: 0 auto; ">
+			<input type="hidden" id="sections_is_true" value="0" />
+			<input type="hidden" id="sections_serialize" value="" />
+			<div id="section_form" class="dialog-ection-form">
+				<table>
+					<tr>
+						<td>第<span class="group-num">1</span>组：</td>
+						<td><input type="text" class="form-control"></td>
+						<td style="width: 16px; text-align: center; ">-</td>
+						<td><input type="text" class="form-control"></td>
+						<td style="width: 50px; text-align: center; "><span style="font-size: 14px; cursor: help; " class="icomoon help-info" title="例如：10-20，30-40"></span></td>
+					</tr>
+					<tr>
+						<td>第<span class="group-num">2</span>组：</td>
+						<td><input type="text" class="form-control"></td>
+						<td style="width: 16px; text-align: center; ">-</td>
+						<td><input type="text" class="form-control"></td>
+						<td style="width: 50px; text-align: center; "><a href="javascript: void(0);" style="font-size: 12px;" class="add-section">添加</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- 隐藏dialog↑ -->
+</div>
+<!--主页面区↑-->
+
+</body>
+<script type="text/javascript">
+var store_id=${storeMember.store_id};
+var ctx="${ctx}";
+</script>
+</html>

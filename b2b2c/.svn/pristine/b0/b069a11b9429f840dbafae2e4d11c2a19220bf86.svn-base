@@ -1,0 +1,157 @@
+.goods-info-group strong {
+    font-weight: bold
+}
+
+.goods-info-group p {
+    margin-bottom: 10px
+}
+
+.goods-info-group input[type="text"]+.radio, .goods-info-group input[type="text"]+.checkbox
+{
+    padding-top: 0
+}
+
+.goods-info-group .goods-info-group-inner {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.goods-info-group .info-group-title {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background-color: #f8f8f8;
+    border-right: 2px solid #fff;
+    border-bottom: 5px solid #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold
+}
+
+.goods-info-group .info-group-title .group-inner {
+    padding: 28px 10px 23px
+}
+
+.goods-info-group .info-group-cont {
+    -webkit-box-flex: 7;
+    -webkit-flex: 7;
+    -moz-box-flex: 7;
+    -ms-flex: 7;
+    flex: 7;
+    background-color: #f8f8f8;
+    border-bottom: 5px solid #fff;
+    font-size: 12px
+}
+
+.goods-info-group .group-inner {
+    padding: 10px 20px 10px
+}
+
+.goods-info-group .control-group {
+    margin-top: 10px;
+}
+
+.control-label {
+    float: left;
+    width: 85px;
+    text-align: right;
+    margin-right: 10px;
+    line-height: 30px;
+}
+
+.form-control {
+    width:200px;
+}
+
+input[type=text] {
+    height: 15px;
+    width: 174px;
+}
+
+#promotions_form .promotions-time input {
+    float: left;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.promotions-time span {
+    float: left;
+    display: block;
+    line-height: 30px;
+}
+
+#promotions_form .promotions-style p {
+    margin-top: 5px;
+    height: 28px;
+}
+
+#promotions_form .promotions-style input[type=checkbox] {
+    cursor: pointer;
+}
+
+#promotions_form .promotions-join input[type=radio] {
+    cursor: pointer;
+}
+
+#promotions_form .last-span {
+    display: none;
+}
+
+.promotions-style .form-control {
+    display: none;
+}
+
+.promotions-style .promotions-style-select {
+    display: none;
+}
+
+.tabmenu {
+    background-color: #fff;
+    display: block;
+    height: 38px;
+    position: relative;
+    width: 100%;
+    z-index: 99;
+}
+.tabmenu .tab {
+    border-bottom: 2px solid #27a9e3;
+    height: 36px;
+    margin-top: 20px;
+}
+.tabmenu ul li {
+    float: left;
+    margin-right: 3px;
+}
+.tabmenu ul .active a {
+    background-color: #27a9e3;
+    color: #fff;
+    cursor: default;
+    display: inline-block;
+    font: 18px/36px "microsoft yahei";
+    height: 36px;
+    padding: 0 20px;
+}
+.tabmenu ul .normal a {
+    background-color: #aaa;
+    color: #fff;
+    display: inline-block;
+    font: lighter 14px/33px "microsoft yahei";
+    height: 33px;
+    padding: 0 10px;
+}
+.no_blank {
+    background: rgba(0, 0, 0, 0) url("../../../../images/htgth.png") no-repeat scroll left -2px;
+    color: #27a9e3;
+    font: 14px/32px "microsoft yahei";
+    height: 40px;
+    letter-spacing: normal;
+    margin: 100px auto;
+    padding-left: 50px;
+    vertical-align: middle;
+    width: 200px;
+    word-spacing: normal;
+}

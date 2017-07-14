@@ -1,0 +1,372 @@
+<script type="text/javascript" src="${ctx}/statics/e_tools/js/jquery.addressSelect-1.0.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/checkout-new.js"></script>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/checkout-new.css" />
+
+<#-- 创建订单结算检测标签 -->
+<#assign b2b2cOrderSettleCheckTag= newTag("b2b2cOrderSettleCheckTag")>
+<#-- 获取订单检测结果地址  -->
+<#assign checkResult = b2b2cOrderSettleCheckTag() >
+
+<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+<#assign creditIsOn=checkCmptIsOnTag("{'componentName':'余额支付组件'}") />
+<form id="checkoutForm">
+	<div class="ckt-control">
+	<div class="ckt-title">填写并核对订单信息</div>
+	<div class="ckt-content">
+		<!--收货人信息 start-->
+		<div class="ckt-item info">
+			<div class="top-ckt">
+				<span class="title-top">收货人信息</span>
+				<span class="other-top"><a href="javascript: void(0);" class="c-new-address">新增收货地址</a></span>
+				<div class="clearfix"></div>
+			</div>
+
+			<!--地址列表-->
+			<div class="center-ckt-info">
+				<ul id="address_list">
+					<!--通过load方法加载-->
+					<script type="text/javascript">
+						$(function(){
+							//  初始化收货人地址列表
+							Ckt.info.i_InfoInitAddress();
+						});
+					</script>
+				</ul>
+				<input type="hidden" name="addressId">
+			</div>
+			<!--地址列表 end-->
+
+			<div class="collapse-ckt-info">
+				<span class="more-collapse-ckt">更多地址</span>
+				<i class="icon-collapse-ckt-info"></i>
+			</div>
+			<div class="placeholder-20"></div>
+		</div>
+		<!--收货人信息 end-->
+
+		<!--支付方式 start-->
+		<div class="ckt-item payment">
+			<div class="top-ckt">
+				<span class="title-top">支付方式</span>
+				<span class="other-top"><a href="javascript: void(0);" class=""></a></span>
+				<div class="clearfix"></div>
+			</div>
+			<div class="content-ckt-pay">
+				<ul class="ul-ckt-pay min">
+					<#-- 创建"支付列表"标签-->
+					<#assign shopPaymentListTag= newTag("shopPaymentListTag") >
+					<#-- 调用"支付列表"标签-->
+					<#assign paymentList = shopPaymentListTag()>
+					<li class="ckt-checkbox pay selected" pay_ment_id="0">
+						<span>在线支付</span>
+					</li>
+					<#list paymentList as payment>
+						<#if payment.type=="creditPayPlugin">
+							<#if isLogin>
+								<li class="ckt-checkbox pay" pay_ment_id="${payment.id}">
+									<span>${payment.name}-${member.advance}</span>
+								</li>
+								<!--<a target="_blank" href="member/repaid.html">余额账户充值</a>-->
+							</#if>
+
+							<#elseif payment.is_online==0>
+								<li class="ckt-checkbox pay" pay_ment_id="${payment.id}">
+									<span>${payment.name}</span>
+								</li>
+						</#if>
+					</#list>
+				</ul>
+				<input type="hidden" name="paymentId" id="payMentId">
+			</div>
+			<div class="collapse-ckt-pay">
+				<span class="more-collapse-ckt">更多方式</span>
+				<i class="icon-collapse-ckt-pay"></i>
+			</div>
+			<div class="placeholder-20"></div>
+		</div>
+		<input type="hidden" name="typeId" value="0">
+		<!--支付方式 end-->
+
+		<!--配送清单 start-->
+		<div class="ckt-item inventory">
+			<div class="top-ckt">
+				<span class="title-top">配送清单</span>
+				<span class="other-top"><a href="${ctx}/cart.html" class="c-back-cart">返回购物车修改</a></span>
+				<div class="clearfix"></div>
+			</div>
+			<div class="content-ckt-inventory">
+				<#-- 创建购物车标签 -->
+				<#assign cartTag= newTag("storeCartSelectGoodsTag")>
+				<#-- 通过购物车标签获取购物项列表 -->
+				<#assign itemList = cartTag("'countship':'yes'")>
+
+				<#if itemList?exists && itemList?size gt 0>
+					<#list itemList as store >
+						<div class="item-ckt-inventory" id="store_${store.store_id}" storeid="${store.store_id}">
+							<div class="left-item-inventory">
+								<div class="express-inventory">
+									<div class="title-item-inventory">配送方式</div>
+									<div class="content-item-inventory express">
+										<#assign storeDlytype = store.shiplist>
+										<#list storeDlytype as s>
+											<div <#if s_index==0>class="ckt-checkbox express selected"<#else>class="ckt-checkbox express"</#if> type_id="${s.type_id!0}">
+												<span>${s.name}&nbsp;（${s.shipPrice}&nbsp;元）</span>
+											</div>
+										</#list>
+									<input type="hidden" name="shippingId">
+									</div>
+									<div style="clear: both;"></div>
+									<!--<div class="time-express">
+										<span class="title-time-express">配送时间： </span>
+										<span>任意时间</span>
+										<a href="javascript: void(0);" class="edit-express">修改</a>
+										<div style="clear: both;"></div>
+									</div>-->
+								</div>
+								<div class="hr-inventory"></div>
+								<div class="discount-inventory">
+									<div class="title-item-inventory">优惠折扣</div>
+									<div class="content-item-inventory">
+										<#-- 创建店铺优惠劵标签 -->
+										<#assign myStoreBonusByAccountTag= newTag("myStoreBonusByAccountTag") >
+										<#-- 查询店铺优惠劵列表 -->
+										<#assign result= myStoreBonusByAccountTag("{'store_id':${store.store_id!0},'storeprice':${store.storeprice.orderPrice?string('0.00')}}")!''>
+										<#if result.storeBonus.bonusList?size gt 0 >
+											<#list result.storeBonus.bonusList as s>
+												<div class="item-discount-inventory" bonusid="${s.bonus_id!0}" price="${s.type_money}">
+													<div class="lace-item-discount">
+														<div class="lace-discount">
+															<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+														</div>
+													</div>
+													<div class="select-discount">
+														<span class="bg-select-discount"></span>
+														<i class="icomoon icon-select-discount"></i>
+													</div>
+													<div class="money-item-discount">￥${s.type_money}</div>
+													<div class="detail-item-discount">
+														<p class="first">满&nbsp;<span style="color: red;">￥${s.min_goods_amount}</span>&nbsp;使用</p>
+														<p>有效期至：<@dateformat time="${s.use_end_date}" pattern="yyyy-MM-dd"/></p>
+													</div>
+												</div>
+											</#list>
+										<#else>
+											<p class="no-item-discount-inventory">您在该店铺还没有领到优惠劵，去&nbsp;<a target="_blank" href="${ctx}/store_themes/${(store.store_id)!0}/index.html?store_id=${(store.store_id)!0}&menu=store" style="color: #005ea7;">店铺</a>&nbsp;看看吧！</p>
+										</#if>
+										<input type="hidden" name="bonusid">
+										<div style="clear: both;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="right-item-inventory">
+								<div class="gooods-inventory">
+									<div class="title-item-inventory">
+										<div class="store-name">店铺名称： <a target="_blank" href="${ctx}/store_themes/${(store.store_id)!0}/index.html?store_id=${(store.store_id)!0}&menu=store" style="color: #005ea7;">${store.store_name}</a></div>
+										<div class="store-total">
+											<div class="discount-store-total">优惠折扣： <span>${store.storeprice.discountPrice?string("currency")}</span></div>
+											<div class="total-store-total">店铺合计（含运费）： <span>${store.storeprice.needPayMoney?string("currency")}<#if store.storeprice.exchange_point??>+${store.storeprice.exchange_point!''}分</#if></span></div>
+										</div>
+										<input type="hidden" name="storeid" value="${store.store_id}">
+									</div>
+									<div class="content-item-inventory goods">
+										<table class="table-gooods-inventory">
+											<#list store.goodslist as item >
+												<tr>
+													<td class="img-gooods-inventory">
+														<a target="_blank" href="${ctx}/goods.html?goodsid=${item.goods_id}">
+															<#if item.image_default??>
+																<@image src="${item.image_default!''}" /> 
+															<#else>
+																<@image src="${ctx}/statics/images/no_picture.jpg" /> 
+															</#if>
+														</a>
+														<#if item.activity_id?exists && item.activity_id != 0>
+															<a target="_blank" href="${ctx}/store_themes/${(store.store_id)!0}/store-activity.html?menu=store" class="tag-goods-inventory">促销商品</a>
+														</#if>
+													</td>
+													<td class="name-gooods-inventory"><a target="_blank" href="${ctx}/goods.html?goodsid=${item.goods_id}">${item.name}
+													<#if item.others?exists>
+														<#if item.others.specList?exists>
+															<span>
+																<#list item.others.specList as spec>
+																	<#if spec_index!=0></#if><strong>${spec.name}:<em style="color:#ED7108">${spec.value}</em></strong>
+																</#list>
+															</span>
+														</#if> 
+													</#if>
+													</a> </td>
+													<td class="price-gooods-inventory">${item.price?string("currency")}<#if item.others.exchange_point??>+${item.others.exchange_point}分</#if></td>
+													<td class="num-gooods-inventory">x${item.num}</td>
+													<td class="subtotal-gooods-inventory">${item.subtotal?string("currency")}<#if item.others.exchange_point??>+${item.others.exchange_point?number*item.num}分</#if></td>
+												</tr>
+											</#list>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div style="clear: both;"></div>
+							<div class="bottom-item-inventory">
+								<#if store.activity_id??>
+									<div class="item-bottom-item-inventory">
+										<span class="tag-item-bottom-inventory">
+											<a target="_blank" href="${ctx}/store_themes/${(store.store_id)!0}/store-activity.html?menu=store">促销活动进行中</a>
+										</span>
+										<span class="price-item-bottom-inventory">${store.storeprice.actDiscount?string("currency")}</span>
+									</div>
+								</#if>
+								<#if store.storeprice.gift_id != 0>
+									<#assign activityGiftTag = newTag("activityGiftTag")>
+									<#assign gift = activityGiftTag("{'gift_id':'${store.storeprice.gift_id}'}")>
+									<#if gift.actual_store gt 0>
+										<div class="item-bottom-item-inventory">
+											<input type="hidden" name="gift_id" value="${gift.gift_id}"/>
+											<span class="tag-item-bottom-inventory">
+												<a href="javascript: void(0);">赠送</a>
+											</span>
+											<span class="name-item-bottom-inventory">${gift.gift_name}</span>
+											<span style="margin-left: 20px;" class="price-item-bottom-inventory">价值：${gift.gift_price?string("currency")}</span>
+											<span style="margin-left: 20px;">数量：×1</span>
+										</div>
+									</#if>
+								</#if>
+								<#if store.storeprice.bonus_id != 0>
+									<#assign storeBonusDetailTag = newTag("storeBonusDetailTag")>
+									<#assign bonus = storeBonusDetailTag("{'bonusid':${store.storeprice.bonus_id}}")>
+									<#if bonus.create_num gt 0>
+										<#if (bonus.received_num != bonus.create_num) >
+											<div class="item-bottom-item-inventory">
+												<input type="hidden" name="bonus_id" value="${bonus.type_id}"/>
+												<span class="tag-item-bottom-inventory">
+													<a href="javascript: void(0);">赠送</a>
+												</span>
+												<span class="name-item-bottom-inventory">${bonus.type_name}</span>
+												<span style="margin-left: 20px;" class="price-item-bottom-inventory">价值：${bonus.type_money?string("currency")}</span>
+												<span style="margin-left: 20px;">数量：×1</span>
+											</div>
+										</#if>
+									</#if>
+								</#if>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</#list>
+				</#if>
+			</div>
+			<div class="bottom-ckt-inventory">
+				订单备注：
+				<input type="text" name="remark" class="form-control" maxlength="120">
+				*请勿填写有关支付、收货、发票方面的信息，如有特殊需要请联系客服人员。
+			</div>
+			<div class="placeholder-20"></div>
+		</div>
+		<!--配送清单 end-->
+
+		<!--送货时间 start-->
+		<div class="ckt-item time">
+			<div class="top-ckt">
+				<span class="title-top">送货时间</span>
+				<div class="clearfix"></div>
+			</div>
+			<div class="content-ckt time">
+				<div class="ckt-checkbox time selected">
+					<span>任意时间</span>
+				</div>
+				<div class="ckt-checkbox time">
+					<span>仅工作日</span>
+				</div>
+				<div class="ckt-checkbox time">
+					<span>仅休息日</span>
+				</div>
+
+				<input type="hidden" name="shipDay" value="任意时间">
+			</div>
+			<div class="placeholder-20"></div>
+		</div>
+		<!--送货时间 end-->
+
+		<!--发票信息 start-->
+		<div class="ckt-item invoice">
+			<div class="top-ckt">
+				<span class="title-top">发票信息</span>
+				<div class="clearfix"></div>
+			</div>
+			<div class="content-ckt invoice">
+				<div class="">普通发票</div>
+				<div class="receipt-title"></div>
+				<div class="receipt-content">无需发票</div>
+				<a href="javascript: void(0);" class="edit-invoice">修改</a>
+				<div style="display: none;" id="invoice_content">
+					<div class="invoice-dialog" id="invoice_dialog">
+						<div class="invoice-head">
+							<div class="title-invoice-head">发票抬头：</div>
+							<div class="items-invoice-head">
+								<div class="ckt-checkbox head-invoice">
+									<span>个人</span>
+								</div>
+								<div class="ckt-checkbox head-invoice company">
+									<span>单位：<input type="text" class="company-invoice-input" maxlength="60" style="border: none; outline: none;"></span>
+								</div>
+							</div>
+						</div>
+						<div class="invoice-content">
+							<div class="title-invoice-head">发票内容：</div>
+							<div class="items-invoice-content">
+								<div class="ckt-checkbox content-invoice selected">
+									<span>办公用品</span>
+								</div>
+								<div class="ckt-checkbox content-invoice">
+									<span>劳保用品</span>
+								</div>
+								<div class="ckt-checkbox content-invoice">
+									<span>耗材</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="invoice-inputs" style="display: none;">
+							<!--1: 需要发票  2:不需要发票-->
+							<input type="hidden" name="receipt" value="2">
+
+							<!--1: 个人  2:单位-->
+							<input type="hidden" name="receiptType">
+
+							<!--明细 办公用品 劳保用品 耗材-->
+							<input type="hidden" name="receiptContent">
+
+							<!--单位【公司】名称-->
+							<input type="hidden" name="receiptTitle">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--发票信息 end-->
+		<#-- 余额支付组件开启时引入余额支付页面 -->
+		<#if creditIsOn=="ON" >
+			<#include 'credit_pay.html'>
+		</#if>
+	</div>
+	<div class="ckt-total">
+		<div class="total-ckt-total">
+			<#include './checkout-total.html' />
+		</div>
+		<div class="summary-ckt-total">
+			<div class="address-info-ckt">
+				<span>收货人信息：</span>
+				<span id="address-info"></span>
+				<span>&nbsp;收货人：&nbsp;<em id="address-name"></em>&nbsp;<em id="address-mobile"></em></span>
+			</div>
+		</div>
+		<div class="bill-btn-ckt">
+			<a href="javascript: void(0);" class="bill_btn" id="bill_btn">提交订单</a>
+		</div>
+	</div>
+</div>
+</form>
+
+<script>
+<#-- 检测结果 -->
+<#if checkResult.result == 1 >
+	alert("${checkResult.errorMessage!''}");
+</#if>
+</script>

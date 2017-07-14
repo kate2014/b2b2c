@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "店铺统计 - 运营报告"/>
+	<#include '/new_store/common/header.html' />
+
+	<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/statistics/statistics.css">
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-common.js"></script>
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-region.js"></script>
+    <script type="text/javascript" src="${ctx}/adminthemes/new/js/highcharts/highcharts.js"></script>
+    <script src="${ctx}/adminthemes/new/js/highcharts/map.js"></script>
+    <script type="text/javascript" src="${ctx}/adminthemes/new/js/china-data.js"></script>
+</head>
+<body>
+<#--获得会员信息-->
+<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+<#assign storeMember = checkB2b2cMemberTag()>
+
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_statistics_sales' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./sales.html?cycle_type=1">销售统计</a></li>
+        <li class="active"><a href="javascript: void(0);"  onclick="location.reload(); ">区域分析</a></li>
+        <li><a href="./buy.html?cycle_type=1">购买分析</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+   <!-- 内部页面区↓ -->
+	<div class="inner-app-wappler">
+		<!-- 具体内容区↓ -->
+		<div class="sales-wappler">
+			<!-- 搜索条件区 ↓-->
+			<div class="filter-tools">
+				<table>
+					<td width="70">
+						<select id="cycle_type" name="cycle_type">
+							<option value="1"<#if cycle_type?number==1
+								>selected="selected" </#if> >按照月统计</option>
+							<option value="2"<#if cycle_type?number==2
+								>selected="selected" </#if> >按照年统计</option>
+						</select>
+					</td>
+					<td width="70">
+						<select id="year"> </select>
+					</td>
+					<td width="70">
+						<select id="month" 
+							<#if cycle_type?number==0 > style="display: none;" </#if> >
+						</select>
+					</td>
+					<td style="text-align: left;">
+						<a id="search_statis" class="btn btn-info" href="javascript:void(0);" style="font-size: 12px;">开始搜索</a>
+					</td>
+					<td></td>
+
+				</table>
+			</div>
+			<!-- 搜索条件区↑ -->
+			<!-- tab标签 -->
+			<input type="hidden" id="now_tab_hid" value="1">
+			<div class="app-tab-tools" style="margin-top: 20px; ">
+				<ul>
+					<li tabid="1" class="active"><a href="javascript: void(0);">下单会员数</a></li>
+					<li tabid="2"><a href="javascript: void(0);">下单金额</a></li>
+					<li tabid="3"><a href="javascript: void(0);">下单量</a></li>
+				</ul>
+			</div>
+			<!-- tab内容 -->
+			<div class="tab-content">
+				<div class="text">
+					<div class="tab-page">
+						<!-- 注意  div中不能有数据  这个用来判断是否加载了数据！！！！！！！！！ -->
+						<div class="tab-panel"
+							h_url="${ctx}/api/operator-statistics/get-region-member-html.do" tabid="1" style="text-align: center"></div>
+						<div class="tab-panel" style="display: none;"
+							h_url="${ctx}/api/operator-statistics/get-region-money-html.do" tabid="2"></div>
+						<div class="tab-panel" style="display: none;"
+							h_url="${ctx}/api/operator-statistics/get-region-num-html.do" tabid="3"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 具体内容区↑ -->
+	</div>
+	<!-- 内部页面区↑ -->
+</div>
+<!--主页面区↑-->
+
+</body>
+<script type="text/javascript">
+var store_id= ${storeMember.store_id};
+var ctx="${ctx}";
+</script>
+</html>

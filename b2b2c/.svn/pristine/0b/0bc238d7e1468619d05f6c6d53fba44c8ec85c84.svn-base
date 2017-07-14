@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>咨询管理- 客服管理</title>
+    <#include '/new_store/common/header.html' />
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/service/advisory.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/service/advisory.css">
+    
+</head>
+<body>
+<#assign mainPageName = 'main_service' />
+<#assign lowerPageName = 'lower_service_advisory' />
+
+<#include '/new_store/common/sidebar.html' />
+
+
+	<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+	<#assign storeMember = checkB2b2cMemberTag()>
+	<#-- 获取商品店铺信息 -->
+	<#assign storeInfoTag=newTag("myStoreDetailTag")>
+	<#assign myStoreDetail=storeInfoTag("{'store_id':${storeMember.store_id},'type':1 }")>
+
+
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li>
+			<a href="javascript: void(0);">咨询管理</a>
+		</li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+  	<div class="inner-app-wappler">
+  		<#assign storeConsultListTag=newTag("storeConsultListTag")>
+		<#assign storeConsult=storeConsultListTag("'type':2")>
+  		<div class="main_list">
+			<div class="filter-tools">
+				<div class="filter-box filter-blurry">
+					<span>模糊搜索：</span>
+					<input type="text" class="form-control" id="filter_blurry" data-original-title="可按商品名称、会员名称、评论内容搜索" data-placement="top" data-trigger="focus">
+				</div>
+				<div class="exact-seach">
+					<div class="filter-box filter-good-name">
+						<span>商品名称：</span>
+						<input type="text" class="form-control" id="filter_good_name">
+					</div>
+					<div class="filter-box filter-comment">
+						<span>咨询内容：</span>
+						<input type="text" class="form-control" id="filter_comment">
+					</div>
+					<div class="filter-box filter-reply-status">
+						<span>回复状态：</span>
+						<select id="filter_reply_status">
+							<option value="2">--全部--</option>
+							<option value="1">已回复</option>
+							<option value="0">未回复</option>
+						</select>
+					</div>
+				</div>
+				<div class="filter-box filter-seach">
+					<a href="javascript: void(0);" class="btn btn-info" id="filter_seach" style="width: 60px; ">搜索</a>
+					<a href="javascript: void(0);" class="btn btn-success" id="exact_seach">精确搜索</a>
+				</div>
+			</div>
+
+			<!-- 咨询、评论列表 -->
+			<div class="s_commont_list">
+				<table cellpadding="0" cellspacing="0" class="commont_table ">
+					<thead class="commont_thead">
+						<tr>
+							<th style="width:60%">咨询</th>
+							<th style="width:35%; border-right: 1px solid #ccc">操作</th>
+						</tr>
+					</thead>
+					<tbody class="commont_content_tbody">
+						<#if storeConsult.cmmentList.result?exists && storeConsult.cmmentList.result?size gt 0>
+						<#list storeConsult.cmmentList.result as comment>
+							<tr>
+								<th  colspan="20">
+									<span class="goods_name"><input type="hidden" name="commentId" value="${comment.comment_id}"/><a href="${ctx}/goods-${comment.goods_id}.html" target="_blank"> ${comment.goods_name}</a></span>
+									<span>咨询用户：${comment.uname}</span>
+									<span>咨询时间：<@dateformat time="${comment.dateline?c}" pattern="yyyy-MM-dd HH:mm"/></span>
+								</th>
+							</tr>
+							<tr class="commont_content_tr">
+								<td style="width:60%;text-align:left;padding:0 20px">
+									<div class="commont_question"><b>咨询问题：</b>
+										<p style="word-break:break-all;">${comment.content!''}</p>
+									</div>
+									
+								</td>
+									<td class="return_td">
+										<#if comment.reply??>
+											<div style="color:#d93600;line-height:25px"><b>回复咨询：</b><p style="word-break:break-all;">${comment.reply!''}</p></div>
+										</#if>
+										<#if comment.replystatus == 0>
+											<a class="btn btn-info reply tool4" comment_id="${comment.comment_id}" href="javascript:void(0)">回复</a>
+										</#if>
+									</td>
+								
+							</tr>
+						</#list>
+						<#else>
+							<tr class="no_blank_tr"><td colspan="10" style="border:0px none;"><p class="no_blank">暂无符合条件的数据记录</p></td></tr>
+						</#if>
+					</tbody>
+				</table>
+				<div class="app-paging-tools">
+		            <div class="demo"></div>
+		            <div class="paging">
+		               <@pager pageno="${storeConsult.page!'1'}" pagesize="${storeConsult.pageSize}" totalcount="${storeConsult.totalCount}" />
+		            </div>
+		        </div>
+				
+			</div>
+			
+			<!-- 店铺动态评分 -->
+			<div class="s_score_num" style="display:none;">
+				<table class="seller_rate_info" id="sixmonth">
+		      		<tbody>
+		        		<tr>
+		          			<th><p>宝贝与描述相符</p>
+		            			<p class="rate_star mt5"><em><i style=" width:${myStoreDetail.store_desccredit*20}%;"></i></em></p>
+		            		</th>
+		          			<td>
+		          				<dl class="ncs_rate_column">
+		              				<dt><em style="left:${myStoreDetail.store_desccredit*20}%;">${myStoreDetail.store_desccredit}</em></dt>
+						            <dd>非常不满</dd>
+						            <dd>不满意</dd>
+						            <dd>一般</dd>
+						            <dd>满意</dd>
+						            <dd>非常满意</dd>
+		            			</dl>
+		            		</td>
+		        		</tr>
+				        <tr>
+				        	<th><p>卖家的服务态度</p>
+				            	<p class="rate_star mt5"><em><i style="width:${myStoreDetail.store_servicecredit*20}%;"></i></em></p>
+				            </th>
+				          	<td>
+				          		<dl class="ncs_rate_column">
+				              		<dt><em style="left:${myStoreDetail.store_servicecredit*20}%;">${myStoreDetail.store_servicecredit}</em></dt>
+				              		<dd>非常不满</dd>
+				              		<dd>不满意</dd>
+				              		<dd>一般</dd>
+				              		<dd>满意</dd>
+				              		<dd>非常满意</dd>
+				            	</dl>
+				            </td>
+						</tr>
+		        		<tr>
+		          			<th><p>卖家的发货速度</p>
+		            			<p class="rate_star mt5"><em><i style="width:${myStoreDetail.store_deliverycredit*20}%;"></i></em></p></th>
+		          			<td>
+		          				<dl class="ncs_rate_column">
+			              			<dt><em style="left:${myStoreDetail.store_deliverycredit*20}%;">${myStoreDetail.store_deliverycredit}</em></dt>
+			              			<dd>非常不满</dd>
+			              			<dd>不满意</dd>
+			              			<dd>一般</dd>
+			              			<dd>满意</dd>
+			              			<dd>非常满意</dd>
+		            			</dl>
+		            		</td>
+		        		</tr>
+		      		</tbody>
+		    	</table>
+		    	
+			</div>
+  		</div>
+  	</div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+</body>
+</html>

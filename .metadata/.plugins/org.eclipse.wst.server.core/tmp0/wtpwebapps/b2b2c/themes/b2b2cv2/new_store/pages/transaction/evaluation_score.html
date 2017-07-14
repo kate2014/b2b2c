@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '店铺评分' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/evaluation_score.css">
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_evaluation' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./evaluation.html">评价列表</a></li>
+        <li class="active" onclick="location.reload(); "><a href="javascript: void(0);">店铺评分</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <div class="score">
+            <!-- 店铺动态评分 -->
+            <div class="s_score_num">
+                <table class="seller_rate_info" id="sixmonth">
+                    <tbody>
+                    <tr>
+                        <td><p>宝贝与描述相符</p>
+                            <p class="rate_star mt5"><em><i style=" width:${myStoreDetail.store_desccredit*20}%;"></i></em></p>
+                        </td>
+                        <td>
+                            <dl class="ncs_rate_column">
+                                <dt><em style="left:${myStoreDetail.store_desccredit*20}%;">${myStoreDetail.store_desccredit}</em></dt>
+                                <dd>非常不满</dd>
+                                <dd>不满意</dd>
+                                <dd>一般</dd>
+                                <dd>满意</dd>
+                                <dd>非常满意</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>卖家的服务态度</p>
+                            <p class="rate_star mt5"><em><i style="width:${myStoreDetail.store_servicecredit*20}%;"></i></em></p>
+                        </td>
+                        <td>
+                            <dl class="ncs_rate_column">
+                                <dt><em style="left:${myStoreDetail.store_servicecredit*20}%;">${myStoreDetail.store_servicecredit}</em></dt>
+                                <dd>非常不满</dd>
+                                <dd>不满意</dd>
+                                <dd>一般</dd>
+                                <dd>满意</dd>
+                                <dd>非常满意</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>卖家的发货速度</p>
+                            <p class="rate_star mt5"><em><i style="width:${myStoreDetail.store_deliverycredit*20}%;"></i></em></p></td>
+                        <td>
+                            <dl class="ncs_rate_column">
+                                <dt><em style="left:${myStoreDetail.store_deliverycredit*20}%;">${myStoreDetail.store_deliverycredit}</em></dt>
+                                <dd>非常不满</dd>
+                                <dd>不满意</dd>
+                                <dd>一般</dd>
+                                <dd>满意</dd>
+                                <dd>非常满意</dd>
+                            </dl>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

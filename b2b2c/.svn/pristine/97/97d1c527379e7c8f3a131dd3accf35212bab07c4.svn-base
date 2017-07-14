@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Title</title>
+    <script>var ctxPath = '${ctx}/themes/b2b2cv2';</script>
+    <script type="text/javascript" src="${ctx}/themes/b2b2cv2/e_tools/js/e_broswer.js"></script>
+    <script type="text/javascript" src="${ctx}/themes/b2b2cv2/e_tools/js/jquery.e_validation.js"></script>
+    <script type="text/javascript" src="${ctx}/themes/b2b2cv2/js/My97DatePicker/WdatePicker.js"></script>
+    <!-- 判断IE，并使IE9以下支持html5标签 -->
+
+    <style type="text/css">
+        form {
+            margin:  100px auto;
+            width: 250px;
+        }
+        input {
+            height: 15px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center text-danger">Form 示例</h1>
+    <form role="form" class="form-horizontal" method="post">
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="name">Name</label>
+            <div class="col-md-10">
+                <input class="form-control" name="name" type="text" id="name" placeholder="Name"/>
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="password">Password</label>
+            <div class="col-md-10">
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="isPassword">isPassword</label>
+            <div class="col-md-10">
+                <input type="password" name="ispassword" class="form-control" id="isPassword" placeholder="isPassword">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="email">Email</label>
+            <div class="col-md-10">
+                <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="max">Max</label>
+            <div class="col-md-10">
+                <input type="text" name="max" class="form-control" id="max" placeholder="Max">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="min">Min</label>
+            <div class="col-md-10">
+                <input type="text" name="min" class="form-control" id="min" placeholder="Min">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="date">Date</label>
+            <div class="col-md-10">
+                <input type="text" name="date" class="form-control" id="date" placeholder="Date" onClick="WdatePicker()">
+            </div>
+        </div>
+        <div class="form-group control-group">
+            <label class="col-md-2 control-label" for="price">价格</label>
+            <div class="col-md-10">
+                <input type="text" name="price" class="form-control" id="price" placeholder="price">
+            </div>
+        </div>
+        <div id="select" class="form-group control-group" style="height: 50px;">
+            <select name="province_id" id="province_id" style="border: 1px solid rgb(204, 204, 204);">
+    <option value="0">请选择</option>
+    <option value="1">北京</option>
+    <option value="2">上海</option>
+    <option value="3">天津</option>
+    <option value="4">河北</option>
+    <option value="5">江苏</option>
+    <option value="6">浙江</option>
+    <option value="7">重庆</option>
+    <option value="8">内蒙古</option>
+    <option value="9">辽宁</option>
+    <option value="10">吉林</option>
+    <option value="11">黑龙江</option>
+    <option value="12">四川</option>
+    <option value="13">安徽</option>
+    <option value="14">福建</option>
+    <option value="15">江西</option>
+    <option value="16">山东</option>
+    <option value="17">河南</option>
+    <option value="18">湖北</option>
+    <option value="19">湖南</option>
+    <option value="20">广东</option>
+    <option value="21">广西</option>
+    <option value="22">海南</option>
+    <option value="23">贵州</option>
+    <option value="24">云南</option>
+    <option value="25">西藏</option>
+    <option value="26">陕西</option>
+    <option value="27">甘肃</option>
+    <option value="28">青海</option>
+    <option value="29">新疆</option>
+    <option value="30">宁夏</option>
+    <option value="31">台湾</option>
+    <option value="32">山西</option>
+</select>
+            <select name="city_id" id="city_id" style="border: 1px solid rgb(204, 204, 204);">
+    <option value="0">请选择</option>
+    <option value="33" zipcode="">密云县</option>
+    <option value="34" zipcode="">三河</option>
+    <option value="35" zipcode="">海淀区</option>
+    <option value="36" zipcode="">丰台区</option>
+    <option value="37" zipcode="">大兴区</option>
+    <option value="38" zipcode="">通州区</option>
+    <option value="39" zipcode="">平谷区</option>
+    <option value="40" zipcode="">怀柔区</option>
+    <option value="41" zipcode="">东城区</option>
+    <option value="42" zipcode="">崇文区</option>
+    <option value="43" zipcode="">石景山区</option>
+    <option value="44" zipcode="">宣武区</option>
+    <option value="45" zipcode="">延庆县</option>
+    <option value="46" zipcode="">昌平区</option>
+    <option value="47" zipcode="">门头沟区</option>
+    <option value="48" zipcode="">西城区</option>
+    <option value="49" zipcode="">房山区</option>
+    <option value="50" zipcode="">朝阳区</option>
+    <option value="51" zipcode="">顺义区</option>
+</select>
+            <select name="region_id" id="region_id" style="border: 1px solid rgb(204, 204, 204);">
+    <option value="0">请选择</option>
+    <option value="455" zipcode="100076">大兴区</option>
+</select>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary btn-sm" e_val-name="submit_btn">
+                    Submit
+                </button>
+                <button type="reset" class="btn btn-primary btn-sm">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        /*$('.form-horizontal').e_validation({
+            rules: {
+                name: {
+                    reg: '^(-)?[1-9][0-9]*$'
+                },
+                password: {
+                    password: [8, 20]
+                },
+                isPassword: {
+                    ispassword: 'password'
+                },
+                email: {
+                    email: true
+                },
+                max: {
+                    max: 5
+                },
+                date: {
+                    date: true
+                },
+                min: {
+                    min: 10
+                },
+                price: {
+                    int: true
+                },
+                select: {
+                    select: true
+                }
+            },
+            message: {
+                name: {
+                    //required: '姓名不能为空！',
+                    //minlength: '最少两个字符！'
+                },
+                password: {
+                    //required: '密码不能为空！',
+                    //rangelength: '长度在8~16个字符之间！'
+                },
+                email: {
+                    //email: '邮箱格式错误！aaa'
+                },
+                mobile: {
+                    //mobile: '手机格式错误！'
+                },
+                isPassword: {
+                    //ispassword: '两次输入不一致！'
+                }
+            },
+            callBack: function(){
+                alert('通过验证！')
+            }
+        });*/
+
+
+        $('#name').keyup(function(){
+            $('#name').e_validation('range',[2, 6]);
+        });
+    })
+
+    //$("#name").e_val("int");
+
+
+   // $('.form-horizontal').e_validation("password","int");
+
+
+
+    /*    $(function(){
+            $('.form-horizontal').validate({
+                /!*debug: true,*!/
+                rules : {
+                    name : {
+                        required : true
+                    },
+                    password : {
+                        required : true
+                    },
+                    intro : {
+                        required : true
+                    }
+                },
+                messages : {
+                    name : {
+                        required : "Username is required."
+                    },
+                    password : {
+                        required : "Password is required."
+                    },
+                    intro : {
+                        required : "Intro is required."
+                    }
+                },
+                errorElement: "span",
+                errorClass: "help-block",
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest('.form-group').removeClass('has-error');
+                },
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length || element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                        error.insertBefore(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            $('.form-horizontal input').keypress(function(e) {
+                if (e.which == 13) {
+                    if ($('.form-horizontal').validate().form()) {
+                        //$('.form-horizontal').submit();
+
+                        alert('可以提交')
+                    }
+                    return false;
+                }
+            });
+        })*/
+</script>
+</body>
+</html>

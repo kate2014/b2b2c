@@ -1,0 +1,237 @@
+<#-- 类型 -->
+<#assign type = 1>
+<#-- 判断是否需要获取商品信息 -->
+<#if (goods_id?? && goods_id != '0')>
+	<#--店铺id -->
+	<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+	<#assign storeMember = checkB2b2cMemberTag()>
+	<#if storeMember.store_id??&&storeMember.store_id!=0>
+		<#assign store_id=storeMember.store_id >
+	</#if>
+	<#-- 店铺商品 -->
+	<#assign storeGoodsInfoTag=newTag("storeGoodsInfoTag")/>
+	<#assign storeGoodsInfo=storeGoodsInfoTag("{'goods_id':'${goods_id}','store_id':'${store_id}'}")/>
+	<#assign storeGoods=storeGoodsInfo.goods>
+</#if>
+
+<#-- 判断是否选择了分类id -->
+<#if catid??>
+	<#assign type = 1>
+	<#-- 商品分类 --> 
+	<#assign storeGoodsCatTag=newTag("storeGoodsCatTag")/>
+	<#assign storeGoodsCat=storeGoodsCatTag("{'catid':'${catid}'}")/> 
+<#else>
+	<#assign type = 2>
+	<#-- 商品分类 -->
+	<#assign catid = storeGoods.cat_id>
+	<#assign storeGoodsCatTag=newTag("storeGoodsCatTag")/>
+	<#assign storeGoodsCat=storeGoodsCatTag("{'catid':'${storeGoods.cat_id}'}")/>
+	
+	<#-- 商品规格标签 -->
+	<#assign goodsSpecTag=newTag("goodsSpecTag")/>
+	<#assign goodsSpec=goodsSpecTag("{'goods_id':${goods_id}}") />
+</#if>
+
+<#--创建店铺商品分类标签 --> 
+<#assign storeGoodsCatListTag=newTag("storeGoodsCatListTag") > 
+<#-- 查询店铺商品分类列表 0表示查子分类 --> 
+<#assign storeGoodsCatList= storeGoodsCatListTag("'type':0")!''> 
+<#-- 模板列表 -->
+<#assign storeTemplateTag=newTag("storeTemplateTag")/> 
+<#assign storeTemplate=storeTemplateTag()/> 
+<#-- 商品规格标签 --> 
+<#assign storeGoodsSpecTag=newTag("storeGoodsSpecTag") /> 
+<#assign goodsSpecList=storeGoodsSpecTag() /> 
+<#-- 商品Tab --> 
+<#assign storeGoodsTabTag=newTag("storeGoodsTabTag") > 
+<#assign storeGoodsTab=storeGoodsTabTag() > 
+<#-- 创建商品默认属性信息标签 --> 
+<#assign goodsDefaultPropsTag=newTag("goodsDefaultPropsTag") > 
+<#-- 查询商品默认属性信息 --> 
+<#assign attrList=goodsDefaultPropsTag("{'type':${type}}")!'' > 
+<#-- 创建商品默认参数信息标签 --> 
+<#assign goodsDefaultParamesTag=newTag("goodsDefaultParamesTag") > 
+<#--查询商品默认参数信息 -->
+<#assign paramAr=goodsDefaultParamesTag("{'type':${type}}") >
+
+
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/jquery.searchableSelect.css">
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.searchableSelect.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/goodsSpec.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.validate.js"></script>
+<style>
+.tab_box {
+	padding-top: 10px;
+	min-height: 640px;
+}
+
+.tab_box li {
+	overflow: hidden;
+}
+
+.tab_box .hide {
+	display: none;
+}
+
+</style>
+<script>
+var showImgs = [];
+var actualImgs = [];
+<#if storeGoodsInfo??>
+	<#list storeGoodsInfo.galleryList as gallery>
+	showImgs.push("${gallery.thumbnail}");
+	actualImgs.push("${gallery.original}");
+	</#list>
+</#if>
+//上传图片插件配置
+var image_uploader_setting = {
+	imageName : "picnames",							// 表单提交时 的name
+	subFolder : "/store/${store_id!'0'}/goods",		// 上传目录
+	showImgs : showImgs,							// 显示的img值数组，不提交。只做显示用
+	actualImgs : actualImgs,						// 实际的img值数组，会提交
+	showCoverIcon : true							// 是否显示封面图标
+}
+// 一定要放在前面
+</script>
+
+<div class="add-goods-content">
+	<form method="post" id="storeGoodsForm" class="validate">
+	<!-- 如果goods_id为空或者为0，表示商品添加，如果有参数，表示修改商品-->
+	<#if goods_id == '0'>
+		<input id="storeGoodsId" name="storeGoodsId" type="hidden" value="${goods_id!'0'}">
+		<div class="tabmenu" style="height: auto;">
+			<ul class="tab pngFix tab_menu">
+				<li class="active  a_goods0" rel="0"><a href="javascript:void(0);">商品详细</a></li> 
+				<#assign t=1> 
+				<#list storeGoodsTab as goodsTag> 
+					<#if goodsTag.show_type!=2 >
+					<li class="normal current a_goods${t}" rel="${t}"><a href="javascript:void(0);">${goodsTag.name}</a></li> 
+					<#assign t=t+1>
+					</#if> 
+				</#list>
+			</ul>
+			<#assign n=1>
+			<div class="tab_box" style="clear: both;">
+				<#include 'goods_publish_base_info.html' /> 
+				<#list storeGoodsTab as goodsTag>
+					<#if goodsTag.show_type!=2 >
+					<div class="hide${n} store_add_goods" style="display: none;">
+						<#include '/${goodsTag.url}' />
+					</div>
+					<#assign n=n+1> 
+					</#if> 
+				</#list>
+			</div>
+		</div>
+	<#else>
+		<input id="storeGoodsId" name="storeGoodsId" type="hidden" value="${goods_id!'0'}">
+		<div class="tabmenu" style="height: auto;">
+			<ul class="tab pngFix tab_menu">
+				<li class="active  a_goods0" rel="0"><a href="javascript:void(0);">商品详细</a></li> 
+				<#assign t=1> 
+				<#list storeGoodsTab as goodsTag> 
+					<#if goodsTag.show_type!=1 >
+					<li class="normal current a_goods${t}" rel="${t}"><a href="javascript:void(0);">${goodsTag.name}</a></li> 
+					<#assign t=t+1>
+					</#if> 
+				</#list>
+			</ul>
+			<#assign n=1>
+			<div class="tab_box" style="clear: both;">
+				<#include 'goods_publish_base_info.html' /> 
+				<#list storeGoodsTab as goodsTag>
+					<#if goodsTag.show_type!=1 >
+					<div class="hide${n} store_add_goods" style="display: none;">
+						<#include '/${goodsTag.url}' />
+					</div>
+					<#assign n=n+1> 
+					</#if> 
+				</#list>
+			</div>
+		</div>
+	</#if>
+	</form>
+</div>
+
+<script>
+	$(function() {
+		
+		// 商品属性参数等tab页面
+		$(".tab_menu li").click(function() {
+			var serial = $(this).attr("rel");
+			$(".tab_menu li").addClass("normal");
+			$(this).removeClass("normal");
+			$(this).addClass("active");
+			$(".tab_box .store_add_goods").hide();
+			$(".tab_box .hide" + serial).show();
+			
+			$("#buttons-float-div").checkFloat();
+		});
+
+		$("#saveBtn").click(function() {
+			var str = "[@/'\"#$%&^*]+";
+			var goodsname = $(".store_goodsname").val()
+			var reg = new RegExp(str);
+			var r = str.match(reg);     
+	        if(r==null) {
+	        	$.message.error("商品名称不能有特殊字符");
+	        }
+			
+			// 旧版校验
+			if (!$("#storeGoodsForm").checkall()) {
+				return false;
+			}
+
+			if ($("input[name='picnames']").val() == undefined) {
+				$.message.error("至少上传一张图片");
+				return false;
+			}
+
+		});
+
+		$("#next3-btn").autoFloat();
+
+		$("form.validate").validate();
+		/* IE下input框样式兼容
+		 ============================================================================ */
+		(function(){
+			if(Sys.ie > 7){
+				$("input[type='text']").css({height: 25});
+			};
+		})();
+	})
+	
+	//判断sn是否存在
+	function sn_is_exist(obj){
+		$.ajax({
+            url: "${ctx}/api/b2b2c/store-goods/sn-is-exist.do",
+            data: {sn:obj.value,goodsid:${goods_id}},
+            global: false,
+            dataType: "json",
+            success: function(data){
+				if(data.result==0){
+					//border:1px solid red;
+					$(obj).css("border","1px solid red");
+					$(obj).next(".err").html("货号已存在");
+					//alert(data.message);
+				}else{
+					$(obj).css("border","1px solid #d0d0d0");
+					$(obj).next(".err").html("");
+				}
+            },
+            error : function(e) {
+            	$.Loading.message('出现错误，请重试');
+			}
+        });
+
+	}
+
+
+	function checkGoodsName(value) {
+		var goodsName = $("input[name='name']");
+		if (goodsName.val().length < 3 || goodsName.val().length > 30)
+			return "商品名称不正确！";
+		else
+			return true;
+	}
+</script>

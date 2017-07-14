@@ -1,0 +1,24 @@
+<#assign storeBonusListTag = newTag("storeBonusListTag") />
+<#assign storeBonusList = storeBonusListTag("{'store_id':${store_id}}")!'' />
+<div class="cart-bonus-box">
+    <i class="cart-bonus-arow"></i>
+    <div class="cart-bonus-list">
+        <#if storeBonusList.totalCount != 0>
+            <ul class="cart-bonus-items">
+                <#list storeBonusList.bonusList.result as bonus>
+                    <li class="cart-bonus-item">
+                        <div class="cart-bonus-money">￥${bonus.type_money?string("0.00")}</div>
+                        <div class="cart-bonus-title">
+                            <p>${bonus.type_name} &nbsp;满${bonus.min_goods_amount?string("0.00")}元</p>
+                            <p style="color: #ccc;"><@dateformat time="${bonus.use_start_date?c}" pattern="yyyy-MM-dd"/> - <@dateformat
+                                time="${bonus.use_end_date?c}" pattern="yyyy-MM-dd"/></p>
+                        </div>
+                        <button class="cart-bonus-btn" store_id="${store_id}" type_id="${bonus.type_id}">领取</button>
+                    </li>
+                </#list>
+            </ul>
+            <#else/>
+            没有优惠券
+        </#if>
+    </div>
+</div>

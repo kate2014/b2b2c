@@ -1,0 +1,198 @@
+<#include '/admin/header.html' > 
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+<#assign permssion="com.enation.app.base.core.directive.PermssionDirective"?new()>
+
+<div class="main">
+	<!-- 退货申请信息 -->
+	<form  method="post" id="theForm">
+		<div class="shadowBoxWhite  whiteBox">
+			<div class="detail">
+			<table cellspacing="0" cellpadding="0" border="0"  style="width: 100%">
+				<tr>
+					<th class="title" colspan="4">售后申请</th>
+				</tr>
+				<tr>
+					<td>售后申请单号：</td>
+					<td>${sellBackList.tradeno}</td>
+					<td>状态：</th>
+					<td>
+						<#if sellBackList.tradestatus  == 0>
+							<span>等待审核</span>
+                        <#elseif sellBackList.tradestatus  == 1>
+                            <span>审核通过</span>
+                        <#elseif sellBackList.tradestatus  == 3>
+                            <span>等待平台退款</span>
+                		<#elseif sellBackList.tradestatus  == 2>
+                 			<span>审核拒绝</span>
+                       <#elseif sellBackList.tradestatus  == 6>
+                        	<span>已退款</span>
+                 		</#if>
+					</td>
+				</tr>
+				<tr>
+					<td >关联订单号：</td>
+					<td>${sellBackList.ordersn}</td>
+					<td >售后申请人：</td>
+					<td>${sellBackList.sndto!''}</td>
+					
+				</tr>
+				<tr>
+					<td >订单使用：</td>
+					<td >已支付：￥${orderinfo.paymoney}</td>
+					<td>售后店铺：</td>
+					<td>${sellBackList.store_name}</td>
+				</tr>
+					
+				<tr>
+					<td >售后申请原因：</td>
+					<td colspan="3">${sellBackList.remark!'' }</td>
+				</tr>
+				<tr>
+					<td>客服操作备注：</td>
+					<td colspan="3">${sellBackList.seller_remark!'' }</td>
+				</tr>
+				<tr>
+					<td width="90">申请退款金额：</td>
+					<td>${sellBackList.apply_alltotal!'' }</td>
+					<#if sellBackList.tradestatus==3 || sellBackList.tradestatus==6>
+						<td >退款金额：</td>
+						<td>${sellBackList.alltotal_pay!'' }</td>
+					<#else >
+						<td>&nbsp;</td><td>&nbsp;</td>
+					</#if>
+				</tr>
+				<#if sellBackList.tradestatus==1>
+					<tr>
+						<td>退款金额：</td>
+						<td colspan="3">
+							金额：<input type="text"  name="alltotal_pay" class="input_text easyui-numberbox" value="${orderinfo.apply_alltotals!''}" precision="2"/>&nbsp;&nbsp;
+                            <button type="button" class="button" id="refund-btn">退款</button>
+						</td>
+					</tr>
+				</#if>
+			</table>
+			</div>
+		</div>
+
+		<br>
+		<!-- 退货申请商品 -->
+		<div class="shadowBoxWhite  whiteBox">
+			<div class="detail">
+				<table class="goodsList" fitColumns="true" id="goodsin" cellspacing="0" cellpadding="0" border="0">
+					<thead>
+						<tr>
+							<th class="title" colspan="8">请选择入库的商品</th>
+						</tr>
+						<tr> 
+							<th data-options="field:'names',width:300">商品名称</th>
+							<th data-options="field:'prices',width:100">金额</th>
+							<th data-options="field:'payNums',width:100">购买数量</th>
+							<th data-options="field:'returnNums',width:100">退货数量</th> 
+						</tr>
+					</thead>
+					<tbody>
+						<input type="hidden" name="storageDetail" />
+						<#assign gindex=0>
+						<#list goodsList as data> 
+							<input type="hidden" name ="goodsId" value="${data.goods_id}">
+							<input type="hidden" name = "productId" value="${data.product_id}"> 
+							<!-- add by jianghongyan 2016-6-20 增加itemid用以区分 -->
+							<input type="hidden" name = "itemId" value="${data.item_id}"> 
+							<#if data.return_num??>
+								<#assign gindex=gindex+1>
+								<tr> 
+									<td>${data.goods_name  } 
+										<#if data.other??>
+								         (${data.other!''}) 
+								          </#if>
+									</td>
+									<td>${data.price?string.currency}
+									</td> 
+									<td>
+										${data.ship_num } 	
+									</td>
+									<td>
+										${data.return_num}
+									</td>
+								</tr> 
+							</#if>
+						</#list>
+						<#if (gift.gift_id)??>
+							<tr>
+								<td>${gift.gift_name}<span style="color: red;">(赠品)</span></td>
+								<td>${gift.gift_price?string.currency}</td>
+								<td>1</td>
+								<td>1</td>
+							</tr>
+						</#if>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+		<div class="shadowBoxWhite  whiteBox">
+			<div class="detail">
+				<table cellspacing="0" cellpadding="0" border="0" id="log">
+					<thead>	
+						<tr>
+							<th class="title" colspan="8">操作日志</th>
+						</tr>
+						<tr>
+							<th data-options="field:'operator',width:200">操作人员</th>
+							<th data-options="field:'logdetail',width:200">操作详情</th>
+							<th data-options="field:'time',width:200">操作时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#list logList as log>
+						<tr>
+							<td>${log.operator }</td>
+							<td>${log.logdetail }</td>
+							<td><@dateformat time='${log.logtime}'pattern='yyyy-MM-dd'/></td>
+						</tr>
+						</#list>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#refund-btn').on('click', function () {
+            var $this = $(this),
+                _val  = $("input[name='alltotal_pay']").val();
+            if(!_val){$.Loading.error('退款金额不能为空！');return false}
+            if(!/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(_val)){
+                $.Loading.error('退款金额格式有误！');
+                return false
+            }
+
+            $this[0].disabled = true;
+            $.ajax({
+                url : ctx + '/b2b2c/admin/store-sell-back/refund.do',
+                data: {
+                    id: ${sellBackList.id},
+                    alltotal_pay: _val
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (res) {
+                    if(res.result == 1){
+                        location.reload();
+                    }else {
+                        $.Loading.error(res.message);
+                        $this[0].disabled = false;
+                    }
+                },
+                error: function () {
+                    $.Loading.error('出现错误，请重试！');
+                    $this[0].disabled = false;
+                }
+            })
+        })
+    })
+</script>
+
+<#include '/admin/footer.html' >

@@ -1,0 +1,613 @@
+<#-- 创建商品基本信息标签 -->
+<#assign goodsBaseDataTag = newTag("goodsBaseDataTag") >
+<#-- 调用标签获取商品基本信息 -->
+<#assign goods = goodsBaseDataTag("{'goodsid':${goodsid!0}}") >
+<#-- 获取商品店铺信息 -->
+<#assign storeInfoTag=newTag("myStoreDetailTag")>
+<#assign storeInfo=storeInfoTag("{'store_id':${goods.store_id},'type':1 }")>
+<#assign store_id = goods.store_id />
+<#assign goods_id = goods.goods_id />
+<#if  goods.page_title?? && goods.page_title != "">
+	<#assign  title="${goods.page_title}" />
+<#else>
+	<#assign  title="${goods.name}" />
+</#if>
+<#if goods.meta_keywords?? && goods.meta_keywords != "">
+	<#assign  keywords="${goods.meta_keywords}" />
+</#if>
+<#if goods.meta_description?? && goods.meta_description != "">
+	<#assign  description="${goods.meta_description}" />
+</#if>
+<#include 'common/header.html' />
+<#include 'common/reception_header.html'/>
+<#-- 判断商品有没有下架 -->
+<#if goods.goods_off==1 || storeInfo.disabled != 1>
+	<#include 'goods_off.html' />
+<#else>
+	
+	<#-- 店铺分类 -->
+	<#assign storeGoodsCatTag=newTag("storeGoodsCatTag")>
+	<#assign goodsCat=storeGoodsCatTag("{'catid':${goods.cat_id} }")>
+	<#-- 创建商品相册标签 -->
+	<#assign goodsGalleryTag= newTag("goodsGalleryTag")>
+	<#-- 调用标签获取商品相册信息 -->
+	<#assign galleryList= goodsGalleryTag("{'goods_id':${goods.goods_id}}")!'' >
+	
+	<#-- 创建商品属性标签 -->
+	<#assign goodsAttributeListTag= newTag("goodsAttributeListTag")>
+	<#-- 调用标签获取商品属性信息 -->
+	<#assign attrList= goodsAttributeListTag("'goodsid':${goods.goods_id!''}")!'' >
+	
+	<#-- 创建商品参数标签 -->
+	<#assign goodsParametersTag= newTag("goodsParametersTag")>
+	<#-- 调用标签获取商品参数信息 -->
+	<#assign goodsPara= goodsParametersTag("'goodsid':${goods.goods_id!''}")!'' >
+	
+	<#-- 获得商品参数的参数组 -->
+	<#if goodsPara.hasParam==true>
+		<#assign para = goodsPara.paramList>
+	</#if>
+	
+	<#-- 检测商品是否参加促销活动 -->
+	<#assign checkStoreGoodsPartActTag = newTag("checkStoreGoodsPartActTag")>
+	<#assign goodsPartAct = checkStoreGoodsPartActTag("{'goods_id':${goods.goods_id}}")!'' >
+	
+	<#-- 检测组件是否启用 -->
+	<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+	<#assign groupbuyIsOn =checkCmptIsOnTag("{'componentName':'多商户团购组件'}") />
+	<#assign exchangeIsOn =checkCmptIsOnTag("{'componentName':'积分兑换组件'}") />
+	<#assign b2b2cExchangeIsOn =checkCmptIsOnTag("{'componentName':'多店积分兑换组件'}") />
+	<#if groupbuyIsOn=="ON">
+		<#-- 团购标签 -->
+		<#if goods.is_groupbuy==1>
+			<!-- 团购活动 -->
+			<#assign groupBuyActTag=newTag("groupBuyActTag")>
+			<#assign groupBuyAct=groupBuyActTag()> 
+		   	<#assign groupBuyTag=newTag("storeGroupBuyTag")>
+		   	<#assign groupBuy=groupBuyTag("{'goodsid':${goods.goods_id},'act_id':${groupBuyAct.act_id} }")> 
+		</#if>
+	</#if>
+	<#-- 判断积分组件是否完全启用 -->
+	<#if exchangeIsOn=="ON" && b2b2cExchangeIsOn=="ON">
+				<#assign exchangeSettingTag=newTag("exchangeSettingTag") >
+				<#assign exchangeSetting=exchangeSettingTag("'goods_id':'${goods.goods_id!''}'")!'' >
+	</#if>
+	<#-- 创建会员是否登录标签 -->
+	<#assign memberIsLoginTag= newTag("memberIsLoginTag") >
+	<#-- 调用会员是否登录信息 -->
+	<#assign isLogin = memberIsLoginTag() >
+	<#-- 检测组件是否启用 -->
+	<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+	<#assign linkgoodsOn =checkCmptIsOnTag("{'componentName':'关联商品组件'}") />
+	<#if linkgoodsOn=="ON">
+		<#assign linkGoodsListTag=newTag("linkGoodsListTag")>
+		<#assign linkGoodsList=linkGoodsListTag("{'goods_id':${goods.goods_id}}")> 
+	</#if>
+	<#assign scroll="false" />
+	<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/goods.css" />
+	<!-- 弹出登录层样式 -->
+	<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/home_login.css" />
+	<script  src="${ctx}${themes_path}/js/magiczoom.js"  ></script>
+	<script  src="${ctx}${themes_path}/js/Comment.js"  ></script>
+	<script  src="${ctx}${themes_path}/js/favorite.js"  ></script>
+	<script  src="${ctx}${themes_path}/js/spec.js" ></script>
+	<!-- 商品详情、商品评论、销售记录、产品咨询浮动 -->
+	<script  src="${ctx}${themes_path}/js/airlines.js"  ></script>
+	<!-- 商品相册-->
+	<script src="${ctx}${themes_path}/js/jcarousellite_1.0.1.min.js" type="text/javascript"></script>
+	
+	<!-- 引用图片点击放大js插件css文件-->
+	<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/lightbox.css" />
+	<!-- 引用图片点击放大js插件-->
+	<script src="${ctx}${themes_path}/js/lightbox.js"></script>
+	<!-- 图片滚动 -->
+	<script src="${ctx}/themes/b2b2cv2/js/scroll.1.3.js"></script>
+	
+	<div class="background clearfix">
+		<article id="content">
+	    	<div class="goodslist_nav">
+	  			<div class="breadcrumb" style="border-radius: none;">
+	    		    <span><a href="${ctx}/index.html">首页</a></span>
+	    		    <span class="arrow">&gt;</span>
+				    <span><a href="${ctx}/goods_list.html?namekeyword=${goodsCat.cat.name}&search=goods">${goodsCat.cat.name!''}</a></span>
+				    <span class="arrow">&gt;</span>
+				    <span>${goods.name}</span>
+				</div>
+			</div>
+			<div class="goods_detail">
+	            <div  id="detail_wrapper"> 
+	            	<#list galleryList as gallery>
+						<#if gallery.isdefault==1>
+							<#assign big="${gallery.big!''}" />
+							<#assign small="${gallery.small!''}" />
+						</#if>
+					</#list>
+	         			<!-- 商品相册 -->
+						<div class="gallery">	
+							<div class="preview">
+								 <a href="${big!''}"  id="zoom" rel="zoom-width:400px;zoom-height:400px;"  class="MagicZoom"> 
+								 	<@image  src="${small!''}" style="width: 320px;height: 320px;" />
+								 </a>
+							</div>
+							<div class="control_bar">
+								<div class="control left_control"></div>
+								<div class="thumblist">
+									<ul>
+									<#list galleryList as gallery>
+										<li <#if !gallery_has_next>class="last"</#if> <#if gallery.isdefault==1>class="selected"</#if>> 
+											<@image src="${gallery.thumbnail!''}"  big="${gallery.big}" small="${gallery.small}"   />
+										</li>
+									</#list>	
+									</ul>
+								</div>
+								<div class="control right_control " ></div>
+							</div>
+							<!-- 分享 -->
+							<#assign goodsSnsShareTag=newTag("goodsSnsShareTag")>
+							<#assign sns= goodsSnsShareTag() >
+							<div id="ckepop">
+								<span class="jiathis_txt">分享到：</span>
+								<a class="jiathis_button_qzone"></a>
+								<a class="jiathis_button_tsina"></a>
+								<a class="jiathis_button_renren"></a>
+								<a class="jiathis_button_kaixin001"></a>
+								<a class="jiathis_button_tqq"></a>
+								<a class="jiathis_button_tsohu"></a>
+								<a class="jiathis_button_t163"></a>
+								<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+								<div class="favorite" goodsid="${goods.goods_id}"  onclick="collect_goods(${goods.goods_id});">收藏商品</div>
+							</div>
+							<script type="text/javascript">
+							var jiathis_config = {
+								url:"${sns.url}",
+								title:"${sns.title}",
+								pic:"${sns.img}"
+							}
+							</script>
+							<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+						</div>
+                        <div class="outline">
+							<div class="name">
+	        					    <h1>${goods.name}</h1>
+	        				    </div>
+	          				<div class="goods_price">
+	          					<div class="mark_price"><span>市场价：</span><strong>${goods.mktprice!''}</strong></div>
+	          					<div class="be_worth">
+	          						<#if groupbuyIsOn=="ON">
+					              		<#if goods.is_groupbuy==1>
+											<span>团购价格：</span>
+											<p>
+											<strong nctype="goods_price" style="font-size: 14px;">${groupBuy.price?string.currency}</strong>
+											</p>
+										<#else>
+											<span>价&#12288;格：</span>
+											<p id="goods_price">
+												<strong  nctype="goods_price" style="font-size: 14px;">${goods.price?string.currency}</strong>
+											</p>
+										</#if>
+									<#else>
+										<span>价&#12288;格：</span>
+										<p id="goods_price">
+											<strong  nctype="goods_price" style="font-size: 14px;">${goods.price?string.currency}</strong>
+										</p>
+					              	</#if>
+					              	<#if exchangeSetting??&&exchangeSetting!='' >
+										<input type="hidden" id="exchange_check_is_need" value="1">
+										<span><input type="checkbox" name="is_exchange" id="is_exchange" />积分购：</span>
+										<p id="goods_exchange">
+											<strong  nctype="goods_price" style="font-size: 14px;">￥${exchangeSetting.exchange_money!''}+${exchangeSetting.exchange_point!''}积分</strong>
+										</p>
+									</#if>
+					            </div>
+					            <div class="goodssn">          		              		
+					              	<span>商品货号</span>
+					              	<strong>${goods.sn!''}</strong>
+					           	</div>	
+	          				</div>
+
+                            <!--优惠券展示-->
+                            <div class="other-goods">
+                                <#include '/detail/bonus-info.html' />
+                            </div>
+
+                            <#assign checkStoreGoodsPartActTag = newTag("checkStoreGoodsPartActTag") />
+                            <#assign goodsPartAct = checkStoreGoodsPartActTag("{'goods_id':${goods_id}}")!'' />
+                            <#if goodsPartAct.activity??>
+                                <!--促销展示-->
+                                <div class="other-goods">
+                                    <#include 'detail/activity-info.html' />
+                                </div>
+                            </#if>
+
+	          				<!--  配送范围暂时不使用
+	          				<div class="goods_send" style="width:100%;height:30px;">
+	          					<span style="float:left;display:inline;">至全国</span>
+	          					<div>卖家承担运费</div>
+	          				</div>
+	          				 -->
+	          				<form  id="goodsform">
+	          					<!-- 积分兑换 -->
+								<input type="hidden" name="exchange" id="exchange" value="">
+	          					
+	          					<input type="hidden" name="goodsid" value="${goods.goods_id}" />
+	          					<input type="hidden" id="storeid" value="${storeInfo.store_id}" />
+	          					<input type="hidden" name="action" value="addGoods" />
+	          					<input type="hidden" name="showCartData" value="0" />
+	          					
+	          					<#if goods.goods_off==2 >
+          						<div class="goods-key" style="font-size: 20px; padding-top: 10px;color: red;">
+          							预览商品不支持购买
+          						</div>
+	          					<#else>	
+          						<div class="goods-key"> 
+									<#include 'detail/spec.html' />
+						            <dl>
+						              	<dt>购买数量：</dt>
+						              	<dd class="goods-figure-input"> 
+						              		<a href="javascript:void(0)" >
+						              			<i class="icomoon icon-minus decrease fl text-hidden"></i>
+						              		</a>
+						                	<input type="text" name="num" id="quantity" value="1" size="3" maxlength="6" class="fl" style="border-radius:0; margin: 7px 0;"
+						                		onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						                	<a href="javascript:void(0)" ><i class="icomoon icon-plus increase fl text-hidden"></i></a>
+						                	<#if groupbuyIsOn=="ON">
+						                		<#if goods.is_groupbuy==1>
+                                                    <em class="fl ml20">(当前库存 <strong nctype='goods_stock'>${goods.enable_store!'0'}</strong>件)</em>
+                                                    <em class="fl ml20">(已购买 <strong nctype=''>${(groupBuy.visual_num!0)+(groupBuy.buy_num!0)}</strong>件) </em>
+                                                    <#else>
+													<em class="fl ml20">(当前库存 <strong nctype='goods_stock'>${goods.enable_store!'0'}</strong>件)</em> 
+												</#if>
+											<#else>
+												<em class="fl ml20">(当前库存<strong nctype='goods_stock'>${goods.enable_store!'0'}</strong>件)</em>
+						                	</#if>
+						                </dd>
+										<div class="clear"></div>
+						            </dl>
+						            <#if linkgoodsOn=="ON">
+						            	<#if (linkGoodsList?size>0)>
+								  			<dl class="spec-item">
+								  				<dt>相关商品</dt>
+							  					<dd class="sp-txt">
+							  						<ul>
+										  				<#list linkGoodsList as linkgoods>
+															<li class="sp-txt">
+																<a  href="${ctx}/goods-${linkgoods.link_goods_id}.html"  title="${linkgoods.name}" >
+										  							<@image width="30px" height="30px" border="0" src="${linkgoods.thumbnail!''}" alt="${linkgoods.name}"/>
+										  						</a>
+															</li>
+										  				</#list>
+													</ul>
+							  					</dd>
+								  			</dl>
+							  			</#if>
+						            </#if>
+			            				<div class="goods-btn clearfix">
+			            					<#if groupbuyIsOn=="ON">
+			            						<div class="goods-btn clearfix">
+												<span class="store-not-enough" style="display:none">抱歉库存不足</span>
+												<div>
+													<#if  goods.is_groupbuy==0>
+														<a href="javascript:void(0);" class="buynow fl " id="buyNow">立即购买</a><!-- 立即购买--> 
+														<a href="javascript:void(0);" class="addcart fl ml10 " id="addCart">添加到购物车<!-- 加入购物车--></a> 
+													<#else>
+														<a href="javascript:void(0);" class="addGroupbuyGoods  fl ml10 " title="添加到购物车" id="addGroupBuy">添加到购物车<!-- 加入购物车--></a> 
+													</#if>
+												</div>
+											</div>
+										<#else>
+											<span class="store-not-enough" style="display:none">抱歉库存不足</span>
+				            					<div>
+				                            		<a href="javascript:void(0);" class="buynow fl " id="buyNow">立即购买</a><!-- 立即购买--> 
+				              					<a href="javascript:void(0);" class="addcart fl ml10 " id="addCart">添加到购物车<!-- 加入购物车--></a> 
+				              				</div>
+			            					</#if>
+			                        	</div>
+									<div class="clear"></div>
+		          				</div>
+	          					</#if>
+                             </form>
+                        </div>
+	     				<div class="goods_store">
+						      <h1> ${storeInfo.store_name}</h1>
+						      <div class="store_outdside">
+							      <div class="store_rate">
+							      	<ul>
+							      		<li>
+							      			<h2>描述</h2>
+							      			<span>${storeInfo.store_desccredit!'5'}分</span>
+							      		</li>
+							      		<li>
+							      			<h2>服务</h2>
+							      			<span>${storeInfo.store_servicecredit!'5'}分</span>
+							      		</li>
+							      		<li>
+							      			<h2>发货</h2>
+							      			<span>${storeInfo.store_deliverycredit!'5'}分</span>
+							      		</li>
+							      	</ul>
+							      </div>
+							      <div class="go_store">
+							      		<a href="${ctx}/store_themes/${storeInfo.store_id}/index.html?menu=store" target="_blank" class="goto_store">进入商家店铺</a>			
+							      		<a href="javascript:void(0);" rel="${storeInfo.store_id!0}" onclick="collect_store(${storeInfo.store_id!0},this,'store_collect');" class="store_favoritebtn">收藏店铺(<i class="store_collect">${storeInfo.store_collect!0}</i>)</a>
+							      </div>
+							      <div class="store_contact">
+							      		<h3><i>公司名称：</i>${storeInfo.store_name}</h3>
+							      		<h3><i>所&nbsp;&nbsp;在&nbsp;&nbsp;地：</i>${storeInfo.store_province!''}-${storeInfo.store_city!''}-${storeInfo.store_region!''}</h3>
+							      </div>
+						      </div>
+						      <div class="goods_comparison">
+						      		<h1>为您推荐</h1>
+						      		<#assign goodsListTag = newTag("goodsListTag")>
+						      		<#assign goodsList=goodsListTag("'tagid':'1','goodsnum':'5'")>
+						      		<ul>
+										<#list goodsList as goods>
+											<#if goods_index lte 3>
+											<li>
+												<div class="goods_comparison_img">
+													<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html"> 
+														<@image class="scrollLoading" src="${goods.thumbnail!''}" alt="${goods.name}" /> 
+													</a>
+												</div>
+												<div class="goods_comparison_price">${goods.price?string.currency}</div>
+											</li>
+											</#if>
+										</#list>
+									</ul>
+                              </div>
+	    				</div>
+	     			</div>
+	      			<div class="clear"></div>
+	    		</divn>
+	    		<section class="goods_all" >
+	    			<aside class="goodsdetail_left">
+	      			<#assign store_id=storeInfo.store_id />
+	      		</aside>
+	      			<article class="goodsdetail_right">
+						<div  id="commodity">
+	        				<nav class="tabbar pngFix" id="airlines_nav">
+	          					<div class="pr" style="z-index: 70;">
+		            				<ul id="detailmenu">
+		              					<li class="current" tab="goodsdetail1"><a href="javascript:void(0);" ><span>商品详情</span></a></li>
+		              					<li tab="goodsdetail2"><a  href="javascript:void(0);"><span>商品评论</span></a></li>
+		              					<li tab="goodsdetail3"><a  href="javascript:void(0);"><span>销售记录</span></a></li>
+		              					<li tab="goodsdetail4"><a  href="javascript:void(0);"><span>产品咨询</span></a></li>
+		            				</ul>
+		            				<!-- 暂时取消商品详细左侧按钮
+	            						<div class="switch-bar"><a href="javascript:void(0)" id="abc">&nbsp;</a></div>
+	            						<div class="gotop"><a href="#header">&nbsp;</a></div>
+	            					 -->
+	          					</div>
+	        				</nav>
+	        				
+	       				<section class="goodsdetail_same goodsdetail1">
+				          <div id="ncGoodsIntro" class="content bd" style="">
+				          		<!-- 商品属性 -->
+								<#include 'detail/goods_props.html' />
+		                        <div class="default">${goods.intro!''}</div>
+				          </div>
+				        </section>
+					        
+	        			<section class="goodsdetail_same goodsdetail2" style="display:none">
+	        				<div id="discuss_wrapper" class="content">
+							</div>
+	        			</section>
+	        			
+	        			<section class="goodsdetail_same goodsdetail3" style="display:none">
+	        				<div id="goods_transaction" class="content">
+		        				<!--商品成交记录-->
+							</div>
+	        			</section>
+	        			<section class="goodsdetail_same goodsdetail4" style="display:none">
+	        				<div class="content bd">
+	        					<!-- 咨询提示 -->
+	       						<div class="point_out">
+									<p>因厂家更改商品包装、场地、附配件等不做提前通知，且每位咨询者购买、提问时间等不同。为此，客服回复的咨询只针对当前当天咨询问题，给您带来的不便还请谅解，谢谢！</p>
+									<a href="#anchor">我要提问</a>
+								</div>
+								 
+								<div id="ask_wrapper"></div>
+							</div>
+	        			</section>
+	                	<section class="goodsdetail_rec">
+	          				<div class="title">
+	            				<h4>推荐商品</h4>
+	          				</div>
+	          				<div class="goods-recommend-list">
+	          					<div class="goods-recommend-left recommend-same-tools"></div>
+		          				<div class="content" id="goods-recommend-box">
+		            				<ul id="goods-recommend">
+		            				<#assign goodsList=goodsListTag("'tagid':'1','goodsnum':'10'")>
+		            				
+										<#list goodsList as goods>
+										
+		                             	<li class="<#if (goods_index+1)%5 = 0>no-border</#if>">
+											<dl>
+												<dt class="goods_name" >
+													<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html"
+														title="${goods.name}">${goods.name}</a>
+												</dt>
+												<!--商品图片-->
+												<dd class="goods_img">
+													<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html"> 
+														<@image class="scrollLoading" src="${goods.thumbnail!''}" alt="${goods.name}" /> </a>
+												</dd>
+												<!--商品价格-->
+												<dd class="goods_price">商城价：${goods.price?string.currency}</dd>
+											</dl>
+					   					</li>
+					   					</#list>
+		                           	</ul>
+		          				</div>
+		          				<div class="goods-recommend-right recommend-same-tools"></div>
+	          				</div>
+	        			</section>
+	        		</div>
+	      		</article>
+		  		<div class="clear"></div>
+	    	</section>
+	  	</article>
+	</div>
+	<div class="clear"></div>
+	<div class="add_success_msg" style="display:none">
+		<dl class="add_message">
+			<dt>恭喜，该商品已添加到您的购物车！</dt>
+			<dd>
+				<input type="button" class="returnbuy_btn" value="继续购物">
+				<input type="button" class="checkout_btn" value="去结算">
+			</dd>
+		</dl>
+	</div>
+	<!-- 积分兑换提示登录弹框 -->
+	<div id="login_tip" style="display:none">
+		<div class="">
+			您当前是游客身份，游客身份不能购买积分商品！<br><br>
+		</div>
+		<div class="button-wrapper">
+			<div class="btn">
+				<input type="button" class="small-green to-login-btn go-next-button" value="马上登录">
+			</div>
+						
+			<div class="btn">
+				<input type="button" class="small-yellow to-checkout-btn go-next-button"  value="立即注册">
+			</div>
+		</div>
+	</div>
+	<!-- 积分不足弹框 -->
+	<div id="point_tip" style="display:none">
+	<div class="">
+		抱歉,您的积分不足以兑换此商品！<br><br>
+		<#if member??>可用积分:${member.mp}</#if><br><br>
+	</div>
+	</div>
+
+
+	<script type="text/javascript">
+	var goodsid = ${goods.goods_id};
+	var isLogin = "false";
+	var checkPoint="false";
+	var normal_enable_store=0;
+	$(function(){
+		Spec.init(${goods.goods_id});
+		CommentList.init(${goods.goods_id});
+		Favorite.init();
+		 
+		if($("#exchange_check_is_need").val()==1){
+			$.ajax({
+				url:"${ctx}/api/shop/exchange/is-login.do",
+				dataType:"json",
+				type:"POST",
+				success:function(result){
+					if(result.result==1){
+						isLogin=result.data;
+					}
+				}
+			});
+			var exchange_point='';
+			<#if exchangeSetting??&&exchangeSetting!='' >
+				exchange_point=${exchangeSetting.exchange_point};
+			</#if>
+			$.ajax({
+				url:"${ctx}/api/shop/exchange/check-point.do",
+				dataType:"json",
+				type:"POST",
+				data:{"exchange_point":exchange_point},
+				success:function(result){
+					if(result.result==1){
+						isLogin=result.data;
+					}
+				}
+			});
+		}
+		//积分价格添加到表单
+		$("#is_exchange").click(function(){
+			var checkState = $("#is_exchange").prop("checked");
+			var money=$("#exchange_money_span").html();
+			var point=$("#exchange_point_span").html();
+			var storeObj=$(".goods-figure-input").find("strong[nctype='goods_stock']");
+			if(checkState){
+				//被选中
+				$("#exchange").val("true");
+				normal_enable_store = storeObj.text();
+				//获取积分商品库存
+				$.ajax({
+					url:"${ctx}/api/shop/exchange/get-exchange-store.do",
+					dataType:"json",
+					type:"POST",
+					data:{"goods_id":goodsid},
+					success:function(result){
+						if(result.result==1){
+							storeObj.text(result.data.exchange_max_count);
+						}
+					}
+				});
+				
+				
+			}else{
+				$("#exchange").val("false");
+				//获取非积分商品库存
+				storeObj.text(normal_enable_store);
+			}
+		});
+		
+		$("#goods-recommend").dayuwscroll({
+			parent_ele:'#goods-recommend-box',
+			pre_btn:'.goods-recommend-left',
+			next_btn:'.goods-recommend-right',
+			path: 'left',
+			time:3000,
+			num:5,
+			gd_num:5,
+			waite_time:1000
+		});
+		
+		
+		$(".goods_detail1").show();
+		$("#detailmenu li").click(function(){
+			$("#detailmenu li").removeClass("current");
+			$(".goodsdetail_same").hide();
+			$(this).addClass("current");
+			$("."+$(this).attr("tab")).show();
+		});
+		
+		
+		
+		$('#airlines_nav').waypoint(function(event, direction) {
+	        $(this).parent().parent().parent().toggleClass('sticky', direction === "down");
+	        event.stopPropagation();
+	    });
+		
+		$("#detail_wrapper .gallery .thumblist").jCarouselLite({
+	        btnNext: ".right_control",
+	        btnPrev: ".left_control",
+			visible:4,
+			circular: false
+	    });
+		
+		//相册放大切换
+		$("#detail_wrapper .gallery .thumblist li").click(function(){
+			var self = this;
+			var $this = $(this);
+			var img  = $this.children("img");
+			var zoom = document.getElementById('zoom'); //get the reference to our zoom object
+		    MagicZoom.update(zoom, img.attr("big"), img.attr("small"), 'show-title: false'); 
+			$this.addClass("selected").siblings().removeClass("selected");
+		});
+
+		//加载商品详情左侧栏
+		$(".goodsdetail_left").load("${ctx}/home/store_basic.html?storeid="+${store_id});
+		$("#quantity").blur(function(){
+			var self = $(this);
+			var num = self.val();
+			if(isNaN(parseInt(num)) || isNaN(num)){
+				$.alert("您输入的购买数量有误，请重新输入！");
+				self.val(1);
+			}
+			if(parseInt(num)==0){
+				self.val(1);
+			}
+		});
+	})
+	</script>
+</#if>
+<!-----footer------>
+<#include 'common/footer.html'/>

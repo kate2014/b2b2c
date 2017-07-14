@@ -1,0 +1,270 @@
+<!-- 获取楼层标签-->
+<#assign floorTag=newTag("floorTag")>
+<#assign floorMap=floorTag("'floor_id':'${floor_id}','limit':4")>
+<!-- 获取楼层和子楼层列表 -->
+<#if floorMap?exists && floorMap?size gt 0>
+	<#assign floor=floorMap.floor >
+	<#assign guid_cat_id=floor.guid_cat_id!'' >
+	<#assign brand_ids=floor.brand_ids!'' >
+	<#assign cat_id=floor.cat_id!'' >
+	<#assign adv_ids=floor.adv_ids!'' >
+	<#assign goods_tag_id=floor.goods_tag_id!'' >
+	<#assign goodsnum=floor.goodsnum!'6' >
+	<#assign childFloorList=floorMap.childFloors >
+</#if>
+<#assign floorAdvListTag= newTag("floorAdvListTag")>
+<#assign floorGoodsTag=newTag("floorGoodsTag") >
+<#assign floorGoodsListTag=newTag("floorGoodsListTag") >
+<#assign goodsListTag=newTag("goodsListTag")>
+<style type="text/css">
+.wrapper{
+	float:none;
+}
+.floor{
+	position: absolute;
+	background:top;
+	z-index: 2;
+}
+.items-box {
+		position: relative;
+	}
+	.btn-default {
+		position: absolute;
+		z-index: 999;
+		display: none;
+		width: 40px;
+		height: 20px;
+		left: 0;
+		border: 1px solid #2e6da4;
+		background-color: #337ab7;
+		text-align: center;
+		line-height: 20px;
+		border-radius: 5px;
+		font-size: 12px;
+		cursor: pointer;
+		color: #ffffff;
+	}
+	.btn-default:hover {
+		background-color: #286090;
+		border-color: #204d74;
+	}
+</style>
+<!-- 多店floor style -->
+<div class="index_foolsame wrapper">
+	<div class="index-css"></div>
+	<!-- 左侧商品广告及分类 -->
+	<div class="index_left">
+		<div class="left_title">
+			<h2>
+			<i style="position: absolute; top: 2px; left: 0px; width: 21px; height: 25px; padding-right: 10px; background: transparent url(&quot;//misc.360buyimg.com/product/home/1.0.0/widget/floor/i/floor1new.png&quot;) no-repeat scroll 0px 0px; font-size: 13px; color: rgb(255, 255, 255); text-align: center; overflow: hidden;">${floor_index!'1'}F</i>
+			<#if floor?exists >
+				${floor.title}
+			</#if>
+			</h2>
+		</div>
+		<div class="left_adv items-box" style="min-height: 240px;">
+			<#if adv_ids??&& adv_ids!='' >
+				<input type="button" style="display:none"  value="编辑"  class="floor new_tab btn-default"
+						data-operation-url="${ctx}/core/admin/template/edit-adv.do" 
+						data-operation-id="" 
+						data-save-url="${ctx}/core/admin/template/save-adv.do?ajax=yes"
+						data-title="修改广告图片" 
+						data-formId="editAdvForm"  
+						data-floorId="${floor.id}" 
+						data-goods-index="left" >
+				<#assign advList = floorAdvListTag("'aid':'${adv_ids}','position':'left'")!'' >
+				 <#list advList as adv3>
+				 	<#if adv3_index <1>
+			        <a target="_blank" title="${adv3.aname!''}" href="${adv3.url!''}">
+			           <@image border="0" src="${adv3.atturl}" alt="${adv3.aname!''}" style="height:100%" />
+			        </a>
+			        </#if>
+	             </#list>
+	             <#else>
+	             	<input type="button" style="display:none"  value="新增"  class="floor new_tab btn-default"
+						data-operation-url="${ctx}/core/admin/template/edit-adv.do" 
+						data-operation-id="" 
+						data-save-url="${ctx}/core/admin/template/save-adv.do?ajax=yes"
+						data-title="修改广告图片" 
+						data-formId="editAdvForm"  
+						data-floorId="${floor.id}" 
+						data-goods-index="left" >
+	             </#if>
+		</div>
+		<div class="left_bottom">
+			<!-- 创建商品分类标签 -->
+			<ul class="items-box">
+				<#if cat_id??&& cat_id!='' >
+					 <input type="button" style="display:none" value="编辑"  class="floor new_dialog btn-default"
+							data-operation-url="${ctx}/core/admin/template/edit-cat.do" 
+							data-operation-id="${cat_id}" 
+							data-save-url="${ctx}/core/admin/template/save-cat.do?ajax=yes"
+							data-title="修改分类列表" 
+							data-formId="editCatForm"  
+							data-floorId="${floor.id}" > 
+				<li>
+					<!-- 创建商品分类标签 -->
+					<#assign goodsCatTag= newTag("goodsCatTag")>
+					<!-- 调用商品分类信息 -->
+					<#assign goodsCat = goodsCatTag("'parentid':${cat_id},'catimage':'on'")!'' >
+					<#list goodsCat.cat_tree as cat>
+							<#if cat.hasChildren>
+								<#assign children2=cat.children /> 
+								<#list children2 as cat2>
+									<#if cat2_index lt 3>
+										<a href="${ctx}/goods_list.html?cat=${cat2.cat_id}" title="${cat2.name }">${cat2.name }</a>
+									</#if>
+								</#list>
+							</#if>
+								<!--  <a href="search-cat-${cat.cat_id}.html" class="menu">${cat.name }</a><br/>-->
+					</#list>
+					<#else>
+						<input type="button" style="display:none" value="新增"  class="floor new_dialog btn-default"
+							data-operation-url="${ctx}/core/admin/template/edit-cat.do" 
+							data-operation-id="" 
+							data-save-url="${ctx}/core/admin/template/save-cat.do?ajax=yes"
+							data-title="修改分类列表" 
+							data-formId="editCatForm"  
+							data-floorId="${floor.id}" >
+				</li>
+				</#if>
+			</ul>
+		</div>
+	</div>
+	<!-- end -->
+	<!-- 中部商品列表 -->
+	<div class="index_middle">
+	<#if childFloorList?exists &&childFloorList?size gt 0 >
+		<#assign size=childFloorList?size >
+		<ul class="tabnav">
+		<#list childFloorList as childs>
+				<#if childs_index<4>
+					<li class="items-box <#if childs_index==0>tab_selected</#if>" rel="${childs.id}">
+						<i class="<#if childs_index==0>arrow</#if>"></i>
+						<input type="button" style="display:none" value="编辑"  class="floor new_tab btn-default btn-default"
+								data-operation-url="${ctx}/core/admin/template/edit-batch-goods.do" 
+								data-operation-id="" 
+								data-save-url="${ctx}/core/admin/template/save-batch-goods.do?ajax=yes"
+								data-title="批量添加商品" 
+								data-formId="editBatchGoodsForm"  
+								data-floorId="${childs.id}" > 
+						<h3>${childs.title}</h3>
+					</li>
+				</#if>
+		</#list>
+		</ul>
+	</#if>
+	<#list childFloorList as childs>
+		<#include '${childs.path}' >
+	</#list>
+	</div>
+	<!-- end -->
+	<!-- 右侧分类品牌及广告 -->
+	<div class="index_right">
+		<div class="right_brand items-box">
+			<#if brand_ids??&& brand_ids!='' >
+						<!-- 品牌 --> 
+						<input type="button" style="display:none" value="编辑"  class="floor new_tab btn-default" 
+								data-operation-url="${ctx}/core/admin/template/edit-brand.do" 
+								data-operation-id="" 
+								data-save-url="${ctx}/core/admin/template/save-brand.do?ajax=yes"
+								data-title="修改品牌列表" 
+								data-formId="editBrandForm"  
+								data-floorId="${floor.id}" >
+						<ul>
+						<#assign floorBrandListByCatidTag= newTag("floorBrandListByCatidTag")>
+						<!-- 调用商品品牌信息 -->
+						<#assign brandListByCatid = floorBrandListByCatidTag("'brand_ids':${brand_ids}")!'' >
+						<#list brandListByCatid as brandlist>
+						<#if brandlist_index<12>
+							<li>
+								<a href="${ctx}/goods_list.html?brand=${brandlist.brand_id!''}">
+									<@image src="${brandlist.logo!''}"/>
+								</a>
+							</li>
+						</#if>
+						</#list>
+						<#else>
+							<input type="button" style="display:none" value="新建"  class="floor new_tab btn-default" 
+								data-operation-url="${ctx}/core/admin/template/edit-brand.do" 
+								data-operation-id="" 
+								data-save-url="${ctx}/core/admin/template/save-brand.do?ajax=yes"
+								data-title="修改品牌列表" 
+								data-formId="editBrandForm"  
+								data-floorId="${floor.id}" >
+						</ul>
+				</#if>
+		</div>
+		<!-- 一楼右侧广告 -->
+		<div class="index_brandlist items-box" style="width:212px;">
+			<#if adv_ids??&& adv_ids!='' >
+				<input type="button" style="display:none" value="编辑"  class="floor new_tab btn-default"
+						data-operation-url="${ctx}/core/admin/template/edit-adv.do" 
+						data-operation-id="" 
+						data-save-url="${ctx}/core/admin/template/save-adv.do?ajax=yes"
+						data-title="修改广告图片" 
+						data-formId="editAdvForm"  
+						data-floorId="${floor.id}" 
+						data-goods-index="right" >
+			<ul>
+				<!-- 调用广告信息,传递参数acid:1 -->
+				<#assign advList = floorAdvListTag("'aid':'${adv_ids}','position':'right'")!'' >
+			  		<#list advList as adv>
+			  		<#if adv_index<3>
+		          	<li style="background: url('<@imgurl pic='${adv.atturl}' />') no-repeat center top">
+		          		<a target="_blank" title="${adv.aname!''}" href="${adv.url!''}"></a>
+		          	</li>
+		          	</#if>
+		      		</#list>  
+	             <#else>
+	             	<input type="button" style="display:none" value="新增"  class="floor new_tab btn-default"
+						data-operation-url="${ctx}/core/admin/template/edit-adv.do" 
+						data-operation-id="" 
+						data-save-url="${ctx}/core/admin/template/save-adv.do?ajax=yes"
+						data-title="修改广告图片" 
+						data-formId="editAdvForm"  
+						data-floorId="${floor.id}" 
+						data-goods-index="right" >
+	  			 </ul>
+	             </#if>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		if(location.href.indexOf('admin') > -1){
+			$('.index-css').html('<link rel="stylesheet" href="${ctx}${themes_path}/css/index.css" type="text/css" />')
+		}
+		$(".show_this").mousemove(function(){
+			$(".floor_tab_ul li").removeClass("curBg");
+			$(this).addClass("curBg");
+			var tab=$(this);
+			var id=tab.attr("id");
+			var parent=tab.closest(".same-box-right")
+			parent.find(".child_floor_show").hide();
+			$("#child_floor_show_"+id).show();
+		});
+		$(".show_this").mouseout(function(){
+			var id=$(this).attr("id");
+		});
+
+		//  如果没有条目，默认显示按钮
+		(function(){
+			var box = $('.items-box');
+			for(var i = 0; i < box.length; i++){
+				var _box = box.eq(i);
+				if(_box.find('div, li, a').length == 0 || (_box.find('.pagination').length > 0) && _box.find('ul').length == 0){
+					_box.find("input[type='button']").show();
+				}else {
+					_box.hover(function(){
+						$(this).find("input[type='button']").show();
+					}, function(){
+						$(this).find("input[type='button']").hide();
+					});
+				}
+			};
+		})();
+
+        $(".index_brandlist").jfocus();
+	})
+</script>

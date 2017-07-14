@@ -1,0 +1,51 @@
+<#assign showCaseListTag=newTag("showCaseListTag") >
+<#assign showCaseList=showCaseListTag("{'flag':'index_top'}") >
+<#assign showCaseGoodsListTag=newTag('showCaseGoodsListTag') >
+<#if showCaseList??&& showCaseList?size gt 0>
+<div class="index_same  wrapper" style="height:300px;margin:0px auto;">
+	<div class="left-layout">
+		<ul class="tabnav">
+		<#list showCaseList as showCase >
+		<#if showCase_index<5>
+			<li <#if showCase_index<1>class="tab_selected"</#if> rel="${showCase.id}"><i class="arrow"></i>
+				<h3>${showCase.title}</h3></li>
+		</#if>
+		</#list>
+		</ul>
+		
+		<div style="width:1200px;height:250px;overflow:hidden;position:relative;">
+		<#if showCaseList??&& showCaseList?size gt 0>
+		<#list showCaseList as showCase >
+		<div class="floor_list index_goodlist " id="goods${showCase.id}">
+			<ul class="specially">
+				<#assign showCaseGoodsList=showCaseGoodsListTag("{'goodsids':'${showCase.content!''}'}") >
+				<#if showCaseGoodsList??&&showCaseGoodsList?size gt 0>
+				<#list showCaseGoodsList as goods >
+				<#if goods_index<6>
+				<li>
+					<dl>
+						<!--商品名称-->
+						<dt class="goods_name">
+							<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html"
+								title="${goods.name!''}">${goods.name!''}</a>
+						</dt>
+						<!--商品图片-->
+						<dd class="goods_img">
+							<a target="_blank" href="${ctx}/goods-${goods.goods_id}.html"> 
+								<@image src="${goods.thumbnail!''}" alt="${goods.name!''}" class="scrollLoading" /> </a>
+						</dd>
+						<!--商品价格-->
+						<dd class="goods_price">商城价：${goods.price?string.currency}</dd>
+					</dl>
+				</li> 
+				</#if>
+				</#list>
+				</#if>					
+			</ul>
+		</div>
+		</#list>
+		</#if>
+		</div>
+	</div>
+</div>
+</#if>

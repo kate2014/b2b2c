@@ -1,0 +1,67 @@
+/* 店铺设置页面样式 */
+.w146 {width: 238px;}
+
+.h16{
+	height: 20px;
+	height: 34px\9;
+	height: 34px\0;
+}
+
+.setting-box{
+	width: 100%;
+	font-size: 12px;
+}
+
+/* 表单内部样式 */
+.validate dl{
+	clear: both;
+    min-height: 50px;
+    padding-top: 10px;
+    border-bottom: 1px dotted #ccc;
+}
+
+.validate dl:hover{
+	background: #fcfcfc;
+}
+
+.validate dl dd,.validate dl dt{
+	display: inline-block;
+	width: 80%;
+	line-height: 32px;
+	padding: 10px 0;
+}
+
+.validate dl dt{
+	width: 15%;
+	text-align: right;
+	padding-right: 20px;
+}
+
+
+.vertical_p input{
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.addr_select select{ 
+	padding: 6px 10px;	
+}
+
+.hint{color: #bbb;}
+
+.validate dl:hover .hint{color: #666;}
+
+.bottom{
+	padding-bottom: 30px;
+}
+
+/* 错误提示信息样式 */
+.part_erro,.addr_erro,.zip_erro,.tel_erro,.qq_erro{
+	color: #a94442;
+	display: none;
+}
+
+.store-logo img {
+	height: 60px;
+	max-width: 500px;
+}

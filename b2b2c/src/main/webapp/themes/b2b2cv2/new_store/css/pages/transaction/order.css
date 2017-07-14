@@ -1,0 +1,181 @@
+
+.order-wappler {
+    min-width: 1200px;
+    background-color: #ffffff;
+}
+
+.inner-app-wappler {
+    min-width: 1300px;
+}
+
+/* 筛选工具栏样式
+ ============================================================================ */
+.filter-tools {
+    min-width: 1115px;
+    height: 50px;
+    background-color: #fafafa;
+    padding: 15px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.filter-box {
+    float: left;
+    margin-left: 20px;
+    height: 50px;
+}
+
+.filter-tools .filter-sn {
+    height: 50px;
+}
+
+.filter-tools .filter-sn input {
+    width: 120px;
+    font-size: 12px;
+}
+
+.filter-tools .filter-seach .btn {
+    width: 59px;
+    line-height: 15px;
+    margin-top: 10px;
+}
+
+.filter-tools span {
+    display: block;
+    float: left;
+    font-size: 12px;
+    text-align: right;
+    line-height: 50px;
+}
+
+.filter-tools input {
+    float: left;
+    height: 15px;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.order-wappler .filter-tools .filter-time input {
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+
+/*---------- order-table ---------*/
+.order-table {
+    width: 100%;
+}
+
+/***** thead *****/
+.order-table thead {
+    width: 100%;
+}
+
+.tools-thead {
+    height: 40px;
+    font-size: 12px;
+}
+
+.tools-thead th {
+    text-align: center;
+    line-height: 40px;
+    background-color: #fafafa;
+}
+
+.tools-thead .goods-price-num {
+    width: 50%;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.goods-price-num .goods {
+    /*text-align: left;*/
+}
+
+.goods-price-num .price-num {
+    float: right;
+    padding-right: 50px;
+}
+
+/***** tbody *****/
+
+.order-table tbody {
+
+}
+
+.order-table tbody .order-list-hr {
+    width: 100%;
+    height: 10px;
+    background-color: #ffffff;
+}
+
+.order-header {
+    height: 30px;
+    border: 1px solid #f2f2f2;
+}
+
+.order-header td {
+    background-color: #fafafa;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.sn-order-header {
+    width: 50%;
+    padding-left: 20px;
+}
+
+.tools-order-header {
+    text-align: center;
+}
+
+.tools-order-header a {
+    line-height: 13px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.order-content {
+    border: 1px solid #f2f2f2;
+}
+
+.order-content .goods-price-num {
+
+}
+
+.order-content .goods-price-num p {
+    height: 60px;
+    padding-top: 5px;
+}
+
+.order-content .goods-price-num img {
+    float: left;
+    height: 50px;
+    margin-left: 20px;
+}
+
+.order-content .goods-price-num a {
+    float: left;
+    font-size: 12px;
+    line-height: 60px;
+    margin-left: 20px;
+}
+
+.order-content .goods-price-num .price-num {
+    float: right;
+    line-height: 60px;
+    font-size: 12px;
+    color: #333333;
+}
+
+.order-content td {
+    text-align: center;
+    font-size: 12px;
+    border-right: 1px solid #f2f2f2;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.order-pay-price .other {
+    margin-top: 5px;
+}

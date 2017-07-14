@@ -1,0 +1,82 @@
+.s_score_num {
+    padding-left: 50px;
+}
+
+.s_score_num table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.s_score_num table tr th {
+    font-weight: 700;
+    padding-left: 60px;
+}
+
+.s_score_num table tr th p em {
+    background: url("../../../../images/rate_star.gif") repeat-x left top;
+    display: block;
+    margin: 0;
+    position: relative;
+    height: 12px;
+    width: 70px;
+    z-index: 1;
+}
+
+.s_score_num table tr th p em i {
+    background: url("../../../../images/rate_star.gif") repeat-x left bottom;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 12px;
+}
+
+.s_score_num table tr td {
+    border: 0 none;
+    padding: 10px 5px 0;
+    text-align: left;
+    height: 80px;
+    vertical-align: middle;
+}
+
+.s_score_num table tr td dl {
+    background: url("../../../../images/rate_column.gif") no-repeat 28px -88px;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0;
+    width: 410px;
+}
+
+.s_score_num table tr td dl dt {
+    display: block;
+    height: 14px;
+    margin-left: 0;
+    margin-right: 60px;
+    position: relative;
+    width: 350px;
+    z-index: 1;
+}
+
+.s_score_num table tr td dl dt em {
+    background: url("../../../../images/rate_column.gif") no-repeat 0px 0px;
+    color: #fff;
+    display: block;
+    font-weight: 600;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 0 7px;
+    position: absolute;
+    text-align: center;
+    top: -25px;
+    width: 37px;
+}
+
+.s_score_num table tr td dl dd {
+    color: #777;
+    display: inline;
+    float: left;
+    line-height: 24px;
+    text-align: center;
+    width: 80px;
+}

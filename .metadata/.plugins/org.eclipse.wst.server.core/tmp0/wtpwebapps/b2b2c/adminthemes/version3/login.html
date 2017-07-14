@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>${site.title!'' }</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href=" ../favicon.ico" />
+
+<link type="image/x-icon" href="${site.icofile!''}" rel="bookmark" />
+<link rel="stylesheet" type="text/css"href="${ctx}/adminthemes/version3/plugins/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/version3/css/login.css" />
+<script type="text/javascript" src="${ctx}/adminthemes/new/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="${ctx}/adminthemes/new/js/jquery-form-2.33.js"></script>
+<script type="text/javascript"src="${ctx}/adminthemes/version3/plugins/layui/layui.js "></script>
+<script type="text/javascript" src="../adminthemes/version3/js/login.js"></script>
+</head>
+<body>
+<!-- 页面头部 -->
+<div class="home">
+    <div class="logo">
+        <a href="#"><img src="http://localhost:8083/b2c/adminthemes/new/images/logo.gif" /></a>
+        <span>账号登录</span>
+    </div>
+    <div class="header">
+        <span><a href="../" target="_blank">网店前台</a></span>
+        <span>|<a href="http://www.javamall.com.cn" target="_blank">Javashop官网</a></span>
+        <span>|<a href="http://www.javamall.com.cn/b2b2c3/docs/b2b2c/index.html"  target="_blank">开发文档</a></span>
+        <span>|<a href="http://www.javamall.com.cn/user_help/index.php?title=B2b2c%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"  target="_blank">使用帮助</a></span>
+        <span>|<a href="http://weibo.com/javashop"  target="_blank">关注我们</a></span>
+    </div>
+</div>
+<!-- 登录框 -->
+<div class="beg-login-box ">
+    <div class="beg-login-main">
+        <form class="layui-form" method="">
+        <input type="hidden" id="referer" value="${referer!''}" />
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe612;</i>
+                </label>
+                <input type="text" id="username"  lay-verify="username"    placeholder="这里输入登录名" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe642;</i>
+                </label>
+                <input type="password" id="password"  lay-verify="pass"  placeholder="这里输入密码" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe642;</i>
+                </label>
+                <input type="text" maxlength="4"  id="valid_code"  lay-verify="required" autocomplete="off" placeholder="验证码" class="layui-input">
+                <div class="tab-img">
+                    <img id="code_img" class="code_img" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <input type="button" class="layui-btn sty-btn" id="login_btn" name="login_btn" lay-submit="" lay-filter="login" value="登录" >
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 页尾 -->
+<div class="last">
+    <p> Javashop科技有限公司 Copyright&copy;2001-2016 All Right Reserved.</p>
+</div>
+<div class="screenbg">
+    <ul>
+        <li><a href="javascript:;"><img src="${ctx}/adminthemes/version3/images/bg-1.jpg"></a></li>
+        <li><a href="javascript:;"><img src="${ctx}/adminthemes/version3/images/bg-2.jpg"></a></li>
+        <li><a href="javascript:;"><img src="${ctx}/adminthemes/version3/images/bg-3.jpg"></a></li>
+    </ul>
+</div>
+<script>
+$(function(){
+ Loginer.init();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<#include '/common/header.html' />
+<#assign registerInfoTag= newTag("registerInfoTag") >
+<#assign registerInfo= registerInfoTag()>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/member/register/css/register.css" />
+	<div class="index_logo">
+		<a href="${ctx}/index.html"><@image src="${logo}" class="pngFix" style="width:240px;height:60px;" /></a>
+		<!-- <span class="user_title">用户注册</span> -->
+	</div>
+	<div class="steps steps-4">
+		<#if (registerInfo.account_type)?exists &&registerInfo.account_type == "mobile" >
+		<#assign registerTypeTxt = "填写手机号" >
+		<#else>
+		<#assign registerTypeTxt = "填写邮箱" >
+		</#if >
+
+		<ol>
+			<li class="active"><i>1</i><span class="tsl" >${registerTypeTxt!''}</span></li>
+			<li class="active"><i>2</i><span class="tsl" >填写账号信息</span></li>
+			<li><i class="iconfont">3</i><span class="tsl" >注册成功</span></li>
+		</ol>
+
+	</div>
+	<div class="content">
+        <form id="user-info-form" action="${ctx}/api/shop/member/reg-mobile.do" method="post" class="validate">
+           <div class="form-list form-main-list">
+                <div class="form-group">
+                	<div class="form-title">
+                        <span class="form-label tsl">账户</span>
+                        <div class="mobile-text">
+                        	<input type="hidden" name="mobile" value="${(registerInfo.account)!''}"/>
+                            <span class="mobile_num">${(registerInfo.account)!'系统出错，请重试'}</span>
+						</div>
+                    </div>
+                    <div class="form-title">
+                        <span class="form-label tsl">设置登录密码</span>
+                        <div class="mobile-text">
+                            <span class="mobile_num">登录时验证，保护账号信息</span>
+						</div>
+                    </div>
+                    <div class="form-item" style="margin-top:10px;">
+                        <span class="form-label tsl">登录密码</span>
+                        <div class="mobile-text">
+                            <input id="password-ps" class="form-control mobile-input" name="password" placeholder="设置您的登录密码"  type="password" isrequired="true">
+						</div>
+                    </div>
+                    <div class="form-item" style="margin-top:10px;">
+						<span class="form-label tsl" >密码确认</span>
+                        <div class="mobile-text">
+                            <input id="repassword-ps" class="form-control mobile-input" name="repassword" placeholder="请再次输入您的密码"  type="password" isrequired="true">
+						</div>
+                    </div>
+                    <div class="form-title">
+                        <span class="form-label tsl" data-phase-id="r_p_mobileNum">设置会员名</span>
+						<div class="mobile-text">
+							<span class="mobile_num"></span>
+						</div>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-label tsl" data-phase-id="r_p_mobileNum">会员名</span>
+                        <div class="mobile-text">
+                            <input id="username-text" class="form-control mobile-input" name="username" placeholder="一旦设置，不能再修改" type="text" isrequired="true">
+							<p style="color: red; font-size: 12px;">长度只能在4-20个字符之间</p>
+						</div>
+                    </div>
+                    <div class="form-item form-item-short">
+						<input type="hidden" name="license" value="agree" style="margin-right:10px;"/>
+					</div>
+		            <div class="form-item form-item-short">
+		                <input style="width:200px;" type="button" id="submit-form-btn" class="btn btn-large tsl btn-disabled" value="提交" />
+		            </div>
+					
+					<div id="output"></div>
+            	</div>
+            </div>
+        </form>
+    </div>
+<script type="text/javascript">
+$(function () {
+
+	$("#submit-form-btn").on("click",function(){
+		var password = $("#password-ps").val(),
+			repassword = $("#repassword-ps").val();
+
+		if(!password){
+			$.message.error('密码不能为空');
+			return false;
+		}else if(password.length < 6 ){
+			$.message.error('密码长度不能小于6');
+			return false;
+		}else if(password.length > 20) {
+			$.message.error('密码长度不能大于20');
+			return false;
+		}
+		if(password != repassword) {
+			$.message.error("两次密码输入不一致");
+			return false;
+		}
+		var userName = $.trim($("#username-text").val());
+
+		var checkname=/^[\u4E00-\u9FA5\uf900-\ufa2d\w\-]{4,20}$/;
+		if(!checkname.test(userName)){
+			$.message.error("输入的用户名不符合规范");
+			return false;
+		}
+
+		if(!$("#user-info-form").checkall()){
+			return false;
+		}
+
+		$("#user-info-form").ajaxSubmit({
+            success: function(data) {
+				if(data.result == 1) {
+					location.href = '${ctx}/member/register/register_succ.html';
+				}else {
+					$.message.error(data.message);
+				};
+            },
+            error : function(a,b,c) {
+				$.message.error("出现错误，请重试");
+				console.log('ajax error', a, b, c);
+			}
+
+        });
+	});
+});
+
+</script>
+
+<#include '/common/footer.html' />

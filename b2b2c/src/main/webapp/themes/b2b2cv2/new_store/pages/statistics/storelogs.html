@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '日志管理' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/order.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/storelogs.js"></script>
+    <script type="text/javascript" src="${ctx}${themes_path}/js/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_flow_logs' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li class="active"><a href="javascript: void(0);"  onclick="location.reload(); ">日志管理</a></li>
+    </ul>
+</div>
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#assign storeLogsTag=newTag("storeLogsTag")>
+    	<#assign storeLogs=storeLogsTag()>
+        <div class="order-wappler">
+            <div class="filter-tools">
+            	<#assign storeMembersTag=newTag("storeMembersTag")>
+    			<#assign storeMembers=storeMembersTag()>
+                <div class="filter-box filter-sn">
+                    <span>操作者：</span>
+                    <select name="userid" class="inputSelect"  id="userid"  style="margin:10px 0 0 0">
+						<option value="0">--请选择操作者--</option>
+						<#list storeMembers.memberlist as member>
+							<option <#if storeLogs.userid==member.member_id> selected="selected"</#if> value="${member.member_id}">${member.uname!''}</option>
+						</#list>
+					</select>
+                </div>
+                <div class="filter-box filter-customer">
+                    <span>类型：</span>
+                    <select name="type" class="inputSelect"  id="type" style="margin:10px 0 0 0">
+						<option value="0">--请选择类型--</option>
+						<option <#if storeLogs.type??&&storeLogs.type=='member'> selected="selected"</#if> value="member">member</option>
+						<option <#if storeLogs.type??&&storeLogs.type=='goods'> selected="selected"</#if> value="goods">goods</option>
+						<option <#if storeLogs.type??&&storeLogs.type=='order'> selected="selected"</#if> value="order">order</option>
+						<option <#if storeLogs.type??&&storeLogs.type=='setting'> selected="selected"</#if> value="setting">setting</option>
+					</select>
+                </div>
+                <div class="filter-box filter-time">
+                    <span>时间：</span>
+                    <input type="text" class="form-control" id="start_time" onclick="WdatePicker();" value="${storeLogs.start_time!''}" readonly>
+                    <span style="float: left; ">&nbsp;-&nbsp;</span>
+                    <input type="text" class="form-control" id="end_time" onclick="WdatePicker();" value="${storeLogs.end_time!''}" readonly>
+                </div>
+                <div class="filter-box filter-seach">
+                    <a href="javascript: void(0);" class="btn btn-info" id="filter_seach">搜索</a>
+                </div>
+		     </div>
+            <div class="order-list">
+                <table class="table table-bordered table-hover">
+	            <thead>
+	                <tr>
+	                    <th>序号</th>
+	                    <th>类型</th>
+	                    <th>操作</th>
+	                    <th>操作者</th>
+	                    <th>时间</th>
+	                </tr>
+	            </thead>
+	            <#if storeLogs.totalCount != 0>
+	                <tbody>
+	                    <#list storeLogs.storeLogs.result as logs>
+	                        <tr>
+	                            <th>${((storeLogs.page?number)-1)*storeLogs.pageSize+logs_index+1}</th>
+	                            <th>${logs.type!''}</th>
+	                            <th>${logs.detail!''}</th>
+	                            <th>${logs.name!''}</th>
+	                            <th><@dateformat time="${logs.time?c}" pattern="yyyy-MM-dd HH:mm"/></th>
+	                        </tr>
+	                    </#list>
+	                </tbody>
+	          	</table>
+	            <div class="app-paging-tools">
+	                <div class="demo"></div>
+	                <div class="paging">
+	                   <@pager pageno="${storeLogs.page!'1'}" pagesize="${storeLogs.pageSize}" totalcount="${storeLogs.totalCount}" />
+	                </div>
+	            </div>
+	        	<#else>
+		            </table>
+		            <div style="height: 10px; background-color: #FFFFFF; "></div>
+		            <div class="app-no-data">
+		                <span class="a-no-data">暂无相关数据</span>
+		            </div>
+	        	</#if>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+</body>
+</html>

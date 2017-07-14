@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<#assign headerTag = newTag("headerTag") /> 
+<#assign header =headerTag() /> 
+	<#if title??>
+		<title>${title}-${header.title}</title> 
+	<#else>
+		<title>${header.title}</title> 
+	</#if> 
+	<#if keywords??>
+		<meta name="keywords" content="${keywords!''}"/>
+	<#else>
+		<meta name="keywords" content="${header.keywords!''}"/>
+	</#if> 
+	<#if description??>
+		<meta name="description" content="${description!''}"/>
+	<#else>
+		<meta name="description" content="${header.description!''}"/>
+	</#if>
+	<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+	
+
+<script>
+var member = "${member!''}";
+var loginDialog;
+var ctx="${ctx}";
+var app_path="${ctx}";
+
+var ctxPath = '${ctx}${themes_path}/';
+</script>
+<script  src="${ctx}/statics/e_tools/js/e_broswer.js"  ></script>
+
+<#if site.icofile?exists>
+	<link href="${site.icofile}" rel="shortcut icon">
+</#if>
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/base.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/default.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/store.css" />
+
+<script type="text/javascript" src="${ctx}${themes_path}/js/lhgdialog.js" ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/common.js"  ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/shop.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.ui.js" ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/index.js"></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.validate.js"  ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.blockUI.min.js"   ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/LoginDialog.js"  ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery.cookie.js" ></script>
+<script type="text/javascript" src="${ctx}${themes_path}/js/jquery-form-2.33.js" ></script>
+<!-- 地区联动邮编 -->
+<script  src="${ctx}${themes_path}/js/RegionsSelect.js"></script>
+
+<script type="text/javascript">
+var ctx="${ctx}";
+	$(function() {
+		$("#logout").click(function() {
+			$.ajax({
+				url : "${ctx}/api/shop/member/logout.do?ajax=yes",
+				dataType : "json",
+				cache : false, //清楚缓存，暂时测试，如果产生冲突，请优先考虑是否是这条语句。
+				success : function(result) {
+					if (result.result == 1) {
+						alert(result.message);
+						location.href = "${ctx}/index.html";
+					} else {
+						alert(result.message);
+					}
+					$.Loading.hide();
+				},
+				error : function() {
+					$.Loading.hide();
+					$.alert("出错了:(");
+				}
+			});
+			return false;
+		});
+
+		$(".quick-menu dl").hover(function() {
+			$(this).addClass("hover");
+		}, function() {
+			$(this).removeClass("hover");
+		});
+	})
+</script>
+</head>
+<body>
+<#assign checkB2b2cMemberTag=newTag("checkB2b2cMemberTag")>
+<#assign storeMember=checkB2b2cMemberTag()>
+<#if storeMember.store_id??&&storeMember.store_id!=0>
+<!-- 获取店铺信息  -->
+<#assign myStoreDetailTag=newTag("myStoreDetailTag")/>
+<#assign myStoreDetail=myStoreDetailTag()>
+</#if>
+
+<div class="store">
+	<div class="store_title">
+		<div class="s_logo">
+		<a href="${ctx}/index.html"> <@image  src="${logo}" alt="${header.title}" /></a>
+			<h1>商家中心</h1>
+		</div>
+		<div class="store_uesr">
+			<div class="common_member">
+				<#if member?? >
+					<script type="text/javascript">var isLogin= true;</script>
+					 您好
+					<span>
+						<a href="${ctx}/member/member.html">${member.name}</a>
+					</span>
+					，欢迎来到
+					[<a alt="首页" title="首页" href="${ctx}/index.html">${header.title}</a>]
+					<span>
+						[<a id="logout" href="javascript:void(0);">退出</a>]
+					</span>
+				<#else>
+					<script type="text/javascript">var isLogin= false;</script>
+					您好，欢迎来到 
+					<a href="${ctx}/index.html" title="首页" alt="首页">${header.title}</a>
+					<span>
+						[<a href="${ctx}/login.html">登录</a>]
+					</span> 
+					<span>
+						[<a href="${ctx}/register.html">注册</a>]
+					</span> 
+				</#if>
+			</div>
+		</div>
+		<div class="store_phone">
+			<#if !storeMember.is_store??>
+				<!--  动态设置 -->
+				<!-- <img src="${ctx}${themes_path}/images/ptdh.jpg"/> -->
+			<#else>
+				<#if storeMember.is_store!=1>
+					<!-- <img src="${ctx}${themes_path}/images/ptdh.jpg"/> -->
+				<#else>
+					<!-- 顶部菜单 -->
+					<#if myStoreDetail.disabled==1>
+					<div class="store_title_menu">
+						<dl>
+							<dt class="a_store_index"><a href="${ctx}/store/business_center.html?menu=store_index" >首页</a></dt>
+						</dl>
+						<dl>
+							<dt class="">商品</dt>
+							<dd>
+								<ul>
+									<li>
+										<a target="_blank" href="${ctx}/goods/select_cat.html?menu=store_goods">商品发布</a>
+									</li>
+									<li>
+										<a href="${ctx}/goods/store_goods_list.html?market_enable=1&menu=store_goods">出售中的商品</a>
+									</li>
+									<li>
+										<a href="${ctx}/goods/store_goods_all.html?menu=store_goods">仓库中的商品</a>
+									</li>
+									<li>
+										<a href="${ctx}/goods/goods_cat.html?menu=store_goods">分类管理</a>
+									</li>
+									<li>
+										<a href="${ctx}/goods/goodsTags.html?menu=store_goods">标签列表</a>
+									</li>
+									<li>
+										<a href="${ctx}/goods/recycle_bin.html?disable=1&menu=store_goods">回收站</a>
+									</li>
+									<#--检测组件是否启用 -->
+									<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+									<#assign o2oIsOn =checkCmptIsOnTag("{'componentName':'o2o组件'}") />
+									<#if o2oIsOn=="ON">
+									<li>
+										<a href="${ctx}/goods/serviceGoodsCheck.html?menu=store_goods">服务商品验证</a>
+									</li>
+									</#if>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>交易管理</dt>
+							<dd>
+								<ul>
+									<li>
+										<a href="${ctx}/store/order/StoreOrder.html?order_state=all&menu=transaction">订单管理</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/order/StoreOrder.html?order_state=wait_ship&menu=transaction">待发货订单</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/sellback/sellback_list.html?status=0&menu=transaction">退货申请</a>
+									</li>
+									<!-- 		
+									<li>
+										<a href="${ctx}/transaction/ship_list.html">发货设置</a>
+									</li>
+							 		-->		
+							 		<li>
+										<a href="${ctx}/store/ship/transaction/transport.html?menu=transaction">物流工具</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/comment/StoreEvaluateList.html?replyStatus=2&menu=transaction">评价管理</a>
+									</li>
+									<li><a href="${ctx}/store/bill/store_bill.html?menu=transaction">结算管理</a></li>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>促销管理</dt>
+							<dd>
+								<ul>
+									<li>
+										<a href="${ctx}/store/activity/activity_list.html?menu=promotion">促销活动管理</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/bonus/bonus_list.html?menu=promotion">优惠券管理</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/activity/gift_list.html?menu=promotion">赠品管理</a>
+									</li>
+									<#--检测组件是否启用 -->
+									<#assign checkCmptIsOnTag = newTag("checkCmptIsOnTag") /> 
+									<#assign groupbuyIsOn =checkCmptIsOnTag("{'componentName':'多商户团购组件'}") />
+									<#if groupbuyIsOn=="ON">
+										<li>
+											<a href="${ctx}/store/groupbuy/groupbuy_list.html?menu=promotion">团购管理</a>
+										</li>
+									</#if>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>店铺设置</dt>
+							<dd>
+								<ul>
+									<li>
+										<a target="_blank" href="${ctx}/home.html?show_c=1&store_id=${(storeMember.store_id)!0}&menu=store">我的店铺</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/storeInfo.html?menu=store">店铺设置</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/auth.html?menu=store">店铺认证设置</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/store_slide.html?menu=store">店铺幻灯片设置</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/navigation/store_navigation.html?menu=store">导航管理</a>
+									</li>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+						<dt>统计</dt>
+							<dd>
+								<ul>
+									<li>
+										<a href="${ctx}/store/statistics/goodsanalysis/price_sales_list.html?menu=pricesale">价格销量</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/statistics/goodsanalysis/hot_sales_goods.html?menu=pricesale">热卖商品统计</a>
+									</li>
+									<li>
+										<a href="${ctx}/store/statistics/goodsanalysis/goods_sales_detail.html?menu=pricesale">商品销售明细</a>
+									</li>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>客服管理</dt>
+							<dd>
+								<ul>
+									<li><a href="${ctx}/store/comment/StoreConsultList.html?replyStatus=0&menu=server">咨询管理</a></li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+					</#if>
+				</#if>
+			</#if>
+		</div>
+	</div>
+</div>
+<div id="goodsSelectDiv"></div>
+<!-- 悬停显示下拉菜单 -->
+<script>
+	$(function(){
+		$(".store_title_menu dl dt").mouseover(function(){
+			$(".store_title_menu dl dt").removeClass("hover")
+			$(".store_title_menu dl dd").hide();
+			$(this).addClass("hover")
+			$(this).next("dd").show();
+		})
+		//鼠标移出
+		$(".store_title_menu dl").mouseleave(function(){
+			$(".store_title_menu dl dt").removeClass("hover")
+			$(".store_title_menu dl dd").hide();
+		})
+	})
+</script>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的店铺 - 店铺管理</title>
+    <script>var ctxPath = '${ctx}${themes_path}/';</script>
+    <script type="text/javascript" src="${ctx}${themes_path}/e_tools/js/e_broswer.js"></script>
+    <!-- 判断IE，并使IE9以下支持html5标签 -->
+    <!–[if lt IE 9]> <script  src="${ctx}${themes_path}/js/html5.js"></script> <![endif]–>
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/app.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/css/reset.css">
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/app.css">
+</head>
+<body>
+<#assign mainPageName = 'main_store' />
+<#assign lowerPageName = 'lower_store_mystore' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./warehouse.html">我的店铺</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        我的店铺
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

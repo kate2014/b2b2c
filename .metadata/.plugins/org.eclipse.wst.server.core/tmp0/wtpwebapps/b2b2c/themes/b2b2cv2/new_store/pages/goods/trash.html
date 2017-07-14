@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '回收站' />
+    <#include '/new_store/common/header.html' />
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/goods/trash.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/trash.css">
+</head>
+<body>
+<#assign mainPageName = 'main_goods' />
+<#assign lowerPageName = 'lower_goods_trash' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./trash.html?disable=1">回收站</a></li>
+    </ul>
+</div>
+<!--主页面区↓-->
+<div class="app-wappler">
+<div class="inner-app-wappler">
+<#assign myGoodsListTag=newTag("myGoodsListTag")>
+<#assign storeGoods=myGoodsListTag()>
+<div class="goods_warehouse">
+    <div class="top-tools">
+        <div class="left-top-tools">
+            <a href="javascript: void(0);" class="btn btn-success recovery-all-goods" operate="revert-goods">批量还原</a>
+            <a href="javascript: void(0);" class="btn btn-danger delete-all-goods" operate="clean-goods">批量删除</a>
+        </div>
+        <div class="right-top-tools">
+            <div class="inner-tools">
+                <div class="seach">
+                    <span class="icomoon"></span>
+                    <input type="text" class="seach-keyword" placeholder="搜索">
+                    <a href="javascript: void(0);" class="btn btn-success seach-btn" id="key_seach_btn">搜索</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <#if (storeGoods.storegoods.result??) && (storeGoods.storegoods.result?size > 0) >
+        <form id="trash_form">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="select">
+                        <input type="checkbox" class="check-all check-width">
+                    </th>
+                    <th class="img">图片</th>
+                    <th class="name">名称</th>
+                    <th class="price">价格</th>
+                    <th class="warehouse">库存</th>
+                    <th class="can-warehouse">可用库存</th>
+                    <th class="create-time">创建时间</th>
+                    <th class="operate">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list storeGoods.storegoods.result as storeGoods>
+                    <tr>
+                        <th class="th-bind">
+                            <#if type??>
+                                <input class="checkbox check-width" type="checkbox" name="reg_id" value="${storeGoods.goods_id}">
+                                <#else>
+                                    <input class="checkbox check-width" type="checkbox" name="goods_id" value="${storeGoods.goods_id}">
+                            </#if>
+                        </th>
+                        <th class="th-img th-bind">
+                            <#if storeGoods.thumbnail?exists && storeGoods.thumbnail != ''>
+                                <@image src="${storeGoods.thumbnail!''}" alt="${storeGoods.name!''}" height="50"/>
+                                <#else>
+                                    暂无图片
+                            </#if>
+                        </th>
+                        <th class="th-name th-bind">
+                            <a target="_blank" href="${ctx}/goods-${storeGoods.goods_id}.html"><@substring title="${storeGoods.name}" length=34 dot="" /></a>
+                        </th>
+                        <th class="th-bind">${storeGoods.price?string.currency}</th>
+                        <th class="th-bind">${storeGoods.store!''}件</th>
+                        <th class="th-bind">${storeGoods.enable_store!''}件</th>
+                        <th class="th-bind"><@dateformat time="${storeGoods.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></th>
+                        <th class="goods-operate">
+                            <a class="btn btn-success recovery-goods" goods_id="${storeGoods.goods_id}" operate="revert-goods">还原</a>
+                            <a class="btn btn-danger delete-goods" goods_id="${storeGoods.goods_id}" operate="clean-goods">删除</a>
+                        </th>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </form>
+        <div class="app-paging-tools">
+            <div class="demo"></div>
+            <div class="paging">
+                <@pager pageno="${storeGoods.page!'1'}" pagesize="${storeGoods.storegoods.pageSize}" totalcount="${storeGoods.totalCount}" />
+            </div>
+        </div>
+        <#else>
+            <div class="app-no-data">
+                <span class="a-no-data">暂无相关数据</span>
+            </div>
+    </#if>
+</div>
+</div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

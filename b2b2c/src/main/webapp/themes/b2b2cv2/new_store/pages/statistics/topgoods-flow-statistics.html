@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "店铺统计 - 流量统计"/>
+	<#include '/new_store/common/header.html' />
+	<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/statistics/statistics.css">
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-common.js"></script>
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/topgoods-flow-statistics.js"></script>
+	
+	
+    <script type="text/javascript" src="${ctx}/adminthemes/new/js/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/gray/easyui.css"/>    
+	<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/icon.css"/> 
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/easyui-lang-zh_CN.js"></script>
+	
+	<#--获得会员信息-->
+	<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+	<#assign storeMember = checkB2b2cMemberTag()>
+	
+	<script type="text/javascript">
+		var store_id = ${storeMember.store_id};
+		var ctx="${ctx}";
+	</script>
+</head>
+<body>
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_flow_statistics' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./store-flow-statistics.html?cycle_type=1">店铺总流量</a></li>
+        <li class="active"><a href="javascript: void(0);" onclick="location.reload(); ">商品流量排行</a></li>
+    </ul>
+</div>
+
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+	<!-- 内部页面区↓ -->
+	<div class="inner-app-wappler">
+		<!-- 具体内容区↓ -->
+		<div class="sales-wappler">
+			<!-- 搜索条件区↓ -->
+			<div class="filter-tools">
+				<table style="float: left; ">
+					<td width="70">
+						<select id="cycle_type" name="cycle_type">
+							<option value="1"<#if cycle_type?number==1
+								>selected="selected" </#if> >按照月统计</option>
+							<option value="2"<#if cycle_type?number==2
+								>selected="selected" </#if> >按照年统计</option>
+						</select>
+					</td>
+					<td width="70">
+						<select id="year"> </select>
+					</td>
+					<td width="70">
+						<select id="month"<#if cycle_type?number==0 > style="display: none;" </#if> ></select>
+					</td>
+					<td style="text-align: left; ">
+						<a id="search_statis" class="btn btn-info" href="javascript:void(0);" style="font-size: 12px; ">开始搜索</a>
+					</td>
+				</table>
+			</div>
+			<!-- 搜索条件区↑ -->
+
+			<!-- 统计图区 ↓-->
+			<div id="topgoods_flow_histogram"></div>
+			<!-- 统计图区 ↑ -->
+		</div>
+		<!-- 具体内容区↑ -->
+	</div>
+	<!-- 内部页面区 ↑-->
+</div>
+<!--主页面区↑-->
+</body>
+</html>

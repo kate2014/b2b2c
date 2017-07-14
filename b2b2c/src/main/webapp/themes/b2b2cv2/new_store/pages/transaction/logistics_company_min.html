@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '物流公司' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/logistics.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/logistics.js"></script>
+</head>
+<body>
+<!--主页面区↓-->
+<div  class="app-wappler" style="padding: 0;">
+    <div class="inner-app-wappler">
+        <#assign logiCompanyListTag=newTag("logiCompanyListTag") />
+        <#assign logiCompanyList=logiCompanyListTag() />
+        <div class="logistics-company">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>物流公司</th>
+                    <th>公司状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list logiCompanyList as logiCompany>
+                    <#assign storeid=logiCompany.store_id!0 />
+                    <tr>
+                        <td>${logiCompany.name}</td>
+                        <td>
+                            <#if storeid!=0 ><span style="color:#e90101;font-weight:bold;"> 已选择</span> <#else/> 未选择 </#if>
+                        </td>
+                        <td class="logistics-company-oper">
+                            <#if storeid!=0>
+                                <a href="javascript: void(0);" class="btn btn-danger off-logistics-company" logi_id="${logiCompany.id}">关闭</a>
+                            <#else/>
+                                <a href="javascript: void(0);" class="btn btn-info open-logistics-company" logi_id="${logiCompany.id}">开启</a>
+                            </#if>
+                        </td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+            <a href="#" onclick="location.href = './order_detail_min.html?ordersn=${ordersn}';" style="display: block;width: 50px;height: 50px;text-align: center;line-height: 50px;font-size: 12px;color: #ffffff;background-color: #ff6700;border-radius: 100%;cursor: pointer;margin: 0 auto;">返回</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

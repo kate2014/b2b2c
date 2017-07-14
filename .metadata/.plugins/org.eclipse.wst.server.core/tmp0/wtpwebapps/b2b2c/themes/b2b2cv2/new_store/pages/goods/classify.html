@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理 - 商品管理</title>
+	<#include '/new_store/common/header.html' />
+   <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/goods/classify.js"></script>
+    <link rel="stylesheet" href="${ctx}${themes_path}/css/default.css">
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/goods/classify.css">    
+
+</head>
+<body>
+<#assign mainPageName = 'main_goods' />
+<#assign lowerPageName = 'lower_goods_classify' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li><a href="./classify.html">分类管理</a></li>
+    </ul>
+</div>
+
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+		<div class="main-list">
+			<#assign checkB2b2cMemberTag=newTag("checkB2b2cMemberTag")>
+				<#assign storeMember=checkB2b2cMemberTag()>
+
+					<#-- 创建商品分类标签 -->
+						<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") >
+							<#-- 查询商品分类列表 0表示查子分类 -->
+								<#assign storeGoodsCatList= storeGoodsCatListTag("{'type':0,'storeid':${storeid!0}}")!''>
+									<!-- 分类列表 -->
+									<div class="goodscat_list">
+										<div class="top-tools">
+											<!-- <a class="delAll btn btn-warning" confirm="您确实要删除该分类吗?" name="class_id"  href="javascript:void(0)">删除</a> -->
+											<a style="color:#fff;"  title="新增分类"  class="btn btn-success ncu_btn3 new_storecat" href="javascript:void(0)">新增商品分类</a>
+										</div>
+										<table cellpadding="0" cellspacing="0">
+											<thead>
+											
+											<tr class="table_title">
+												<th>
+													<!--<label class="checkbtn">
+														<input type="checkbox" class="checkall" id="all"/>
+													</label>-->
+												</th>
+												<th >分类名称</th>
+												<th>排序</th>
+												<th>显示</th>
+												<th>操作</th>
+											</tr>
+											</thead>
+											<tbody class="list_tbody">
+											<#list storeGoodsCatList as cat>
+												<#if cat.store_cat_pid==0>
+													<tr class="bd_line">
+														<td class="tc">
+															<!--<input type="checkbox" value="${cat.store_cat_id}" class="checkitem" catname="${cat.store_cat_name}" >-->
+														</td>
+														<td class="tl">
+															<i class="parimg reduction" idvalue="${cat.store_cat_id}" isimg="0"></i>
+															<span nc_type="editobj" class="ml5" >${cat.store_cat_name!''}</span>
+														</td>
+														<td class="tc">
+															<span nc_type="editobj" idvalue="76">${cat.sort!''}</span>
+														</td>
+														<td class="tc">
+															<#if cat.disable==0>
+																<span status="on" class="noshowclass_ico goods_cat_show" nc_type="editobj" idvalue="${cat.store_cat_id}" ></span>
+																<#else>
+																	<span status="on" class="showclass_ico goods_cat_show" nc_type="editobj" idvalue="${cat.store_cat_id}" ></span>
+															</#if>
+														</td>
+														<td class="tc" style="width:180px;">
+															<p class="add_ico"><a class="btn btn-success edit-cats" cat_id="${cat.store_cat_id}"  href="javascript:void(0)">编辑</a></p>
+															<p class="del_ico"><a class="btn btn-warning delete-cats" cat_id="${cat.store_cat_id}" cat_name="${cat.store_cat_name}" href="javascript:void(0)">删除</a></p>
+															<p class="add_ico_a"><a  class="btn btn-info add-subordinate" href="javascript:void(0)" cat_id="${cat.store_cat_id}">新增下级</a></p>
+
+														</td>
+													</tr>
+												</#if>
+
+												<#list storeGoodsCatList as childCat>
+													<#if childCat.store_cat_pid==cat.store_cat_id>
+														<tr pidvalue="${cat.store_cat_id}" nc_type="table_item" class="bd_line ptr">
+															<td class="tc">
+																<!--<input type="checkbox" value="${childCat.store_cat_id}" class="checkitem" catname="${childCat.store_cat_name}"></td>-->
+															<td class="tl" style="text-align:left;">
+																<i id="treet12" class="ttimage"></i>
+																<span nc_type="editobj" class="ml5" idvalue="${childCat.store_cat_id}">${childCat.store_cat_name!''}</span>
+															</td>
+															<td class="tc"><span nc_type="editobj" idvalue="${childCat.store_cat_id}">${childCat.sort!''}</span></td>
+															<td class="tc">
+																<#if childCat.disable==0>
+																	<span status="on" class="goods_cat_show noshowclass_ico" nc_type="editobj" idvalue="${childCat.store_cat_id}"></span>
+																<#else>
+																	<span status="on" class="goods_cat_show showclass_ico" nc_type="editobj" idvalue="${childCat.store_cat_id}"></span>
+																</#if>
+															</td>
+															<td style="width:134px;padding:0 35px;">
+																<p class="add_ico"><a class="btn btn-success edit-cats" cat_id="${childCat.store_cat_id}"  href="javascript:void(0)">编辑</a></p>
+																<p class="del_ico"><a class="btn btn-warning delete-cats" cat_id="${childCat.store_cat_id}" childCat_name="${childCat.store_cat_name}" href="javascript:void(0)">删除</a></p>
+															</td>
+														</tr>
+													</#if>
+												</#list>
+											</#list>
+											</tbody>
+										</table>
+									</div>
+
+
+		</div>
+	</div>
+
+</div>
+<!--主页面区↑-->
+
+
+</body>
+</html>

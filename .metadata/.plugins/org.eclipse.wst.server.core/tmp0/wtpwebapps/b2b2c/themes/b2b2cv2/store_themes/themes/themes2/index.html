@@ -1,0 +1,408 @@
+<#include '/common/header.html' />
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/store_themes/themes/themes2/css2.css" />
+
+<script src="${ctx}${themes_path}/js/store_slider.js" type="text/javascript"></script>
+
+<!-- 创建店铺信息标签 -->
+<#assign myStoreDetailTag= newTag("myStoreDetailTag")>
+<!-- 调用查询店铺信息标签 -->
+<#assign store = myStoreDetailTag("{'type':0}")!''>
+
+<!-- 创建店铺导航标签 --> 
+<#assign storeNavigationTag= newTag("storeNavigationTag") > 
+<!-- 查询店铺导航列表 --> 
+<#assign storeNavigation= storeNavigationTag("{'store_id':${store.store_id!0}}")!''>
+
+<!-- 获取店铺当前进行的促销活动信息 -->
+<#assign checkStoreCurrActTag = newTag("checkStoreCurrActTag")>
+<#assign currentAct = checkStoreCurrActTag("{'store_id':${store.store_id!0}}")!'' >
+
+<!-- 标题、导航 -->
+<#include 'title.html' />
+
+<!-- 广告 -->
+
+<#assign storeSlideListTag= newTag("storeSlideListTag") > 
+<#assign storeSlideList=storeSlideListTag("{'storeid':${store.store_id!0}}")!''>
+<div class="max-adv">
+	<div id="index-adv" class="flexslider">
+		<ul class="slides">
+			 <#list storeSlideList as adv>
+				<li rel= "<@link url="${adv.silde_url!''}"/>">
+					<@image src="${adv.img!''}" style="display:none;"/>
+				</li>
+			 </#list>  
+		</ul>
+	</div>
+</div>
+
+<!--  正文-->
+<div class="store-center-box">
+	<div class="store-center">
+		<!-- 热卖商品 -->
+		<#assign storeTagsGoodsTag=newTag("storeTagsGoodsTag") > 
+		<#assign storeTagsGoods=storeTagsGoodsTag("{'mark':'hot','storeid':${store.store_id!0},'num':7}")!''>
+		<#assign n = 0>
+		<div class="store-hot-list">
+			<ul>
+				<#if storeTagsGoods?size!=0>
+					<li class="host-title">
+						<div class="host-title-box">
+							<h1>本季の热卖<span>HOT-GOODS</span><a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html"></a></h1>
+						</div>
+					</li>
+					<#list storeTagsGoods.list as st>
+						<li class="store-hot-list${n}">
+							<div class="hot-list-box">
+								<div class="hot-img">
+									<a href="${ctx}/goods-${st.goods_id}.html"><@image src="${st.small!st.thumbnail}"  alt="${st.name}" title="${st.name}" /></a>
+								</div>
+								
+									<div class="hot-intro">
+										<h2><a href="${ctx}/goods-${st.goods_id}.html"><@substring	title="${st.name}" length="60" dot="..." /><a href="goods-${st.goods_id}.html"></a></h2>
+										<p><span>RMB：<i>${st.price?string.currency}</i>元</span><span class="hot-sale">已销售：${st.buy_num!0}件</span></p>
+									</div>
+									<div class="list-background"></div>
+								
+							</div>
+							<#assign n = n+1>
+						</li>
+					</#list>
+				</#if>	
+			</ul>
+		</div>
+		
+		<!-- 新品 -->
+		<div class="store-new-list">
+		<#assign storeTagsGoodsTag=newTag("storeTagsGoodsTag") > 
+		<#assign storeTagsGoods=storeTagsGoodsTag("{'mark':'new','storeid':${store.store_id!0},'num':9}")!''>
+			<div class="new-title-box">
+				<h1>掌柜の新品<span>SHOP-NEW</span><a href="${ctx}/store_themes/${(store.store_id)!0}/store_goodslist.html"></a></h1>
+			</div>
+		
+			<div class="new-list-box">
+				<#if storeTagsGoods?size!=0>
+					<ul>
+						<#list storeTagsGoods.list as st>
+							<li>
+								<div class="new-img">
+										<a href="${ctx}/goods-${st.goods_id}.html"><@image src="${st.small!st.thumbnail}"  alt="${st.name}" title="${st.name}" /></a>
+								</div>
+								<div class="new-intro">
+									<h2><a href="${ctx}/goods-${st.goods_id}.html"><@substring	title="${st.name}" length="60" dot="..." /></a></h2>
+									<p><span>RMB：<i>${st.price?string.currency}</i>元</span><span class="hot-sale">已销售：${st.buy_num!0}件</span></p>
+								</div>
+								<div class="new-background"></div>
+							</li>
+						</#list>
+					</ul>
+				</#if>
+			</div>
+		</div>
+		
+		
+		<#assign storeBonusListTag= newTag("storeBonusListTag") > 
+		<#assign storeBonusList= storeBonusListTag("{'store_id':${store.store_id!0}}")!''>
+		<#if storeBonusList.totalCount != 0 >
+		<!-- 优惠券 -->
+			<div class="store-bonus-box">
+				<div class="bonus-title">
+					<h2>领</h2>
+					<h3>
+						<span>券购买更优惠</span>
+						<i>RECEIVE-A-COUPON</i>
+					</h3>
+				</div>
+			
+				<ul>
+					<#list storeBonusList.bonusList.result as bl>
+						<li  rel="${bl.type_id}" class="store-bonus">
+							<div class="bonus-box">
+								<div class="store-bonus-price">${bl.type_money}</div>
+								<div class="store-bonus-name">
+									<h2>优惠券</h2>
+									<p>${bl.type_name}</p>
+								</div>
+								<div class="bonus-receive">领</div> 
+							</div>
+						</li>
+					</#list>
+				</ul>
+			</div>
+		</#if>
+		
+		<!-- 商品推荐 -->
+		<div class="store-recommend">
+			
+			<#assign storeTagsGoodsTag=newTag("storeTagsGoodsTag") > 
+			<#assign storeTagsGoods=storeTagsGoodsTag("{'mark':'recommend','storeid':${store.store_id!0},'num':8}")!''>
+			
+			<ul>
+				<#if storeTagsGoods?size!=0>
+					<#list storeTagsGoods.list as st>
+						<li class="recommend-list-goods">
+							<div class="rec-img">
+								<a href="${ctx}/goods-${st.goods_id}.html"><@image src="${st.small!st.thumbnail}"  alt="${st.name}" title="${st.name}" /></a>
+							</div>
+							<div class="rec-intro">
+								<h2><a href="${ctx}/goods-${st.goods_id}.html"><@substring	title="${st.name}" length="60" dot="..." /></a></h2>
+								<div class="rec-price">RMB：<i>${st.price?string.currency}</i>元</div>
+								<div class="rec-parameter">
+									<p>
+										<span>原价：</span>
+										<del>${st.mktprice}元</del>
+									</p>
+									<p>
+										<span>已销售：</span>
+										<i>${st.buy_num!0}件</i>
+									</p>
+									<a href="${ctx}/goods-${st.goods_id}.html" class="go-rec-detail">查看详细</a>
+								</div>
+							</div>
+							<b></b>
+						</li>
+					</#list>
+				</#if>	
+			</ul>
+		</div>
+		
+		<!-- 店铺公告 -->
+		<div class="store-note-box" id="introduce">
+			<div class="note-title">
+				<h2>店</h2>
+				<h3>
+					<span>铺公告</span>
+					<i>SHOP-INTRODUCTION</i>
+				</h3>
+			</div>
+			<div class="store-note">
+				${store.description!''}
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<!-- 店铺信息 -->
+<div class="store-intro-box" id="synopsis">
+	<div class="store-box">
+		<div class="store-server">
+			<h2>联系客服</h2>
+			<div class="store-server-backgorund"></div>
+		</div>
+		<div class="store-information">
+			<div class="information-top">
+				<h1>${store.store_name}</h1>
+				<p>
+					身份认证：<#if store.name_auth==0>身份未认证或认证失败<#else>身份已认证</#if>
+				</p>
+				<p>
+					店铺认证：<#if store.store_auth==0>尚未认证或认证失败<#else>店铺已认证</#if>
+				</p>
+				<p>创店时间：<@dateformat time='${store.create_time!0}' pattern='yyyy-MM-dd'/> </p>
+			</div>
+			<div class="information-phone">
+				<h1>联系方式</h1>
+				<p>所在地址：${store.store_province}-${store.store_city}-${store.store_region}</p>
+				<p><span>详细信息：</span><span>${store.attr!''}</span></p>
+				<p>联系电话：${store.tel!''}</p>
+			</div>
+			<div class="information-evaluate">
+				<h1>动态评价</h1>
+				<p>
+					描述相符：
+					<#if store.store_desccredit==0>
+						<#list 1..5 as t>
+							<@image src="${ctx}${themes_path}/store_themes/themes/themes2/commstar_no.png" alt="1"  />
+						</#list>
+						<#else>
+							<#list 1..store.store_desccredit as t>
+							<@image src="${ctx}${themes_path}/images/commstar_02.png" alt="1"  />
+							</#list>
+					</#if>
+				</p>
+				<p>
+					服务态度：
+					<#if store.store_servicecredit==0>
+						<#list 1..5 as t>
+							<@image src="${ctx}${themes_path}/store_themes/themes/themes2/commstar_no.png" alt="1"  />
+						</#list>
+						<#else>
+							<#list 1..store.store_servicecredit as t>
+								<@image src="${ctx}${themes_path}/images/commstar_02.png" alt="1"  />
+							</#list>
+					</#if>
+				</p>
+				<p>
+					发货速度：
+					<#if store.store_deliverycredit==0>
+						<#list 1..5 as t>
+							<@image src="${ctx}${themes_path}/store_themes/themes/themes2/commstar_no.png" alt="1"  />
+						</#list>
+						<#else>
+							<#list 1..store.store_deliverycredit as t>
+								<@image src="${ctx}${themes_path}/images/commstar_02.png" alt="1"  />
+							</#list>
+					</#if>
+				</p>
+			</div>
+			<div class="information-collection" rel="${store.store_id!0}">
+				
+			</div>
+			<!-- <div class="go-top">
+				<@image src="${store.store_logo!''}" title="${store.store_name!''}" class="pngFix" />
+			</div> -->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+//给li加载背景图片
+$(".slides li").each(function(){
+	var imgSrc = $(this).find("img").attr("src");
+	$(this).css("background-image","url("+imgSrc+")");
+})
+
+//点击跳转广告链接
+$(".slides li").click(function(){
+	var advUrl = $(this).attr("rel");
+	location.href = advUrl;
+})
+
+//计算广告高度
+function advheight (){
+	var advBoxHeight = $(window).height()*0.565;
+	$(".slides").css("height",advBoxHeight+"px");
+}
+$(function(){
+	$('#index-adv').flexslider({
+		animation: "slide",
+		direction:"horizontal",
+		easing:"swing"
+	});
+	
+	$(".flexslider").mouseover(function(){
+		$(".max-adv .flexslider .flex-direction-nav li a").show(300);
+	})
+		
+	$(".flexslider").mouseleave(function(){
+		$(".max-adv .flexslider .flex-direction-nav li a").hide();
+	})
+//	advheight();
+	
+	//热卖鼠标悬停
+	$(".hot-list-box").hover(
+	        function() {
+	        	$(this).find(".hot-intro").animate({"bottom": "0px"}, 300, "swing");
+	            $(this).find(".list-background").animate({"bottom": "0px"}, 300, "swing");
+	        },function() {
+	        	$(this).find(".hot-intro").stop(true,false).animate({"bottom": "-70px"}, 400, "swing");
+	            $(this).find(".list-background").stop(true,false).animate({"bottom": "-70px"}, 400, "swing");
+	        }
+	    );
+	
+	//优惠券鼠标移入效果
+	$(".bonus-box").mouseover(function(){
+		$(this).find(".bonus-receive").css("right","-18px");
+	})
+	$(".bonus-box").mouseleave(function(){
+		$(this).find(".bonus-receive").css("right","-25px");
+	})
+	
+	//店铺推荐鼠标移入
+	$(".store-recommend ul li").mouseover(function(){
+		$(this).find("b").css("top","0px");
+	})
+	
+	$(".store-recommend ul li").mouseleave(function(){
+		$(this).find("b").css("top","-60px");
+	})
+	
+	
+	//导航
+	$(".store-classify").mouseover(function(){
+		$(this).find("h1").addClass("selected");
+		$(".s-c-listbox").show();
+	})
+	
+	$(".store-classify").mouseleave(function(){
+		$(this).find("h1").removeClass("selected");
+		$(".s-c-listbox").hide();
+	})
+	
+	$(".s-c-list").mouseover(function(){
+		$(this).addClass("hover");
+		$(this).find("ul").show();
+	})
+	$(".s-c-list").mouseleave(function(){
+		$(this).removeClass("hover");
+		$(this).find("ul").hide();
+	})
+	
+	$(".s-cat-list ").mouseover(function(){
+		$(this).addClass("childhover");
+	})
+	$(".s-cat-list ").mouseleave(function(){
+		$(this).removeClass("childhover");
+	})
+	
+	
+	//收藏
+	$(".favorite").click(function(){
+		var storeId = $(this).attr("rel");
+		collect(storeId);
+	})
+	
+	$(".information-collection").click(function(){
+		var storeId = $(this).attr("rel");
+		collect(storeId);
+	})
+	
+	//领取优惠券
+		$(".store-bonus").click(function(){
+			var bonusId = $(this).attr("rel");
+			$.ajax({
+				url : "${ctx}/api/b2b2c/bonus/receive-bonus.do?store_id=${store.store_id!0}&type_id="+bonusId,
+				cache : false,
+				dataType: "json",
+				success : function(data) {
+					if (data.result == 1) {
+						$.alert("领取成功");
+						window.location.href;
+					}
+					if (data.result == 0) {
+						$.message.error(data.message);
+					}
+					if(member==null||member==''){
+						window.location.href;
+					}
+					
+				},
+				error : function() {
+					$.message.error("出现错误,请重试！");
+				}
+			});
+ 		})
+	
+});
+
+function collect(storeId){
+	$.ajax({ 
+			url:ctx+'/api/b2b2c/store-collect/add-collect.do?store_id='+storeId,
+			dataType:'json',
+			success:function(result){
+				if(result.result == "1"){
+					$.alert(result.message);
+					location.reload();
+				}else{
+					$.alert(result.message);
+				}
+			} 
+		});
+}
+
+</script>
+
+
+<#include '/common/footer.html' /> 

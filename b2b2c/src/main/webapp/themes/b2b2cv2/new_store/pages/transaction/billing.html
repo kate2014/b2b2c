@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = '结算管理' />
+    <#include '/new_store/common/header.html' />
+    <link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/transaction/billing.css">
+    <script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/transaction/billing.js"></script>
+</head>
+<body>
+<#assign mainPageName = 'main_transaction' />
+<#assign lowerPageName = 'lower_transaction_billing' />
+<#include '/new_store/common/sidebar.html' />
+<div class="app-nav">
+    <ul class="list-nav" onclick="location.reload(); ">
+        <li><a href="javascript: void(0);">结算单</a></li>
+    </ul>
+</div>
+<!--主页面区↓-->
+<div  class="app-wappler">
+    <div class="inner-app-wappler">
+        <#-- 获取店铺订单标签 -->
+        <#assign storeBillListTag=newTag("storeBillListTag")/>
+        <#assign billList=storeBillListTag()/>
+        <div class="bill-list">
+            <div class="store_orderlist">
+                <#-- 订单列表详细 -->
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr class="s_orderlist_title">
+                        <th >结算单号</th>
+                        <th >起止时间</th>
+                        <th >本期应收</th>
+                        <th >结算状态</th>
+                        <th >付款时间</th>
+                        <th >操作</th>
+                    </tr>
+                    </thead>
+                <#if billList.totalCount != 0 >
+                    <tbody>
+                    <#list billList.billList.result as billDetail>
+                        <tr>
+                            <td>
+                                ${billDetail.sn}
+                            </td>
+                            <td>
+                                <@dateformat time="${billDetail.start_time?c}" pattern="yyyy-MM-dd "/>
+                                -
+                                <@dateformat time="${billDetail.end_time?c}" pattern="yyyy-MM-dd "/>
+                            </td>
+                            <td>
+                                ${billDetail.bill_price}
+                            </td>
+                            <td>
+                                <#if billDetail.status==1>
+                                    已出账
+                                <#elseif billDetail.status==0>
+                                    未出账
+                                <#elseif billDetail.status==2>
+                                    已确认
+                                <#elseif billDetail.status==3>
+                                    已审核
+                                <#else>
+                                    已付款
+                                </#if>
+                            </td>
+                            <td>
+                                <@dateformat time="${billDetail.bill_time?c}" pattern="yyyy-MM-dd HH:mm"/>
+                            </td>
+                            <td>
+                                <a href="./billing_detail.html?id=${billDetail.id}">查看</a>
+                            </td>
+                        </tr>
+                    </#list>
+                    <tr>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="app-paging-tools">
+                    <div class="demo"></div>
+                    <div class="paging">
+                        <@pager pageno="${billList.pageNo!'1'}" pagesize="${billList.pageSize}" totalcount="${billList.totalCount}" />
+                    </div>
+                </div>
+                <#else>
+                    </table>
+                    <div class="app-no-data">
+                        <span class="a-no-data">暂无相关数据</span>
+                    </div>
+                </#if>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主页面区↑-->
+
+<!--<div class="app-help">
+    <div class="head-help">
+        <span class="icomoon question-ico"></span>
+        <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+        <span class="icomoon close-ico" title="关闭">x</span>
+    </div>
+    <div class="body-help">
+        <p>帮</p>
+        <p>助</p>
+        <p>与</p>
+        <p>客</p>
+        <p>服</p>
+    </div>
+</div>
+<div class="open-help">
+    <span class="icomoon question-ico"></span>
+    <a href="javascript: void(0);" class="title-help">帮助和服务</a>
+</div>-->
+
+</body>
+</html>

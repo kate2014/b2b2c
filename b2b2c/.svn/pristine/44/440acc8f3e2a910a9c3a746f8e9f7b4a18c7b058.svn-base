@@ -1,0 +1,38 @@
+/* 店铺认证页面样式 */
+.groupbuy_form{
+	font-size: 12px;
+}
+
+#StoreAuthForm dl{
+	clear: both;
+    overflow: hidden;
+    padding-top: 10px;
+    border-bottom: 1px dotted #ccc;
+}
+
+#StoreAuthForm dl:hover{background: #fcfcfc;}
+
+#StoreAuthForm dl dt{
+	float: left;
+	font-weight: 600;
+	padding: 10px;
+	width: 19%;
+    text-align: right;
+}
+
+#StoreAuthForm dl dd{
+	display: inline-block;
+    font-size: 12px;
+    line-height: 32px;
+    vertical-align: top;
+    width: 78%;
+    padding: 2px 0;
+}
+
+.bg_gray input[type="file"]{
+	margin: 20px;
+}
+
+.bottom{
+	padding-bottom: 20px;
+}

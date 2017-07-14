@@ -1,0 +1,353 @@
+<#assign  title="订单详细" />
+<#include 'member_header.html' />
+<!--创建“订单访问权限判断”标签-->
+<#assign orderAccessAuthTag = newTag("orderAccessAuthTag")>
+<!--调用“订单访问权限判断”标签，并传递参数-->
+<#assign auth = orderAccessAuthTag('{"order_sn":"${ordersn}"}')>
+<!--创建“订单详细”标签-->
+<#assign orderDetailTag = newTag("orderDetailTag")>
+<!--调用“订单详细”标签，并传递参数-->
+<#assign orderDetail = orderDetailTag('{"ordersn":"${ordersn}"}')>
+<!-- 获取订单状态标签 -->
+<#assign orderStautsTag = newTag("orderStautsTag")>
+<!-- 调用订单状态标签 -->
+<#assign orderState = orderStautsTag()>   
+<!-- 获取会员订单日志标签 -->
+<#assign orderDetailLogTag = newTag("orderDetailLogTag")>
+<!-- 调用订单日志标签 -->
+<#assign orderDetailLog = orderDetailLogTag("{'orderid':${orderDetail.order_id}}")>
+<!-- 获取会员订单详细快递信息 -->
+<#assign orderDeliveryListTag = newTag("orderDeliveryListTag")>
+<!-- 调用会员订单详细快递信息 -->
+<#assign orderDelivery = orderDeliveryListTag("{'orderid':${orderDetail.order_id}}")>
+<!-- 使用关键字"deliveryList"得到会员订单详细快递信息MAP集合 -->
+<#assign orderSend = orderDelivery.deliveryList>
+<!--创建“订单货物列表”标签-->
+<#assign orderItemListTag = newTag("orderItemListTag")>
+<!--调用“订单货物列表”标签，并传递参数-->
+<#assign orderItemList = orderItemListTag("{'orderid':${orderDetail.order_id}}")>
+<!-- 获得商品META（快递、运费）信息 --><!-- 会员优惠券等与王峰商量后在弄。 -->
+<#assign orderMetaTag = newTag("orderMetaTag")>
+<!-- 调用商品META（快递、运费）信息 --><!-- 会员优惠券等与王峰商量后在弄。 -->
+<#assign orderMeta = orderMetaTag("{'orderid':${orderDetail.order_id}}")>
+<!-- 创建“发票标签” -->
+<#assign receiptTag = newTag("receiptTag")>
+<!-- 调用发票标签 -->
+<#assign orderreceipt = receiptTag("{'orderid':${orderDetail.order_id}}")>
+<#assign orderstatus= "com.enation.app.shop.front.tag.order.OrderStatusDirectiveModel"?new()>
+<!-- 
+<link rel="stylesheet" type="text/css" href="${ctx}${themes_path}/css/button.css" />
+ -->
+<script  src="${ctx}${themes_path}/js/Order.js"  ></script> 
+<style>
+.ui_content{min-width:100px;}
+</style>
+<div class="user_order">
+	<div class="order_detail" style="margin:0px;">
+		<div class="order_intro">
+			<h1>订单信息</h1>
+			<div class="detail_list">
+				<dl>
+					<dt>下单时间：</dt>
+					<dd><@dateformat time="${orderDetail.create_time?c}" pattern="yyyy-MM-dd HH:mm"/></dd>
+				</dl>
+				<dl>
+					<dt>收货地址：</dt>
+					<dd>${orderDetail.shipping_area!''}-${orderDetail.ship_addr!''}</dd>
+				</dl>
+				<dl>
+					<dt>收货人：</dt>
+					<dd>${orderDetail.ship_name!''}</dd>
+				</dl>
+				<dl>
+					<dt>发票抬头:</dt>
+					<dd>
+						${orderreceipt.title!'无'}
+					</dd>
+				</dl>
+				<dl>
+					<dt>发票内容:</dt>
+					<dd>
+						${orderreceipt.content!'无'}
+					</dd>
+				</dl>
+				<dl>
+					<dt>送货时间:</dt>
+					<dd>
+						${orderDetail.ship_day!'无'}&nbsp;${orderDetail.ship_time!''}
+					</dd>
+				</dl>
+				<dl>
+					<dt>客户留言：</dt>
+					<dd>${orderDetail.remark!'无'}</dd>
+				</dl>
+				<dl class="online">
+					<dt>订单编号：</dt>
+					<dd>${orderDetail.sn}</dd>
+				</dl>
+				<dl>
+					<dt>付款方式：</dt>
+					<dd>${orderDetail.payment_name!''}</dd>
+				</dl>
+				<dl>
+					<dt>商品总价：</dt>
+					<dd>${orderDetail.goods_amount?string.currency}</dd>
+				</dl>
+				<dl class="bottom_line">
+					<dt>运费：</dt>
+					<dd>${orderDetail.shipping_amount?string.currency}</dd>
+				</dl>
+				
+				<#if orderDetail.activity_point != 0 || orderDetail.gainedpoint != 0>
+					<dl class="m_order_small">
+						<dt>获得积分:</dt>
+						<dd>${orderDetail.gainedpoint + orderDetail.activity_point} 积分</dd>
+					</dl>
+				</#if>
+				<#if orderDetail.gift_id != 0>
+					<!-- 获取会员订单促销活动赠品信息 -->
+					<#assign orderGiftDetailTag = newTag("orderGiftDetailTag")>
+					<!-- 调用会员订单促销活动赠品信息标签 -->
+					<#assign giftDetail = orderGiftDetailTag("{'gift_id':${orderDetail.gift_id},'order_id':${orderDetail.order_id}}")>
+					<dl class="m_order_small">
+						<dt>获得赠品:</dt>
+						<dd>${giftDetail.gift_name!''}</dd>
+					</dl>
+				</#if>
+				<#if orderDetail.bonus_id != 0>
+					<!-- 获取会员订单促销活动优惠券信息 -->
+					<#assign orderBonusDetailTag = newTag("orderBonusDetailTag")>
+					<!-- 调用会员订单促销活动优惠券信息标签 -->
+					<#assign bonusDetail = orderBonusDetailTag("{'bonus_id':${orderDetail.bonus_id},'order_id':${orderDetail.order_id}}")>
+					<dl class="m_order_small">
+						<dt>获得优惠券:</dt>
+						<dd>${bonusDetail.bonus_name!''}</dd>
+					</dl>
+				</#if>
+				<#if orderDetail.act_discount != 0>
+					<dl class="m_order_small">
+						<dt>促销减价:</dt>
+						<dd>${(orderDetail.act_discount!0)?string.currency}</dd>
+					</dl>
+				</#if>
+				<#if orderDetail.order_exchange_point?? &&orderDetail.order_exchange_point gt 0 >
+				<dl class="m_order_small">
+					<dt>消费积分:</dt>
+					<dd>${orderDetail.order_exchange_point!'0'}积分</dd>
+				</dl>
+				</#if>
+				<dl class="m_order_small">
+					<dt>优惠金额:</dt>
+					<dd>${(orderDetail.discount!0)?string.currency}</dd>
+				</dl>
+				<dl class="m_order_middle">
+					<dt>订单总价：</dt>
+					<dd>${(orderDetail.order_amount!0)?string.currency}</dd>
+				</dl>
+				<dl class="m_order_big">
+					<dt >实付金额：</dt>
+					<dd >${orderDetail.need_pay_money?string.currency}</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="intro_staus">
+			<div class="orderdetail">
+				<i class="<#if orderDetail.status==8>order_no<#else> order_ok</#if>"></i>
+				订单状态：<@orderstatus status="${orderDetail.status}" type="order" />
+			</div>	
+				<ul>
+					<li>
+						1. 您尚未对该订单进行支付，请
+						<strong>
+							<#if orderDetail.status == orderState.ORDER_NOT_PAY >
+								<#if !orderDetail.isCod && orderDetail.pay_status==orderState.PAY_NO||!orderDetail.isCod && orderDetail.pay_status == orderState.PAY_PARTIAL_PAYED> 
+									<a target="_blank" href="${ctx}/api/b2b2c/store-payment-api/pay.do?orderid=${orderDetail.order_id}" class="green_btn">按此为订单付款</a>
+									
+								<#else>
+									按此为订单付款
+								</#if>
+							</#if> 
+						</strong>
+						以确保商家及时发货。
+					</li>
+					<li>
+						2. 如果您不想购买此订单的商品，请
+						<strong>
+							<#-- (订单已确认 && 订单没有申请取消)  -->
+							<#if orderDetail.status == orderState.ORDER_CONFIRM && orderDetail.is_cancel!=1 >
+									<a href='javascript:;' class="cancelBtn order_delno" orderid="${orderDetail.order_id}" sn="${orderDetail.sn}" rel="${orderDetail.order_id}" >取消订单</a>
+							<#else>
+								取消订单	
+							</#if> 
+						</strong>
+						订单操作。
+					</li>
+					<li>
+						3. 如果您已经收到商品，请
+						<strong>
+	
+						<#if orderDetail.status==orderState.ORDER_SHIP> 
+							<a href="javascript:;" orderid="${orderDetail.order_id}" class="orderdetail_ok rogBtn">确认收货</a>
+						<#else>
+							确认收货	
+						</#if> 
+						</strong>
+						订单操作。
+					</li>
+					<#if orderDetail.status gte orderState.ORDER_SHIP> 
+					<li>
+						<#-- 获取会员订单详细快递信息 -->
+						<#assign orderDeliveryListTag = newTag("orderDeliveryListTag")>
+						<#assign orderDelivery = orderDeliveryListTag("{'orderid':${orderDetail.order_id}}")>
+						<#assign orderSend = orderDelivery.deliveryList>
+						<#if orderDetail.status gte orderState.ORDER_SHIP> 
+							<!-- <a href="order_express.html?order_id=${orderDetail.order_id}" orderid="${orderDetail.order_id}" class="optExpress">查询物流</a> -->
+							<div class="order-ship-list">
+								
+							</div>
+						</#if> 
+						
+					</li>
+					</#if>
+				</ul>
+				<!--  
+				<div class="order_help">
+					<a href="help-27-1.html">我有疑问要咨询</a>
+				</div>
+				-->
+		</div>
+	</div>
+	 <!-- 流程图 -->
+            <div class="flow" id="flow">
+                <script type="text/javascript">
+                    $(function(){
+                        <#if (orderDetail.isCod??) && (orderDetail.isCod == true) >
+                        $('#flow').flowDiagram(${orderDetail.status}, true);
+                        <#else>
+                        $('#flow').flowDiagram(${orderDetail.status}, false);
+                        </#if>
+                    });
+                </script>
+            </div>
+	<!-- 商品列表 -->
+	<div class="detail_goodslist">
+		<table cellpadding="0" cellspacing="0" style="width: 99%;">
+			<thead>
+				<tr>
+					<th class="dt1" colspan="2">商品名称</th>		
+					<th class="dt2">单价(元)</th>	
+					<th class="dt3">数量</th>	
+					<th class="dt4">小计</th>	
+					<th class="dt5">状态</th>	
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="d1" colspan="5" style="padding:0px;border-bottom:0px none;">
+						<table>
+						<#list orderItemList as item>
+							<tr>
+								<td >
+									<a target="_blank" href="../goods-${item.goods_id}.html">
+										<@image height="50" src="${item.image!''}"  style="cursor: pointer;" />
+									</a>	
+								</td>
+								<td style="text-align:left;">
+									<a target="_blank" href="../goods-${item.goods_id}.html">${item.name} <#if item.other?? >(${item.other!''})</#if></a>	
+								</td>
+								<td>	
+									<#if (item.snapshot_switch)??>
+										<#if item.snapshot_switch == 1>
+											<a class="check small-green" href="../snapshot-${item.snapshot_id}.html?product_id=${item.product_id}" >快照</a>
+										</#if>
+									</#if>
+								</td>
+								<td style="width:100px;">
+									${item.price?string.currency}
+								</td>
+								<td style="width:100px;">
+									${item.num}
+								</td>
+								<td style="width:100px;">
+									${(item.num * item.price)?string.currency}
+								</td>
+								<#if item.goods_type=1>
+									<td>
+										<input id="btn_lookcode_${item.item_id}" type="button" onclick="lookcode(${item.item_id})" value="查看卡密" />
+									</td>
+
+								</#if>
+							</tr>
+						</#list>
+						<!-- 促销活动赠送的赠品信息 -->
+						<#if orderDetail.gift_id != 0>
+							<tr>
+								<td>
+									<@image height="50" width="50" src="${giftDetail.gift_img!''}"  style="cursor: pointer;" />
+								</td>
+								<td colspan="4" style="text-align:left; color: #333;">
+									<span class="full-icon">赠送</span>
+									<p>名称：${giftDetail.gift_name!''}</p>
+									<p>价值：${(giftDetail.gift_price!0)?string.currency}元</p>
+									<p>数量：×1</p>
+								</td>
+							</tr>
+						</#if>
+						<!-- 促销活动赠送的优惠券信息 -->
+						<#if orderDetail.bonus_id != 0>
+							<tr>
+								<td>
+									<@image height="50" width="50" src="${ctx}${themes_path}/images/bonus.png"  style="cursor: pointer;" />
+								</td>
+								<td colspan="4" style="text-align:left; color: #333;">
+									<span class="full-icon">赠送</span>
+									<p>名称：${bonusDetail.bonus_name!''}</p>
+									<p>价值：${(bonusDetail.bonus_money!0)?string.currency}元</p>
+									<p>数量：×1</p>
+								</td>
+							</tr>
+						</#if>
+						</table>
+					</td>
+					<td class="d2">
+						<@orderstatus status="${orderDetail.status}" type="order" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<#include 'order_cancel.html'/>
+<!-- 浮动窗口 取消订单结束 -->
+<script>
+$(function(){
+	Order.init();	
+	
+	//快递
+	<#list orderSend as delivery>
+		<#if delivery.type ==1 && delivery.logi_no?exists >
+			$(".order-ship-list").load("${ctx}/api/shop/order/order-kuaidi.do?ajax=yes&logino=${delivery.logi_no!''}&code=${delivery.logi_code!''}");
+		</#if>
+	</#list>
+})
+function showRogInfo(logino,logicode){
+ 	$("#store_content").load('${ctx}/api/shop/order/order_kuaidi.do?logino='+logino+'&code='+logicode,function(){});
+}
+function lookcode(id){
+	var timestamp = new Date().getTime();
+	$.get("code_list.html?itemid=" + id ,function(result){
+		var dialog = $.dialog({ 
+			title:"卡密列表", 
+			content: result,
+			lock:true,
+			init:function(){
+				
+			}
+		});
+	});
+	
+}
+</script>
+</div>
+<#include '../common/footer.html'/>
+

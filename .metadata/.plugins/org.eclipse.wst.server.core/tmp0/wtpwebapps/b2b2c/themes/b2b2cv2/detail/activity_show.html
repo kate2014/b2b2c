@@ -1,0 +1,15 @@
+<#-- 检测商品是否参加促销活动 -->
+<#assign checkStoreGoodsPartActTag = newTag("checkStoreGoodsPartActTag")>
+<#assign goodsPartAct = checkStoreGoodsPartActTag("{'goods_id':${goods_id}}")!'' >
+<!-- 商品所参加的促销活动信息 -->
+<#if goodsPartAct.activity??>
+	<input type="hidden" name="activity_id" value="${goodsPartAct.activity.activity_id!''}"/>
+	<dl>
+	<dt><font style="font-weight: bold; color: red;">促销活动：</font></dt>
+  	<dd class="goods-figure-input">
+  		<font color="red">${goodsPartAct.activity.activity_name}</font>&nbsp;&nbsp;&nbsp;
+  		<strong><a href="${ctx}/store_themes/${goodsPartAct.activity.store_id}/store-activity.html?menu=store" target="_blank" style="color: #ba7538;">查看详细</a></strong>
+	  	</dd>
+	</dl>
+</#if>
+

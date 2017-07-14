@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.enation.app.shop.test.MessageBgTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.668 sec - in com.enation.app.shop.test.MessageBgTest

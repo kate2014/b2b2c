@@ -1,0 +1,270 @@
+/* 列表中tabel样式 */
+.goodscat_list table{
+	width:100%;
+	font-size:12px;
+	border:1px solid #ccc;
+}
+/* 全选按钮 */
+.checkbtn{
+	text-align: center;
+	line-height:20px;
+}
+
+/* 删除按钮 */
+.delAll{
+	text-align:center;
+	color:#fff;
+	font-size: 12px;
+	display:block;
+	float:left;
+	cursor:pointer;
+	margin-left:20px;
+}
+
+/* 新增商品分类按钮 */
+.ncu_btn3 {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 1;
+    /* margin-left:20px; */
+}
+
+.ncu_btn3:hover{color:#fff;}
+
+.ncu_btn3:active{color:#fff;}
+
+/* 表头 */
+.table_title{
+	padding:5px 0;
+	height:30px;
+	line-height:40px;
+	border-top:1px solid #ccc;
+	margin-top:10px;
+	background:#f8f8f8;
+	font-size:14px;
+}
+
+.table_title th{
+	text-align:center;
+}
+
+/* 第一行 行样式 */
+.check_th{padding-bottom:20px;}
+
+/* 类别列表内容 */
+.bd_line:hover{background:#f2f2f2;}
+
+.list_tbody tr td{
+	padding:14px 0;
+	border-top:1px solid #ccc;
+	vertical-align: middle;
+}
+
+.list_tbody tr .tc{
+	text-align:center;
+	min-width:25px;
+}
+
+.goodscat_list{
+	background:#fff;
+}
+
+.top-tools {
+    height: 45px;
+}
+
+.goodscat_list table tr td i {
+	width: 16px;
+	height: 17px;
+	display: block;
+	background: url(../../../../images/jiajian.png) no-repeat -2px -3px;
+	float: left;
+}
+
+.goodscat_list table tr td .reduction {
+	background-position: -19px -3px;
+}
+
+
+
+ .goodscat_list table tr td p {
+	display: inline-block;
+	letter-spacing: normal;	
+	text-align: center;
+	vertical-align: middle;
+	word-spacing: normal;
+	text-align: center;
+} 
+
+.goodscat_list table tr td .add_ico {
+	border: 0px none;
+}
+
+.goodscat_list table tr td p a {
+	display: block;
+	margin: 1px;
+	padding: 3px 7px;
+	text-align: center;
+}
+
+ .goodscat_list table tr td p a i {
+	width: 15px;
+	height: 15px;
+	display: block;
+	background: url(../../../../images/sjann.png) no-repeat 0px 0px;
+	margin-left: 3px;
+}
+ 
+.goodscat_list table tr td p a em {
+	clear: both;
+	display: block;
+	font: 12px/16px arial;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	color:#fff;
+}
+
+.goodscat_list table tr td p a:hover i {
+	background: url(../../../../images/sjannxt.jpg) no-repeat 0px 0px;
+}
+
+.goodscat_list table tr td p a:hover em {
+	color: #fff;
+}
+
+
+.goods_cat_show {
+    background: url("../../../../images/member/ncus_public.png") no-repeat 0px -520px;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    width: 70px;
+}
+.noshowclass_ico {
+	background-position: 0 -544px;
+}
+
+
+.goodscat_list table .ptr td {
+	background: #fcf8e3
+}
+
+
+.goodscat_list table .ptr td i {
+    background-position: -37px -4px;
+    margin-left: 20px;
+}
+.goodscat_list table tr td p a {
+    display: block;
+    margin: 1px;
+    padding: 3px 7px;
+    text-align: center;
+    color:#fff;
+}
+
+.add_ico,.del_ico,.add_ico_a{
+	float:left;
+	display:inline-block;
+	padding:0 4px;
+	text-align:center;
+}
+
+
+ .goodscat_list table tr td p a {
+    color: #fff;
+    display: block;
+    margin: 1px;
+    padding: 3px 7px;
+    text-align: center;
+    font-size:12px;
+} 
+
+
+.ml5{
+	margin-left:10px !important;
+	height: 20px;
+	line-height: 17px;
+}
+
+/* 弹框样式 */
+
+.store_goodscat {
+	width: 350px;
+	overflow: hidden;
+}
+
+.store_goodscat dl {
+	clear: both;
+	font-size: 0;
+	line-height: 20px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+}
+
+.store_goodscat dl dt {
+	display: inline-block;
+	font-size: 12px;
+	letter-spacing: normal;
+	line-height: 32px;
+	margin: 0;
+	padding: 10px 1% 0 0;
+	text-align: right;
+	vertical-align: top;
+	width: 30%;
+	word-spacing: normal;
+	float:left;
+}
+
+.store_goodscat dl dd {
+	display: inline-block;
+	font-size: 12px;
+	margin: 0;
+	vertical-align: top;
+	padding: 15px 0 0;
+	text-align: left;
+	width: 68%;
+}
+
+.store_goodscat dl dd input[type="text"]{
+	background-color: #fff;
+	border: 1px solid #ccc;
+	color: #777;
+	display: inline-block;
+	font-size: 12px;
+	outline: 0 none;
+	padding: 4px;
+	vertical-align: middle;
+	height:27px\0;
+}
+
+.store_goodscat dl dd select {
+	outline: medium none;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	color: #777;
+	height: 30px;
+	vertical-align: middle;
+}
+
+.store_goodscat dl dd label {
+	float: left;
+	display: inline;
+	margin-right: 10px;
+}
+
+.store_goodscat dl dd label input {
+	float: left;
+	display: inline;
+	margin-right: 3px;
+}
+
+

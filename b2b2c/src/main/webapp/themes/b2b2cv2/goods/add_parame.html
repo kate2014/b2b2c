@@ -1,0 +1,27 @@
+<#if paramAr?exists && (paramAr?size)!=0 >
+<#-- 这里判断是否为0-->
+	<#list paramAr as group >
+		<div class="goods-info-group">
+			<div class="goods-info-group-inner">
+				<div class="info-group-title vbox">
+					<div class="group-inner">商参数</div>
+				</div>
+				<div class="info-group-cont vbox">
+					<div class="group-inner">
+						<#list group.paramList as gparam>
+							<div class="control-group" style="margin-top: 10px; ">
+								<label class="control-label" style="width: 85px; text-align: right; ">${gparam.name!''}：</label>
+								<input type="hidden" name="paramnames" value="${gparam.name!''}" />
+								<div class="controls">
+									<input type="text" class="form-control" name="paramvalues" maxlength="50" ${gparam.value!''}>
+								</div>
+							</div>
+						</#list>
+					</div>
+				</div>
+			</div>
+		</div>
+	</#list>
+<#else> 
+	该类型未定义参数 
+</#if>

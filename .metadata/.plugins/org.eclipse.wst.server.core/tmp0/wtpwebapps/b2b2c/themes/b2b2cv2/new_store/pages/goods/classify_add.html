@@ -1,0 +1,41 @@
+<div class="store_goodscat">
+	<#-- 创建商品分类标签 --> 
+	<#assign storeGoodsCatListTag= newTag("storeGoodsCatListTag") > 
+	<#-- 查询商品分类列表 0表示查子分类 --> 
+	<#assign storeGoodsCatList= storeGoodsCatListTag("'type':1")!''>
+	<#assign cat_id = (catid!'0')?number >
+	
+	<form id="add_form">
+		<dl>
+			<dt>分类名称：</dt>
+			<dd class="tips_text">
+				<input type="text" maxlength="25" name="store_cat_name"  id="cat_name" >
+			</dd>			
+		</dl>
+		<dl>
+			<dt>上级分类：</dt>
+			<dd>
+				<select name="store_cat_pid">
+					<option value="0">请选择</option>
+					<#list storeGoodsCatList as cat>
+					<option value="${cat.store_cat_id}" <#if cat_id==cat.store_cat_id> selected="selected" </#if> >${cat.store_cat_name}</option>
+					</#list>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;序：</dt>
+			<dd>
+				<input id="amount" style="ime-mode: disabled;"  onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+				onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " maxlength="3" size="14" name="store_sort" type="text" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>显示状态：</dt>
+			<dd id="add_goodscat">
+				<label style="cursor: pointer;"><input type="radio" name="disable"  style="cursor: pointer;" value="1" checked="checked"><span style="line-height:23px;display:inline;">是</span></label>
+				<label style="cursor: pointer;"><input type="radio" name="disable"  style="cursor: pointer;" value="0"><span style="line-height:23px;display:inline;">否</span></label>
+			</dd>
+		</dl>
+	</form>
+</div>

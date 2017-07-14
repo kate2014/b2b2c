@@ -1,0 +1,6 @@
+package com.enation.app.javashop.b2b2c.shop;
+
+public class Snippet {
+	log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+}
+

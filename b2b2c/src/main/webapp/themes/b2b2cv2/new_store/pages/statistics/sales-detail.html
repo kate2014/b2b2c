@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <#assign title = "店铺统计 - 商品分析"/>
+	<#include '/new_store/common/header.html' />
+	<link rel="stylesheet" href="${ctx}${themes_path}/new_store/css/pages/statistics/statistics.css">
+	<script type="text/javascript" src="${ctx}${themes_path}/new_store/js/pages/statistics/operator-common.js"></script>
+    <script type="text/javascript" src="${ctx}/adminthemes/new/js/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/gray/easyui.css"/>    
+	<link rel="stylesheet" type="text/css" href="${ctx}/adminthemes/new/js/easy-ui/themes/icon.css"/> 
+	<script type="text/javascript" src="${ctx}/adminthemes/new/js/easy-ui/easyui-lang-zh_CN.js"></script>
+	
+	<#--获得会员信息-->
+	<#assign checkB2b2cMemberTag = newTag("checkB2b2cMemberTag")>
+	<#assign storeMember = checkB2b2cMemberTag()>
+	
+	<script type="text/javascript">
+		var store_id = ${storeMember.store_id};
+		var ctx="${ctx}";
+	</script>
+</head>
+<body>
+<#assign mainPageName = 'main_statistics' />
+<#assign lowerPageName = 'lower_goods_analysis' />
+
+<#include '/new_store/common/sidebar.html' />
+
+<div class="app-nav">
+    <ul class="list-nav">
+        <li class="active"><a href="javascript: void(0);" onclick="location.reload(); ">商品详情</a></li>
+        <li><a href="./price-sales.html?cycle_type=1">价格销量</a></li>
+        <li><a href="./hotgoods-sales.html?cycle_type=1">热卖商品</a></li>
+    </ul>
+</div>
+
+<style type="text/css">.combo-text.validatebox-text{background-color: #fff; height: 20px; padding: 0;border: 0; outline: 0;}</style>
+<!--主页面区↓-->
+<div  class="app-wappler">
+	<!-- 内部页面区↓ -->
+	<div class="inner-app-wappler">
+		<!-- 具体内容区↓ -->
+		<div class="sales-wappler">
+			<!-- 搜索条件区↓ -->
+			<div class="filter-tools" style="height:30px;margin:0 0 10px 0;">
+				<table style="float: left; ">
+					<td width="280px">
+                        商品分类:<input id="catId"
+						class="easyui-combotree combo" name="cat_id"
+						data-options="url:'${ctx}/api/b2b2c/goods-cat/cat-list-json.do',required:false,height:28"
+						style="width: 200px;">
+					</input>
+					</td>
+					<td width="280px">
+                       <span style="float:left;height:20px;line-height:20px;display:block;overflow:hidden;">商品名称:</span>
+                       <input id="name" type="text" maxlength="20" style="margin:0px; display: inline-block;">
+					</td>
+					<td style="text-align: left; ">
+						<a id="search_statis" class="btn btn-info" href="javascript:void(0);" style="font-size: 12px;margin-left: 15px;">开始搜索</a>
+					</td>
+					<td></td>
+				</table>
+
+			</div>
+			<!-- 搜索条件区↑ -->
+
+			<!-- 统计表 -->
+			<div id="tableDiv" class="sales-table" style="clear:both">
+				<table id="goods_sales_detail" class="easyui-datagrid" 
+					data-options="pagination:false,rownumbers:true, fitColumns:'true'"  cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th data-options="field:'name',width:150" >商品名称</th>
+							<th data-options="field:'price',width:150" >价格</th>
+							<th data-options="field:'nums',width:100,sortable:'true'" >近30天下单商品数</th>
+							<th data-options="field:'prices',width:100,sortable:'true'" >近30天下单金额</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<!-- 具体内容区↑ -->
+	</div>
+	<!-- 内部页面区 ↑-->
+</div>
+<!--主页面区↑-->
+</body>
+<script type="text/javascript">
+/**
+ * 初始化价格销量分布图
+ */
+function goodsDetail(name){
+	// ajax配置
+	var catId = $("input[name='cat_id']").val();
+	if(catId == ""){
+		catId = 0
+	}
+	var url = encodeURI("${ctx}/api/goods-statistics/get-goods-sales-detail.do?name="+name+"&cat_id="+catId, "UTF-8");
+	var options = {
+		url : url  ,
+		type : "post",
+		dataType:"json",
+		success:function(data){
+			//如果获得正确的数据
+			if (data.result == 1) {
+				
+				// 1.初始化datagrid
+				$("#goods_sales_detail").datagrid();
+				
+				// 2.将数据绑定到datagrid  
+				$("#goods_sales_detail").datagrid('loadData', data.data); 
+				
+			} else {
+				alert("调用action出错：" + data.message);
+			} 
+		},
+		error:function(){
+			alert("系统错误，请稍后再试");
+		}
+	};
+	$.ajax(options);
+}
+
+function refreshTab(){
+	
+}
+
+$(function(){
+	goodsDetail(name);
+
+
+	//搜索按钮单击事件
+	$("#search_statis").click(function(){
+		var name= $("#name").val();
+		var cat=$("input[name='cat_id']").val();
+
+		// 初始化统计数据 
+		goodsDetail(name);
+	});
+
+});
+
+</script>
+</html>

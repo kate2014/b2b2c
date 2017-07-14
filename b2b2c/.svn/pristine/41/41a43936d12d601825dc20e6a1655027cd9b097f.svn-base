@@ -1,0 +1,282 @@
+
+.order-detail-box {
+    min-width: 895px;
+    background-color: #ffffff;
+}
+
+.order_detail {
+    border: 1px solid #d8d8d8;
+    font-size: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.order_detail .order_intro {
+    border-right: 1px solid #d8d8d8;
+    display: inline-block;
+    letter-spacing: normal;
+    vertical-align: top;
+    width: 359px;
+    word-spacing: normal;
+}
+
+.order_detail .order_intro h1 {
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #d8d8d8;
+    font-size: 12px;
+    font-weight: 600;
+    height: 20px;
+    line-height: 20px;
+    padding: 9px;
+    cursor: pointer;
+}
+
+.detail_list {
+    display: block;
+    padding: 17px 17px 7px;
+    width: auto;
+}
+
+.order_detail .order_intro dl {
+    font-size: 0;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 20px;
+    vertical-align: top;
+    word-spacing: normal;
+    width: 100%;
+}
+
+.order_detail .order_intro dl dt {
+    color: #888;
+    width: 20%;
+    float: left;
+    display: inline;
+}
+
+.order_detail .order_intro dl dd {
+    color: #666;
+    width: 80%;
+    float: left;
+    display: inline;
+}
+
+.order_detail .order_intro .online {
+    border-top: 1px dotted #d8d8d8;
+    padding-top: 10px;
+}
+
+.order_detail .intro_staus {
+    background-color: #fff;
+    max-width: 530px;
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    padding: 0 30px;
+    vertical-align: top;
+    word-spacing: normal;
+    border-left: 1px solid #dddddd;
+    margin-left: -1px;
+}
+
+.order_detail .intro_staus .orderdetail {
+    border-bottom: 1px dotted #e7e7e7;
+    color: #333;
+    display: inline-block;
+    font: 16px/32px "microsoft yahei", Arial;
+    letter-spacing: normal;
+    vertical-align: top;
+    word-spacing: normal;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.order_detail .intro_staus .orderdetail i {
+    float: left;
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: url(../../../../images/hc.jpg) no-repeat left center;
+    margin: 8px 5px 0px 30px;
+}
+
+.order_detail .intro_staus .orderdetail .order_ok {
+    background-position: -22px 1px;
+}
+
+.order_detail .intro_staus ul {
+    margin-left: 40px;
+}
+
+.order_detail .intro_staus ul li {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.order_detail .intro_staus ul li strong a {
+    background-color: #faa732;
+    color: #fff;
+    font-weight: normal;
+    padding: 0px 5px;
+}
+
+.order_help {
+    bottom: 5px;
+    color: #999;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+}
+
+.order_help a {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font: 12px/28px "microsoft yahei";
+    height: 28px;
+    padding: 0;
+    text-align: center;
+    width: 100px;
+}
+
+.detail_goodslist {
+    margin-top: 30px;
+}
+
+.detail_goodslist table tr th {
+    border-bottom: 1px solid #e7e7e7;
+    color: #999;
+    height: 20px;
+    padding: 8px 0;
+    text-align: center;
+}
+
+.detail_goodslist table tr td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.detail_goodslist table tbody tr .full-icon {
+    background: #e10414 none repeat scroll 0 0;
+    border: 1px solid #e10414;
+    color: #fff;
+    display: inline-block;
+    font-family: "microsoft yahei";
+    height: 16px;
+    line-height: 16px;
+    margin: 0 10px 0 5px;
+    padding: 1px 10px;
+    position: relative;
+    vertical-align: middle;
+}
+
+.detail_goodslist {
+    font-size: 12px;
+    color: #333333;
+}
+
+.detail_goodslist a {
+    font-size: 12px;
+    color: #333333;
+}
+
+.detail_goodslist a:hover {
+    color: #D93600;
+}
+
+.shipintro {
+    width: 530px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.shipintro h3 {
+    color: #333;
+    font: lighter 16px/20px "Microsoft Yahei";
+    margin: 0 0 3px;
+    text-align: left;
+    width: 100%;
+}
+
+.shipintro table {
+    width: 100%;
+    overflow: hidden;
+}
+
+.shipintro table thead tr th {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    color: #999;
+    height: 20px;
+    line-height: 20px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.shipintro table tbody tr td {
+    background-color: #fff;
+    color: #999;
+    height: 20px;
+    line-height: 20px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.shipintro table tbody tr td .text {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #777;
+    display: inline-block;
+    font: 12px/20px Tahoma;
+    height: 20px;
+    outline: 0 none;
+    padding: 2px 4px;
+    vertical-align: middle;
+}
+
+.shipintro table tbody tr td .ok_shipintro {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font: 12px/28px "microsoft yahei";
+    height: 28px;
+    line-height: 28px;
+    padding: 0;
+    text-align: center;
+    width: 80px;
+}
+
+tbody td {
+    vertical-align: middle;
+}
+
+.order-other {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.order-other tr {
+
+}
+
+.order-other td {
+    vertical-align: top;
+}
+
+.order-other .order-other-title {
+    width: 80px;
+}
+
+.flow {
+    margin: 20px 0;
+}

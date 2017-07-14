@@ -1,0 +1,108 @@
+.order_detail {
+    width: 600px;
+    overflow: hidden;
+}
+
+/* 退货信息、入库操作、审核form
+ ============================================================================ */
+.return_detail {
+    height: 220px;
+    border: 1px solid #d8d8d8;
+    overflow: hidden;
+}
+
+.return-info,
+.return-oper {
+    float: left;
+    width: 40%;
+}
+
+.return-info {
+    height: 100%;
+}
+
+.return-info h1 {
+    padding: 10px;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    color: #333333;
+}
+
+.return_info-list {
+    padding-left: 15px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.return_info-list li,
+.return-oper ul li {
+    margin-top: 5px;
+    height: 20px;
+}
+
+.return-oper {
+    font-size: 12px;
+    color: #333333;
+    padding: 20px 30px;
+}
+
+.return-oper table tbody tr {
+    line-height: 30px;
+}
+
+.return-oper table tbody td {
+    vertical-align: top;
+}
+
+.return-oper table tbody td textarea {
+    height: 55px;
+    resize: none;
+}
+
+.return-oper ul {
+    padding: 15px 30px;
+}
+
+/* 退货单商品列表
+ ============================================================================ */
+.return-table {
+    margin-top: 10px;
+}
+
+.return-table th,
+.return-table td {
+    text-align: center;
+    font-size: 12px;
+}
+
+.return-table .table tbody tr td {
+    vertical-align: middle;
+    padding: 5px;
+}
+
+.cart-product-img img {
+    height: 40px;
+}
+
+.return-table-title {
+    width: 80px;
+}
+
+.check-oper a {
+    float: left;
+    font-size: 12px;
+}
+
+
+/* 全部入库
+ ============================================================================ */
+.return-save-all {
+    width: 100%;
+    border-top: 1px solid #e5e5e5;
+    text-align: center;
+}
+
+.return-save-all .btn {
+    font-size: 12px;
+    margin-top: 5px;
+}

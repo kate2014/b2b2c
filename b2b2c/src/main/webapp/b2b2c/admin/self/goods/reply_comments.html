@@ -1,0 +1,43 @@
+<#assign dateformat="com.enation.framework.directive.DateformateDirective"?new()>
+<div class="main" style="background-color: white;" >
+	<div class="easyui-panel" style="border-style: none;">
+		<div style="padding: 10px 0 10px 20px">
+			<form id="replyForm" method="post" class="validate">
+			<input type="hidden" name="commentId" value="${memberComment.comment_id }"/>
+				<table>
+					<tr>
+						<td>
+							<h3>评论内容： </h3>
+							<div class="division" style="border:1px solid #BEBEBE;height: 130px;width: 550px;display: block;overflow-wrap: break-word;padding: 10px;resize: none;word-break: break-all;">
+								${memberComment.content!''} 
+							</div>
+							<#if galleryList??>
+								<br/>
+								<h3>评论图片： </h3>
+								<#list galleryList as gallery>
+									<a href="${gallery.original!''}" target="_blank">
+										<img src="${gallery.original!''}" width="100px;" height="100px;"/> 
+									</a> 
+								</#list>
+							</#if>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<#if memberComment.replystatus = 0>
+								<h3>回复评论： </h3>
+								<textarea rows="7" cols="70" id="recomment" name="recomment" style="border: solid #069 1px;"></textarea>
+							</#if>
+							<#if memberComment.replystatus = 1>
+								<h3>店铺管理员于[<@dateformat time='${memberComment.replytime}' pattern='yyyy-MM-dd'/>]回复如下： </h3>
+								<div class="division" style="border:1px solid #BEBEBE;height: 130px;width: 550px;display: block;overflow-wrap: break-word;padding: 10px;resize: none;word-break: break-all;">
+									${memberComment.reply!''}
+								</div>
+							</#if>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

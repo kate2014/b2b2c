@@ -1,0 +1,6 @@
+<div class="app-nav">
+    <ul class="list-nav">
+        <li ><a href="./goods_warehouse.html">出售中</a></li>
+        <li ><a href="./goods_yishouqing.html">已售罄</a></li>
+    </ul>
+</div>

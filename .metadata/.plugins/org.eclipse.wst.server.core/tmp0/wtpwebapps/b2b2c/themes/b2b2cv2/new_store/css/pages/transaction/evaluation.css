@@ -1,0 +1,179 @@
+/* 筛选工具栏样式
+ ============================================================================ */
+.filter-tools {
+    height: 50px;
+    background-color: #fafafa;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-box {
+    float: left;
+    margin-left: 20px;
+}
+
+.filter-tools .filter-blurry {
+    height: 50px;
+}
+
+.filter-tools .filter-blurry input {
+    width: 120px;
+    font-size: 12px;
+}
+
+.filter-tools .filter-seach .btn {
+    line-height: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.filter-tools span {
+    display: block;
+    float: left;
+    font-size: 12px;
+    text-align: right;
+    line-height: 50px;
+}
+
+.filter-tools input {
+    float: left;
+    height: 15px;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.filter-grade select {
+    width: 60px;
+    height: 20px;
+    margin-top: 13px;
+    font-size: 12px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.filter-reply-status select {
+    width: 60px;
+    height: 20px;
+    margin-top: 13px;
+    font-size: 12px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.exact-seach {
+    float: left;
+    width: 0;
+    height: 50px;
+    overflow: hidden;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.exact-seach.show {
+    width: 680px;
+}
+
+/* 评论列表样式
+ ============================================================================ */
+.s_commont_list {
+    font-size: 12px;
+}
+
+.s_commont_list table thead tr th {
+    background-color: #fafafa;
+    color: #999;
+    height: 20px;
+    line-height: 20px;
+    padding: 8px 0;
+    text-align: center;
+}
+
+.s_commont_list table tbody tr th {
+    background-color: #fafafa;
+    padding: 10px 0;
+}
+
+.s_commont_list table tbody tr th span {
+    margin: 0px 30px 0px 20px;
+}
+
+.s_commont_list table tbody tr th span a {
+    color: #0579c6
+}
+
+.s_commont_list table tbody tr td {
+    color: #999;
+    padding: 10px 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.s_commont_list table tbody tr td div {
+    width: 100%;
+    line-height: 25px;
+    clear: both;
+}
+
+.s_commont_list table tbody tr td div i {
+    font-weight: bold;
+    float: left;
+}
+
+.s_commont_list table tbody tr td div p {
+    float: left;
+    display: inline;
+}
+
+.s_commont_list .suolue img {
+    height: 50px;
+}
+
+/* 回复评论
+ ============================================================================ */
+.reply_form table img {
+    height: 80px;
+}
+
+.reply_form table tr th {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 22px;
+    margin: 0;
+    padding: 10px 1% 10px 0;
+    text-align: right;
+    vertical-align: top;
+    word-spacing: normal;
+    width: 20%;
+    text-align: right;
+}
+
+.reply_form table tr td {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 22px;
+    padding: 10px 0px 10px 10px;
+    vertical-align: top;
+    width: 69%;
+    word-spacing: normal;
+    text-align: left;
+    word-break: break-all;
+}
+
+.reply_form table tr td textarea {
+    background-color: #fff;
+    color: #777;
+    display: inline-block;
+    font: 12px/20px Arial;
+    height: 60px;
+    outline: 0 none;
+    padding: 4px;
+    vertical-align: top;
+    width: 350px;
+    max-width: 350px;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommitComments>	<CommitComment>完善单元测试类：会员评论</CommitComment>
+	<CommitComment>修改类名   商品收藏</CommitComment>
+	<CommitComment>单元测试类   多店--会员咨询</CommitComment>
+	<CommitComment>单元测试类   多店   我的店铺收藏  单元测试类</CommitComment>
+	<CommitComment>当前未登录会员时应该返回 getErrorJson 而不是getErrorJson</CommitComment>
+	<CommitComment>修改注释</CommitComment>
+	<CommitComment>会员收货地址添加 --编辑--删除   单元测试类</CommitComment>
+	<CommitComment>单元测试类    会员收藏商品</CommitComment>
+	<CommitComment>会员完善资料  单元测试类</CommitComment>
+	<CommitComment>加入session</CommitComment>
+</CommitComments>

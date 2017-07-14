@@ -1,0 +1,597 @@
+.index_logo{
+	 width: 1000px;
+	 height:100px;
+	 margin:10px auto;
+}
+.index_logo img{
+	max-height: 60px;
+    max-width: 240px;
+    margin-top:10px;
+}
+#login_wrapper{
+	width:850px;
+	margin:10px auto;
+	height:450px;
+}
+.login_img{
+	 background:url(../images/denglu.jpg) no-repeat left -10px;
+    float: left;
+    height: 350px;
+    position: relative;
+    width: 450px;
+    z-index: 1;
+    
+}
+.login_img img{
+	width:450px;
+	height:350px;
+}
+.login_tools{
+	 float: right;
+    width: 400px;
+}
+.login_tools h1{
+	border:1px solid #d8d8d8;
+	color: #555;
+    font-family: "microsoft yahei";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    padding: 15px 0 25px 25px;
+    border-bottom:0px none;
+    background:#f9f9f9;
+}
+.login_tools .login_content{
+    padding: 0 20px;
+    border:1px solid #d8d8d8;
+    background:#f9f9f9;
+    border-top:0px none;
+    height: 250px;
+}
+.login_tools .login_content label{
+	    clear: both;
+    float: left;
+    padding: 0;
+    width: 100%;
+     min-height: 40px;
+     position:relative;
+}
+.login_tools .login_content label span{
+	    color: #777;
+    float: left;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: right;
+    width: 22%;
+}
+.login_tools .login_content label .same_input{
+ background-color: #fff;
+    border: 1px solid #bbb;
+    font-family: Tahoma;
+    height: 20px;
+    line-height: 20px;
+    padding: 3px !important;
+    width: 180px;
+    float:left;
+}
+
+.login_tools .login_content label .same_input:focus {
+    background-color: #fff;
+    border-color: #efa100;
+    outline: 2px solid #ffdc97;
+}
+    
+.login_tools .login_content label .tip{
+	font-size:12px;
+	position:absolute;
+	top:1px;
+	right:0px;
+	color:#efa100;
+}
+
+.login_tools .login-type {
+	border: 1px solid #d8d8d8;
+    color: #555;
+    font-family: "microsoft yahei";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    padding: 15px 0 25px 25px;
+    border-bottom: 0px none;
+    background: #f9f9f9;
+}
+.login_tools .type-toggle {
+	float: right;
+	font-size: 12px;
+    font-weight: normal;
+    padding-right: 20px;
+}
+.login_tools .mobile-item {
+	display: none;
+}
+.login_tools .btn-dynamic-code {
+	color: #555;
+    display: inline-block;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+    width: 188px;
+}
+.login_tools .type-toggle .type-toggle-icon {
+	width: 14px;
+    height: 14px;
+}
+
+.m_account{
+	float:left;
+	display:inline;
+	width:275px;
+	padding:8px 0;
+}
+
+
+#validcode{
+	   background-color: #fff;
+    border: 1px solid #bbb;
+    float: left;
+    font-family: Tahoma;
+    height: 24px;
+    line-height: 24px;
+    padding:5px !important;
+    width: 70px;
+    
+}
+#validcode:focus {
+    background-color: #fff;
+    border-color: #efa100;/* 
+    outline: 2px solid #ffdc97; */
+}
+.code_img{
+	float:left;display:inline;margin:0px 10px;height:36px;
+}
+.m_forget{line-height:28px;}
+
+.m_forget a{font-size:12px;color:#ec971f;height:36px;line-height:36px;}
+
+.m_register{
+	 float: right;
+    text-align: left;
+    width: 75%;
+      color: #666;
+    font: 12px/20px "Hiragino Sans GB","Microsoft Yahei",arial,宋体,"Helvetica Neue",Helvetica,STHeiTi,sans-serif;
+	margin-bottom:10px;
+}
+.m_register input{
+	background: url("../images/dltup.png") no-repeat 0px -56px;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 98px;
+    float:left;
+}
+.m_register a{
+	height: 34px;
+    line-height: 37px;
+    display:block;
+    text-align: left;
+      color: #06c;
+    font-weight: 700;
+    margin-left: 10px;
+    vertical-align: middle;
+    width:60px;
+    float:left;
+    overflow:hidden;
+}
+.goregister{
+	clear: both;
+    padding: 0px 0px 0px 25%;
+    width: 75%;
+    margin:0px 0px 30px 0px;
+    height:30px;
+    line-height:30px;
+}
+.go_register{
+	   background: url("../images/dltup.png") no-repeat -98px -56px #fff;
+    color: #555;
+    display: inline-block;
+    font-weight: 600;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 6px;
+    text-align: center;
+    width: 50px;
+}
+.goregister a:hover{
+	 background-position: -98px -82px;
+    color: #000;
+    text-decoration: none;
+}
+/****************  注册   ******************/
+.reg{
+	 margin: 0 auto;
+    width: 850px;
+    overflow:hidden;
+}
+.reg .reg_left{
+	    color: #626a73;
+    display: inline;
+    float: left;
+    line-height: 22px;
+    margin: 10px 0;
+    width: 450px;
+}
+.reg .reg_left h1{
+	  color: #555;
+    font-family: "microsoft yahei";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 30px;
+    margin-bottom: 6px;
+    margin-top: 2px;
+}
+.reg .reg_left ul{
+	    border-bottom: 1px dashed #e7e7e7;
+    margin-top: 20px;
+    width: 420px;
+    overflow:hidden;
+}
+.reg .reg_left ul li{
+	    display: block;
+    float: left;
+    font-family: "microsoft yahei";
+    font-size: 14px;
+    height: 48px;
+    line-height: 48px;
+    margin: 0 0 5px 10px;
+    overflow: hidden;
+    padding: 0 0 12px;
+    vertical-align: middle;
+    width: 200px;
+}
+.reg .reg_left ul li i{
+	background: url("../images/dltup.png") no-repeat left top;
+    display: inline-block;
+    height: 48px;
+    margin-right: 10px;
+    vertical-align: middle;
+    width: 48px;
+}
+.reg .reg_left ul li .reg1{background-position: -304px -48px;}
+.reg .reg_left ul li .reg2{background-position: -256px 0px;}
+.reg .reg_left ul li .reg3{background-position: -352px 0px;}
+.reg .reg_left ul li .reg4{background-position: -304px 0px;}
+.reg .reg_left ul li .reg5{background-position: -352px -48px;}
+.reg .reg_left ul li .reg6{background-position: -256px -48px;}
+.reg .reg_left h2{
+	  color: #555;
+    font-family: "microsoft yahei";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 30px;
+    margin-bottom: 6px;
+    margin-top: 20px;
+}
+.reg .reg_left .reg_login{
+	margin-top:10px;
+	height:22px;
+	color:#626a73;
+}
+.reg .reg_left .reg_login .findpassword{
+	color: #06c;
+    font-weight: 700;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+.reg_right{
+	float: right;
+    width: 400px;
+}
+.reg_right h1{
+	   color: #555;
+    font-family: "microsoft yahei";
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    padding: 15px 0 25px 25px;
+    border:1px solid #d8d8d8;
+    background:#f9f9f9;
+    border-bottom:0px none;
+}
+.regis_same{
+	   overflow: hidden;
+    padding: 0 20px;
+    border:1px solid #d8d8d8;
+    background:#f9f9f9;
+    border-top:0px none;
+}
+.regis_same dl{
+	    clear: both;
+    float: left;
+    padding: 0;
+    width: 100%;
+}
+.regis_same dl dt{
+	    color: #777;
+    float: left;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: right;
+    width: 22%;
+}
+.regis_same dl dd{
+	    float: right;
+    text-align: left;
+    width: 75%;
+    position:relative;
+}
+.regis_same dl dd .text{
+	    background-color: #fff;
+    border: 1px solid #bbb;
+    font-family: Tahoma;
+    height: 20px;
+    line-height: 20px;
+    padding: 3px !important;
+    width: 250px;
+}
+#iptlogin{
+	    background-color: #fff;
+    border: 1px solid #bbb;
+    font-family: Tahoma;
+    height: 20px;
+    line-height: 20px;
+    padding: 3px !important;
+    width: 50px;
+    float:left;
+}
+#LoginimgVerifyCode{
+	   display: inline;
+    float: left;
+    margin-left:5px;
+    height:28px;
+}
+.regis_same dl dd span{
+	position:absolute;
+	top:30px;
+	right:45px;
+	width:220px;
+}
+#verifyCodebox a{   
+	color: #999;
+    height: 28px;
+    line-height: 28px;
+    margin-left:5px;
+    text-align: left;
+}
+.regis_ent{
+	  background: url("../images/dltup.png") no-repeat 0px -56px;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 98px;
+    float:left;
+    text-align:center;
+}
+#license{
+	float:left;
+	display:inline;margin:11px 10px 0px 10px;
+}
+#reg_agree{float:left;display:inline;top:0px;right:-75px;top:8px;}
+
+
+/* 登录页 右侧 登陆界面新样式 */
+
+*{font: 400 14px/1.5 'Hiragino Sans GB','WenQuanYi Micro Hei',tahoma,sans-serif;}
+
+.none{display:none;}
+
+.login-form{position:relative;}
+
+.login-icon{
+	background:url(../images/login-icon.png) no-repeat;
+    position: absolute;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    top: 16px;
+    left: 9px;
+    line-height: 18px;
+    vertical-align: text-top;
+}
+
+.tips-icon{background-position:-117px -9px;}
+
+.user-icon{background-position: -8px -8px;}
+
+.phone-icon{background-position: -8px -95px;}
+
+.pass-icon{background-position: -8px -46px;}
+
+.right-login{
+	float: left;
+	padding-top: 0;
+	margin: 0 auto;
+	width: 270px;
+	background: #FFF;
+}
+.tips{
+	background:#FFF6DB;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	height:20px;
+	display:block;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #f5d8a7;
+	font-size: 12px;
+}
+
+.user-login{
+	font-weight: 400;
+	color: #666;
+}
+
+.mobile-login{
+	position: relative;
+	float: right;
+	padding-right: 16px;
+	font-size: 12px;
+	color: #666;
+}
+
+.username,.password{
+	padding-left: 0;
+	padding: 8px 0;
+	position: relative;
+	zoom: 1;
+}
+
+.login-email,.login-pass{
+	height: 24px;
+	*margin: -1px auto;
+	border: 1px solid #aaa;
+	line-height: 24px;
+	vertical-align: top;
+	width: 230px;
+	padding: 5px 5px 5px 33px !important;
+}
+
+.auto-date{
+	position: static;
+	width: auto;
+	padding: 0;
+	font-size: 12px;
+	text-align: left;
+	padding-left:10px;
+}
+
+.auto-checkbox{float:left;}
+
+.forget-pass{
+	float:right;
+	font-size:12px;
+}
+
+.forget-pass{
+	color:#ec971f;
+}
+
+.login{
+	padding:8px 0;
+}
+
+.login-btn{
+	width:100%;
+	font-weight:600;
+}
+
+.register-now{
+	color:#ec971f
+}
+
+.agreement{font-size:12px;}
+
+.oauth-wrapper{
+	margin-top: 35px;
+}
+
+.oauth-wrapper .title-wrapper{
+	position: relative;
+	margin-bottom: 30px;
+	border-bottom: 1px solid #CCC;
+	width: 100%;
+	overflow: visible;
+}
+
+.oauth-wrapper .title {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -75px;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    background: #FFF;
+}
+
+.oauth-wrapper .oauth {
+    padding-left: 88px;
+}
+
+.mobile-icon{
+	position: absolute;
+	right: 0;
+	top:50%;
+	margin-top: -7px;
+	width: 14px;
+	height: 14px;
+	background: url(../images/login-icon.png) no-repeat;
+	background-position:-120px -83px;
+}
+
+.normal-icon{
+	position: absolute;
+	right: 0;
+	top:50%;
+	margin-top: -7px;
+	width: 14px;
+	height: 14px;
+	background: url(../images/login-icon.png) no-repeat;
+	background-position:-120px -48px;
+}
+
+.oauth-link {
+    float: left;
+    margin-right: 20px;
+    width: 20px;
+    height: 20px;
+    background:url(../images/login-icon.png) no-repeat;
+    
+}
+
+.oauth-qq{background-position:-64px -6px;}
+
+.oauth-alipay {
+    
+    background-position: -65px -48px;
+}
+
+.oauth-weibo {
+    background-position: -66px -96px;
+}
+
+
+
+.gray{
+	color:#999;
+	font-size:12px;
+	padding:10px 0;
+}
+
+.form-field--verify-mobile {
+    padding: 0;
+    margin-bottom: -3px;
+    margin-top: -5px;
+}
+
+.form-field {
+    padding-left: 0;
+}
+
+.f-text:focus{
+	border-color: #ec971f;
+}

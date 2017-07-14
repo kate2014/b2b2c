@@ -1,0 +1,181 @@
+<!-- 获取商品评论标签 -->
+<#assign commentListTag = newTag("commentListTag")>
+<!--调取"评论"标签，并传递参数,获取Page对象-->
+<#assign commentPage = commentListTag("{'goods_id':${goodsid},'type':1}")>
+<div id="discuss_list_wrapper">
+	<div class="grade">
+		<div class="grade_num">
+			<span>
+				<#-- 获取商品评论值标签 -->
+				<#assign storeGoodsCommentInfoTag = newTag("storeGoodsCommentInfoTag")>
+				<#-- 调用商品评论值-->
+				<#assign grade = storeGoodsCommentInfoTag("{'goods_id':${goodsid}}")>
+				<#if grade?? && grade gt 0 && grade lt 6>
+			   		<#if grade gte 0 && grade lt 1>
+				   	<#else>
+				   		<#list 1..grade as t>
+				   			<i></i>
+				   		</#list>
+			   		</#if>
+			   		<#if grade gte 4 && grade lt 5>
+				   		<#list 1..1 as t>
+				   			<i class="star_off"></i>
+				   		</#list>
+			   		</#if>
+			   		<#if grade gte 3 && grade lt 4>
+				   		<#list 1..2 as t>
+				   			<i class="star_off"></i>
+				   		</#list>
+			   		</#if>
+			   		<#if grade gte 2 && grade lt 3>
+				   		<#list 1..3 as t>
+				   			<i class="star_off"></i>
+				   		</#list>
+			   		</#if>
+			   		<#if grade gte 1 && grade lt 2>
+				   		<#list 1..4 as t>
+				   			<i class="star_off"></i>
+				   		</#list>
+			   		</#if>
+			   		<#if grade gte 0 && grade lt 1>
+				   		<#list 1..5 as t>
+				   			<i class="star_off"></i>
+				   		</#list>
+			   		</#if>
+			   		<b>${grade}</b>
+			   	<#else>
+			      <i></i><i></i><i></i><i></i><i></i>
+			      <b >5</b>
+			    </#if>   
+			</span>
+			<em>宝贝综合评分</em>
+		</div>	
+	</div>
+	<!-- 评论分类tab -->
+	<div class="goods_common_nav">
+		<ul>
+			<li class="selected" type="all">
+				<a href="javascript:;">商品评价</a>
+			</li>
+			<li  type="great">
+				<a href="javascript:;">好评</a>
+			</li>
+			<li type="middle">
+				<a href="javascript:;">中评</a>
+			</li>
+			<li type="bad">
+				<a href="javascript:;">差评</a>
+			</li>
+		</ul>
+	</div>
+	<div class="grade_list">
+		<div class="commonlist_outside">
+			<#if commentPage.totalCount != 0 >
+			<!-- 全部 -->
+			<ul class="common_list all">
+				<#include 'discuss_all.html'/>
+			</ul>
+			<!-- 好评 -->
+			<ul class="common_list great" style="display:none">
+				<#include 'discuss_great.html'/>
+			</ul>
+			<!-- 中评 -->
+			<ul class="common_list middle" style="display:none">
+				<#include 'discuss_middle.html'/>
+			</ul>
+			<!-- 差评 -->
+			<ul class="common_list bad" style="display:none">
+				<#include 'discuss_bad.html'/>
+			</ul>
+			<#else>
+				 暂无评论，抢沙发，赢取更多积分。 
+			</#if>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<!-- 更改分页标签样式 -->
+<style>
+.commonlist_outside .common_list .page ul li {
+	border-left: none;
+	margin: 0px;
+}
+</style>
+<script>
+	$(function(){
+		$(".goods_common_nav ul li").click(function(){
+			var type = $(this).attr("type");
+			$(".goods_common_nav ul li").removeClass("selected");
+			$(this).addClass("selected");
+			$(".commonlist_outside .common_list").hide();
+			$(".commonlist_outside ."　+　type).show();
+		})
+		
+		$(".all .unselected").on("click",function(){
+			var page = $(this).attr("page");
+			$.ajax({
+				url:"${ctx}/detail/discuss_all.html?page="+page+"&goodsid="+${goodsid},
+				dataType:"html",
+				success:function(result){
+					$(".commonlist_outside .all").html(result);
+				},
+				error:function(){
+					$.alert("出错了:(");
+				}
+			});	
+			
+		});
+		$(".great .unselected").on("click",function(){
+			var page = $(this).attr("page");
+			$.ajax({
+				url:"${ctx}/detail/discuss_great.html?page="+page+"&goodsid="+${goodsid},
+				dataType:"html",
+				success:function(result){
+					$(".commonlist_outside .great").html(result);
+				},
+				error:function(){
+					$.alert("出错了:(");
+				}
+			});	
+			
+		});
+		$(".middle .unselected").on("click",function(){
+			var page = $(this).attr("page");
+			$.ajax({
+				url:"${ctx}/detail/discuss_middle.html?page="+page+"&goodsid="+${goodsid},
+				dataType:"html",
+				success:function(result){
+					$(".commonlist_outside .middle").html(result);
+				},
+				error:function(){
+					$.alert("出错了:(");
+				}
+			});	
+			
+		});
+		$(".bad .unselected").on("click",function(){
+			var page = $(this).attr("page");
+			$.ajax({
+				url:"${ctx}/detail/discuss_bad.html?page="+page+"&goodsid="+${goodsid},
+				dataType:"html",
+				success:function(result){
+					$(".commonlist_outside .bad").html(result);
+				},
+				error:function(){
+					$.alert("出错了:(");
+				}
+			});	
+			
+		});
+	});
+		
+	//设置图片缩放的属性	add by DMRain 2016-5-10
+	lightbox.option({
+		'albumLabel': '第%1张   共%2张',	//设置显示的文字
+	    'maxWidth': 500,			//设置显示图片弹出框的宽度
+	    'maxHeight': 500,			//设置显示图片弹出框的高度
+	    'resizeDuration': 300,		//设置图片显示的加载时间(毫秒)
+	    'positionFromTop': 100,		//设置弹出框到屏幕顶部的距离
+	    'wrapAround': true			//设置可以循环查看图片
+	})
+</script>

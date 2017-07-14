@@ -1,0 +1,396 @@
+.logistics {
+    min-width: 980px;
+}
+
+.logistics table thead th {
+    background-color: #f2f2f2;
+    border-bottom: none;
+}
+
+.logistics table thead th,
+.logistics table tbody th,
+.logistics table tbody td {
+    font-size: 12px;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+
+.logistics table thead th {
+    border: none;
+}
+
+.temp-name {
+    text-align: left;
+}
+
+.temp-oper .btn {
+    font-size: 12px;
+    line-height: 13px;
+    margin-right: 5px;
+}
+
+.tr-hr {
+    height: 10px;
+    background-color: #ffffff;
+    border: none;
+}
+
+.logistics table tbody th {
+    background-color: #f2f2f2;
+    font-size: 12px;
+    border: 1px solid #dddddd;
+}
+
+.logistics-top-tools {
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+
+.logistics-top-tools .btn {
+    font-size: 12px;
+}
+
+/* logistics-company
+ ============================================================================ */
+.logistics-company {
+
+}
+
+.logistics-company table {
+    font-size: 12px;
+}
+
+.logistics-company table thead th {
+    background-color: #f2f2f2;
+    text-align: center;
+    border: none;
+}
+
+.logistics-company table tbody td {
+    text-align: center;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.logistics-company-checkbox {
+    opacity: 0;
+}
+
+.logistics-company-oper .btn {
+    font-size: 12px;
+}
+
+/* logistics-add
+ ============================================================================ */
+.logistics-add {
+    font-size: 12px;
+}
+
+.logistics-add i {
+    font-style: normal;
+}
+
+.transaction_line input {
+    cursor: pointer;
+}
+
+.new_transport {
+    padding: 0px 20px 20px 20px;
+}
+
+.postage_head {
+    width: 800px;
+    margin-left: 115px;
+}
+.new_transport .postage_head ul li {
+    border-bottom: 1px dotted #e6e6e6;
+    clear: both;
+    font-size: 0;
+    line-height: 20px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.new_transport .postage_head ul li span .tip {
+    padding: 0px;
+    margin: 0px 0px 0px 10px;
+    display: inline;
+}
+
+.new_transport .postage_head ul li .label_like {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 32px;
+    margin: 0;
+    padding: 10px 1% 10px 0;
+    text-align: right;
+    vertical-align: top;
+    word-spacing: normal;
+    float: left;
+}
+
+.new_transport .postage_head ul li span {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: normal;
+    line-height: 32px;
+    padding: 10px 0;
+    vertical-align: top;
+    width: 79%;
+    word-spacing: normal;
+}
+
+.new_transport .postage_head ul li span input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #777;
+    display: inline-block;
+    font: 12px/20px Arial;
+    height: 20px;
+    outline: 0 none;
+    padding: 4px;
+    vertical-align: top;
+}
+
+.new_same_transaction {
+    position: relative;
+    width: 800px;
+    margin-left: 115px;
+}
+
+.new_same_transaction p {
+    background-color: #e6e6e6;
+    line-height: 30px;
+    min-height: 30px;
+    padding: 4px 10px;
+    margin-top: 5px;
+    border: 1px solid #e6e6e6;
+}
+
+.J_DefaultSet {
+    position: absolute;
+    top: 5px;
+    left: 73px;
+    line-height: 30px;
+    min-height: 30px;
+}
+
+.J_DefaultSet span {
+    float: left;
+    display: inline;
+    height: 30px;
+    line-height: 30px;
+}
+
+.J_DefaultSet input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #777;
+    display: block;
+    font: 12px/20px Arial;
+    height: 20px;
+    outline: 0 none;
+    padding: 4px;
+    vertical-align: top;
+    width: 80px;
+    float: left;
+}
+
+.J_DefaultSet strong {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ccc;
+    display: block;
+    text-align: center;
+    border-left: 0px none;
+    float: left;
+    background: url(../../../../images/y.jpg) no-repeat left top;
+    margin-right: 10px;
+}
+
+.J_DefaultSet .english {
+    background: url(../../../../images/k.jpg) no-repeat left top;
+}
+
+.new_same_transaction p input {
+    float: left;
+    display: inline;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+}
+
+.new_same_transaction p i {
+    float: left;
+    display: inline;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+}
+
+.transaction_same {
+    margin-bottom: 30px;
+}
+
+.transaction_same .transaction_except table {
+    width: 100%;
+}
+
+.transaction_same .transaction_except table tr th {
+    font-size: 12px;
+    line-height: 22px;
+    padding: 8px 8px 8px 0;
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.transaction_same .transaction_except table tr td {
+    color: #999;
+    padding: 5px 0;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.transaction_same .transaction_except table tr .arealist {
+    max-width: 300px;
+}
+
+.transaction_same .transaction_except table tr td input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #777;
+    display: inline-block;
+    font: 12px/20px Arial;
+    height: 20px;
+    outline: 0 none;
+    padding: 4px;
+    vertical-align: top;
+}
+
+.transaction_same .transaction_except table tr td a {
+    border-right: 1px solid #ccc;
+    display: inline-block;
+    letter-spacing: normal;
+    padding: 5px 11px;
+    text-align: center;
+    vertical-align: middle;
+    word-spacing: normal;
+}
+
+.transaction_same .transaction_except table tr td a i {
+    display: block;
+    height: 15px;
+    width: 15px;
+    background: url("../../../../images/anniu2.jpg") no-repeat scroll left top;
+    margin: 0 0 0 3px;
+}
+
+.new_area_transport {
+    background-color: #f5f5f5;
+    border-color: #dcdcdc #dcdcdc #b3b3b3;
+    border-style: solid;
+    border-width: 1px;
+    color: #777;
+    cursor: pointer;
+    display: inline-block;
+    font: 12px/20px arial;
+    height: 20px;
+    margin: 5px 0px 0px 0px;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.transaction_same .transaction_except table tr td p {
+    background: #fff;
+    padding: 0px;
+    border: 0px none;
+}
+
+
+
+#areas ul li {
+    float: left;
+    display: inline;
+    margin-right: 20px;
+    width: 120px;
+    height: 30px;
+}
+
+#areas ul li .all_areas {
+    position: relative;
+}
+
+#areas ul li .all_areas .parent_areas {
+    padding: 0px 0px 0px 5px;
+    height: 25px;
+}
+
+#areas ul li .all_areas .gareas {
+    background-color: #fffec6;
+    border: 1px solid #f7e4a5;
+    border-bottom: 0px none;
+}
+
+#areas ul li .all_areas .parent_areas input {
+    float: left;
+    display: inline;
+    margin: 1px 2px 0px 0px;
+    height: 25px;
+    height: 25px;
+}
+
+#areas ul li .all_areas .parent_areas span {
+    float: left;
+    display: inline;
+    height: 25px;
+    line-height: 25px;
+}
+
+#areas ul li .all_areas .parent_areas i {
+    display: block;
+    width: 8px;
+    height: 25px;
+    float: left;
+    margin: 0px 10px 0px 5px;
+}
+
+#areas ul li .all_areas .children_areas {
+    position: fixed;
+    /*top: 25px;
+    left: 0px;*/
+    width: 214px;
+    padding: 10px;
+    overflow: hidden;
+    background: #fffec6;
+    border: 1px solid #f7e4a5;
+    z-index: 999;
+}
+
+#areas ul li .all_areas .children_areas label {
+    display: block;
+    float: left;
+    margin: 0px 5px;
+    height: 20px;
+    line-height: 20px;
+}
+
+#areas ul li .all_areas .children_areas label input {
+    float: left;
+    display: inline;
+    margin-right: 2px;
+    height: 20px;
+    line-height: 20px;
+}
+
+#areas ul li .all_areas .children_areas label span {
+    float: left;
+    display: inline;
+    height: 20px;
+    line-height: 20px;
+}
+
